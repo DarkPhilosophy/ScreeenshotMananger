@@ -10,16 +10,16 @@ import com.ko.app.databinding.ActivityMainBinding
  * Displays a centered button with haptic feedback
  */
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Initialize view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         // Set up button click listener with haptic feedback
         binding.pressButton.setOnClickListener { view ->
             // Provide haptic feedback when button is pressed
@@ -30,4 +30,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
