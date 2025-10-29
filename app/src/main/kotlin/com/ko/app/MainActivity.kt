@@ -27,8 +27,6 @@ class MainActivity : AppCompatActivity() {
                 HapticFeedbackConstants.VIRTUAL_KEY,
                 HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING
             )
-            
-            // TODO: Add functionality here in future updates
         }
     }
 }
