@@ -20,6 +20,9 @@ release/
 .gradle/
 build/
 
+# Gradle wrapper jar should NOT be ignored
+!gradle/wrapper/gradle-wrapper.jar
+
 # Local configuration file (sdk path, etc)
 local.properties
 
