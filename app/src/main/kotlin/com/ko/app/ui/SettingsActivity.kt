@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+private const val FIVE_MINUTES = 5L
+private const val FIFTEEN_MINUTES = 15L
+
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
@@ -95,8 +98,8 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         val values = longArrayOf(
-            TimeUnit.MINUTES.toMillis(5),
-            TimeUnit.MINUTES.toMillis(15),
+            TimeUnit.MINUTES.toMillis(FIVE_MINUTES),
+            TimeUnit.MINUTES.toMillis(FIFTEEN_MINUTES),
             TimeUnit.MINUTES.toMillis(30),
             TimeUnit.HOURS.toMillis(1),
             TimeUnit.HOURS.toMillis(2),

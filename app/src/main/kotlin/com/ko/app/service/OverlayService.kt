@@ -178,7 +178,7 @@ class OverlayService : Service() {
                     e.printStackTrace()
                 }
                 stopSelf()
-            }, 200)
+            }, DISMISS_ANIMATION_DURATION_MS)
         }
     }
 

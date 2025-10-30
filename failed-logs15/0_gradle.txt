@@ -1,0 +1,513 @@
+﻿2025-10-30T20:39:45.4566017Z Current runner version: '2.328.0'
+2025-10-30T20:39:45.4589579Z ##[group]Runner Image Provisioner
+2025-10-30T20:39:45.4590400Z Hosted Compute Agent
+2025-10-30T20:39:45.4590913Z Version: 20250912.392
+2025-10-30T20:39:45.4591909Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T20:39:45.4592583Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T20:39:45.4593174Z ##[endgroup]
+2025-10-30T20:39:45.4593833Z ##[group]Operating System
+2025-10-30T20:39:45.4594369Z Ubuntu
+2025-10-30T20:39:45.4594837Z 24.04.3
+2025-10-30T20:39:45.4595337Z LTS
+2025-10-30T20:39:45.4595800Z ##[endgroup]
+2025-10-30T20:39:45.4596253Z ##[group]Runner Image
+2025-10-30T20:39:45.4596889Z Image: ubuntu-24.04
+2025-10-30T20:39:45.4597361Z Version: 20250929.60.1
+2025-10-30T20:39:45.4598380Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T20:39:45.4599940Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T20:39:45.4600908Z ##[endgroup]
+2025-10-30T20:39:45.4603732Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T20:39:45.4605656Z Actions: write
+2025-10-30T20:39:45.4606305Z Attestations: write
+2025-10-30T20:39:45.4606854Z Checks: write
+2025-10-30T20:39:45.4607315Z Contents: write
+2025-10-30T20:39:45.4607902Z Deployments: write
+2025-10-30T20:39:45.4608414Z Discussions: write
+2025-10-30T20:39:45.4608929Z Issues: write
+2025-10-30T20:39:45.4609448Z Metadata: read
+2025-10-30T20:39:45.4609919Z Models: read
+2025-10-30T20:39:45.4610415Z Packages: write
+2025-10-30T20:39:45.4610904Z Pages: write
+2025-10-30T20:39:45.4611634Z PullRequests: write
+2025-10-30T20:39:45.4612160Z RepositoryProjects: write
+2025-10-30T20:39:45.4612713Z SecurityEvents: write
+2025-10-30T20:39:45.4613404Z Statuses: write
+2025-10-30T20:39:45.4613884Z ##[endgroup]
+2025-10-30T20:39:45.4615881Z Secret source: Actions
+2025-10-30T20:39:45.4616662Z Prepare workflow directory
+2025-10-30T20:39:45.4928974Z Prepare all required actions
+2025-10-30T20:39:45.4981655Z Getting action download info
+2025-10-30T20:39:46.0410119Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T20:39:46.2053363Z Download action repository 'actions/setup-java@v4' (SHA:c5195efecf7bdfc987ee8bae7a71cb8b11521c00)
+2025-10-30T20:39:46.8346487Z Download action repository 'gradle/actions@v4' (SHA:748248ddd2a24f49513d8f472f81c3a07d4d50e1)
+2025-10-30T20:39:48.9517342Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-30T20:39:49.1571863Z Complete job name: gradle
+2025-10-30T20:39:49.2210394Z ##[group]Run actions/checkout@v4
+2025-10-30T20:39:49.2210992Z with:
+2025-10-30T20:39:49.2211231Z   repository: DarkPhilosophy/Ko
+2025-10-30T20:39:49.2211909Z   token: ***
+2025-10-30T20:39:49.2212136Z   ssh-strict: true
+2025-10-30T20:39:49.2212364Z   ssh-user: git
+2025-10-30T20:39:49.2212595Z   persist-credentials: true
+2025-10-30T20:39:49.2212863Z   clean: true
+2025-10-30T20:39:49.2213098Z   sparse-checkout-cone-mode: true
+2025-10-30T20:39:49.2213406Z   fetch-depth: 1
+2025-10-30T20:39:49.2213627Z   fetch-tags: false
+2025-10-30T20:39:49.2213858Z   show-progress: true
+2025-10-30T20:39:49.2214110Z   lfs: false
+2025-10-30T20:39:49.2214318Z   submodules: false
+2025-10-30T20:39:49.2214550Z   set-safe-directory: true
+2025-10-30T20:39:49.2215047Z ##[endgroup]
+2025-10-30T20:39:49.3279477Z Syncing repository: DarkPhilosophy/Ko
+2025-10-30T20:39:49.3281018Z ##[group]Getting Git version info
+2025-10-30T20:39:49.3281656Z Working directory is '/home/runner/work/Ko/Ko'
+2025-10-30T20:39:49.3282370Z [command]/usr/bin/git version
+2025-10-30T20:39:49.3348741Z git version 2.51.0
+2025-10-30T20:39:49.3374949Z ##[endgroup]
+2025-10-30T20:39:49.3388316Z Temporarily overriding HOME='/home/runner/work/_temp/0b02b71e-2e6a-454a-933a-c2d6729aef95' before making global git config changes
+2025-10-30T20:39:49.3389239Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T20:39:49.3401081Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Ko/Ko
+2025-10-30T20:39:49.3436636Z Deleting the contents of '/home/runner/work/Ko/Ko'
+2025-10-30T20:39:49.3440240Z ##[group]Initializing the repository
+2025-10-30T20:39:49.3444826Z [command]/usr/bin/git init /home/runner/work/Ko/Ko
+2025-10-30T20:39:49.3552973Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T20:39:49.3553890Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T20:39:49.3554509Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T20:39:49.3554944Z hint:
+2025-10-30T20:39:49.3555308Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T20:39:49.3555695Z hint:
+2025-10-30T20:39:49.3556059Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T20:39:49.3556641Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T20:39:49.3557263Z hint:
+2025-10-30T20:39:49.3557740Z hint: 	git branch -m <name>
+2025-10-30T20:39:49.3558268Z hint:
+2025-10-30T20:39:49.3558775Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T20:39:49.3559640Z Initialized empty Git repository in /home/runner/work/Ko/Ko/.git/
+2025-10-30T20:39:49.3570285Z [command]/usr/bin/git remote add origin https://github.com/DarkPhilosophy/Ko
+2025-10-30T20:39:49.3606775Z ##[endgroup]
+2025-10-30T20:39:49.3607517Z ##[group]Disabling automatic garbage collection
+2025-10-30T20:39:49.3612063Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T20:39:49.3639935Z ##[endgroup]
+2025-10-30T20:39:49.3640594Z ##[group]Setting up auth
+2025-10-30T20:39:49.3646814Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T20:39:49.3675934Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T20:39:49.4004511Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T20:39:49.4034379Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T20:39:49.4255030Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T20:39:49.4291671Z ##[endgroup]
+2025-10-30T20:39:49.4292849Z ##[group]Fetching the repository
+2025-10-30T20:39:49.4310485Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +fcaa76ab7fde7efd2919155dd3660a16bc1f8389:refs/remotes/origin/main
+2025-10-30T20:39:49.8929253Z From https://github.com/DarkPhilosophy/Ko
+2025-10-30T20:39:49.8930183Z  * [new ref]         fcaa76ab7fde7efd2919155dd3660a16bc1f8389 -> origin/main
+2025-10-30T20:39:49.8959131Z ##[endgroup]
+2025-10-30T20:39:49.8959606Z ##[group]Determining the checkout info
+2025-10-30T20:39:49.8962960Z ##[endgroup]
+2025-10-30T20:39:49.8968014Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T20:39:49.9009431Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T20:39:49.9040520Z ##[group]Checking out the ref
+2025-10-30T20:39:49.9046457Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-10-30T20:39:49.9142023Z Switched to a new branch 'main'
+2025-10-30T20:39:49.9144572Z branch 'main' set up to track 'origin/main'.
+2025-10-30T20:39:49.9149931Z ##[endgroup]
+2025-10-30T20:39:49.9184657Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T20:39:49.9206213Z fcaa76ab7fde7efd2919155dd3660a16bc1f8389
+2025-10-30T20:39:49.9441715Z ##[group]Run actions/setup-java@v4
+2025-10-30T20:39:49.9442050Z with:
+2025-10-30T20:39:49.9442268Z   distribution: zulu
+2025-10-30T20:39:49.9442500Z   java-version: 17
+2025-10-30T20:39:49.9442719Z   java-package: jdk
+2025-10-30T20:39:49.9443155Z   check-latest: false
+2025-10-30T20:39:49.9443385Z   server-id: github
+2025-10-30T20:39:49.9443618Z   server-username: GITHUB_ACTOR
+2025-10-30T20:39:49.9443889Z   server-password: GITHUB_TOKEN
+2025-10-30T20:39:49.9444153Z   overwrite-settings: true
+2025-10-30T20:39:49.9510033Z   job-status: success
+2025-10-30T20:39:49.9510798Z   token: ***
+2025-10-30T20:39:49.9511188Z ##[endgroup]
+2025-10-30T20:39:50.1426563Z ##[group]Installed distributions
+2025-10-30T20:39:50.1453167Z Trying to resolve the latest version from remote
+2025-10-30T20:39:50.2574893Z Resolved latest version as 17.0.17+10
+2025-10-30T20:39:50.2575483Z Trying to download...
+2025-10-30T20:39:50.2576427Z Downloading Java 17.0.17+10 (Zulu) from https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_x64.tar.gz ...
+2025-10-30T20:39:54.3614847Z Extracting Java archive...
+2025-10-30T20:39:54.3712389Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/98e86f63-9e2a-4871-8136-8153ac32dedf -f /home/runner/work/_temp/c7940c1d-2118-4f8d-a3c8-69cca31c934f
+2025-10-30T20:39:57.0512760Z Java 17.0.17+10 was downloaded
+2025-10-30T20:39:57.0523814Z Setting Java 17.0.17+10 as the default
+2025-10-30T20:39:57.0524496Z Creating toolchains.xml for JDK version 17 from zulu
+2025-10-30T20:39:57.0600106Z Writing to /home/runner/.m2/toolchains.xml
+2025-10-30T20:39:57.0602298Z 
+2025-10-30T20:39:57.0602462Z Java configuration:
+2025-10-30T20:39:57.0602914Z   Distribution: zulu
+2025-10-30T20:39:57.0603263Z   Version: 17.0.17+10
+2025-10-30T20:39:57.0603592Z   Path: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:39:57.0603873Z 
+2025-10-30T20:39:57.0604684Z ##[endgroup]
+2025-10-30T20:39:57.0620077Z Creating settings.xml with server-id: github
+2025-10-30T20:39:57.0622556Z Writing to /home/runner/.m2/settings.xml
+2025-10-30T20:39:57.0899079Z ##[group]Run gradle/actions/setup-gradle@v4
+2025-10-30T20:39:57.0899383Z with:
+2025-10-30T20:39:57.0899574Z   cache-disabled: false
+2025-10-30T20:39:57.0899790Z   cache-read-only: false
+2025-10-30T20:39:57.0900030Z   cache-write-only: false
+2025-10-30T20:39:57.0900265Z   cache-overwrite-existing: false
+2025-10-30T20:39:57.0900510Z   cache-cleanup: on-success
+2025-10-30T20:39:57.0900786Z   gradle-home-cache-includes: caches
+notifications
+
+2025-10-30T20:39:57.0901081Z   add-job-summary: always
+2025-10-30T20:39:57.0901340Z   add-job-summary-as-pr-comment: never
+2025-10-30T20:39:57.0901906Z   dependency-graph: disabled
+2025-10-30T20:39:57.0902200Z   dependency-graph-report-dir: dependency-graph-reports
+2025-10-30T20:39:57.0902549Z   dependency-graph-continue-on-failure: true
+2025-10-30T20:39:57.0902825Z   build-scan-publish: false
+2025-10-30T20:39:57.0903094Z   validate-wrappers: true
+2025-10-30T20:39:57.0903329Z   allow-snapshot-wrappers: false
+2025-10-30T20:39:57.0903627Z   gradle-home-cache-strict-match: false
+2025-10-30T20:39:57.0903923Z   workflow-job-context: null
+2025-10-30T20:39:57.0904327Z   github-token: ***
+2025-10-30T20:39:57.0904524Z env:
+2025-10-30T20:39:57.0904787Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:39:57.0905173Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:39:57.0905489Z ##[endgroup]
+2025-10-30T20:39:57.4860907Z Merged default JDK locations into /home/runner/.m2/toolchains.xml
+2025-10-30T20:39:57.4863487Z Preparing cache for cleanup.
+2025-10-30T20:39:57.4867154Z ##[group]Restore Gradle state from cache
+2025-10-30T20:39:57.7799477Z Cache hit for restore-key: gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-586e3eb66d147955d2bf7c7083a65d245e0c249f
+2025-10-30T20:39:59.0778974Z Received 0 of 3106560 (0.0%), 0.0 MBs/sec
+2025-10-30T20:39:59.1623288Z Received 3106560 of 3106560 (100.0%), 2.7 MBs/sec
+2025-10-30T20:39:59.1625794Z Cache Size: ~3 MB (3106560 B)
+2025-10-30T20:39:59.1653855Z [command]/usr/bin/tar -xf /home/runner/work/_temp/beed3516-efd8-4017-9075-7343d4097863/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:39:59.2847580Z Cache restored successfully
+2025-10-30T20:39:59.2859442Z Restored cache entry with key gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-fcaa76ab7fde7efd2919155dd3660a16bc1f8389 to /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 1798ms
+2025-10-30T20:39:59.5412649Z Cache hit for: gradle-dependencies-v1-682e9691731ff3bdbecc5d8b4344100a
+2025-10-30T20:39:59.5512707Z Cache hit for: gradle-transforms-v1-4aeb517ddd7f7ea584ab677cafb5f02d
+2025-10-30T20:39:59.5536055Z Cache hit for: gradle-instrumented-jars-v1-eb9e9fbc4fbda4e14a76c13c668e4ebb
+2025-10-30T20:39:59.5559032Z Cache hit for: gradle-wrapper-zips-v1-df6ecc383658ce44d9cbac4d1bfd12bf
+2025-10-30T20:39:59.5565985Z Cache hit for: gradle-generated-gradle-jars-v1-26cfecc158c44513d188405a5d2d0d9c
+2025-10-30T20:39:59.5608493Z Cache hit for: gradle-groovy-dsl-v1-520bf8d68200e9d60b7ec081601183c5
+2025-10-30T20:39:59.5615602Z Cache hit for: gradle-kotlin-dsl-v1-fc647735720b97bc1f9f21095463ba6e
+2025-10-30T20:40:00.4068098Z Received 188491 of 188491 (100.0%), 0.3 MBs/sec
+2025-10-30T20:40:00.4068841Z Cache Size: ~0 MB (188491 B)
+2025-10-30T20:40:00.4094255Z [command]/usr/bin/tar -xf /home/runner/work/_temp/49b51b2b-1fd5-49c2-8133-d780cabf8f48/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:00.4194425Z Received 121782 of 121782 (100.0%), 0.2 MBs/sec
+2025-10-30T20:40:00.4195048Z Cache Size: ~0 MB (121782 B)
+2025-10-30T20:40:00.4214726Z [command]/usr/bin/tar -xf /home/runner/work/_temp/70db9c7a-f5bb-4fd9-9027-f662d3a45f57/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:00.4353779Z Cache restored successfully
+2025-10-30T20:40:00.4366098Z Received 257458 of 257458 (100.0%), 0.4 MBs/sec
+2025-10-30T20:40:00.4366731Z Cache Size: ~0 MB (257458 B)
+2025-10-30T20:40:00.4373197Z Restored cache entry with key gradle-groovy-dsl-v1-520bf8d68200e9d60b7ec081601183c5 to /home/runner/.gradle/caches/*/groovy-dsl/*/ in 1148ms
+2025-10-30T20:40:00.4376835Z Cache restored successfully
+2025-10-30T20:40:00.4379755Z Restored cache entry with key gradle-instrumented-jars-v1-eb9e9fbc4fbda4e14a76c13c668e4ebb to /home/runner/.gradle/caches/jars-*/*/ in 1150ms
+2025-10-30T20:40:00.4403211Z [command]/usr/bin/tar -xf /home/runner/work/_temp/21235d74-e545-44bd-a39e-92f5872fb5be/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:00.5480255Z Cache restored successfully
+2025-10-30T20:40:00.5484267Z Restored cache entry with key gradle-kotlin-dsl-v1-fc647735720b97bc1f9f21095463ba6e to /home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/ in 1261ms
+2025-10-30T20:40:00.8386463Z Received 0 of 466555552 (0.0%), 0.0 MBs/sec
+2025-10-30T20:40:00.8557373Z Received 4194304 of 175127329 (2.4%), 4.0 MBs/sec
+2025-10-30T20:40:00.8688875Z Received 0 of 39619898 (0.0%), 0.0 MBs/sec
+2025-10-30T20:40:00.8852713Z Received 0 of 135123693 (0.0%), 0.0 MBs/sec
+2025-10-30T20:40:01.2592171Z Received 39619898 of 39619898 (100.0%), 27.2 MBs/sec
+2025-10-30T20:40:01.2594599Z Cache Size: ~38 MB (39619898 B)
+2025-10-30T20:40:01.3159993Z [command]/usr/bin/tar -xf /home/runner/work/_temp/80b20f1c-5947-4c2e-b8b6-029030f4f99f/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:01.6384013Z Cache restored successfully
+2025-10-30T20:40:01.6527739Z Restored cache entry with key gradle-generated-gradle-jars-v1-26cfecc158c44513d188405a5d2d0d9c to /home/runner/.gradle/caches/8.9/generated-gradle-jars/gradle-api-8.9.jar in 2366ms
+2025-10-30T20:40:01.8388951Z Received 109051904 of 466555552 (23.4%), 52.0 MBs/sec
+2025-10-30T20:40:01.8573291Z Received 92274688 of 175127329 (52.7%), 43.9 MBs/sec
+2025-10-30T20:40:01.8860636Z Received 100663296 of 135123693 (74.5%), 48.0 MBs/sec
+2025-10-30T20:40:02.4489664Z Received 135123693 of 135123693 (100.0%), 50.3 MBs/sec
+2025-10-30T20:40:02.4491216Z Cache Size: ~129 MB (135123693 B)
+2025-10-30T20:40:02.4854921Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b7071684-1e8f-49c4-b1e8-1ce80ed4b964/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:02.7917104Z Cache restored successfully
+2025-10-30T20:40:02.8180219Z Restored cache entry with key gradle-wrapper-zips-v1-df6ecc383658ce44d9cbac4d1bfd12bf to /home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a in 3530ms
+2025-10-30T20:40:02.8385978Z Received 201326592 of 466555552 (43.2%), 64.0 MBs/sec
+2025-10-30T20:40:02.8587005Z Received 166738721 of 175127329 (95.2%), 53.0 MBs/sec
+2025-10-30T20:40:03.0143164Z Received 175127329 of 175127329 (100.0%), 52.9 MBs/sec
+2025-10-30T20:40:03.0146011Z Cache Size: ~167 MB (175127329 B)
+2025-10-30T20:40:03.0390996Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b7ae430e-15a0-48e0-b676-e93351b273d3/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:03.8394068Z Received 301989888 of 466555552 (64.7%), 72.0 MBs/sec
+2025-10-30T20:40:04.8519797Z Received 402653184 of 466555552 (86.3%), 76.6 MBs/sec
+2025-10-30T20:40:05.2931170Z Received 466555552 of 466555552 (100.0%), 81.6 MBs/sec
+2025-10-30T20:40:05.2937319Z Cache Size: ~445 MB (466555552 B)
+2025-10-30T20:40:05.2973623Z [command]/usr/bin/tar -xf /home/runner/work/_temp/ea1fa8fc-8093-4197-9fe5-9c6c8b3bf515/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T20:40:06.1012780Z Cache restored successfully
+2025-10-30T20:40:06.2266702Z Restored cache entry with key gradle-transforms-v1-4aeb517ddd7f7ea584ab677cafb5f02d to /home/runner/.gradle/caches/transforms-4/*/,/home/runner/.gradle/caches/*/transforms/*/ in 6938ms
+2025-10-30T20:40:06.5939381Z Cache restored successfully
+2025-10-30T20:40:06.6816797Z Restored cache entry with key gradle-dependencies-v1-682e9691731ff3bdbecc5d8b4344100a to /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 7394ms
+2025-10-30T20:40:06.7220702Z ##[endgroup]
+2025-10-30T20:40:06.7293323Z ##[group]All Gradle Wrapper jars are valid
+2025-10-30T20:40:06.7294583Z ✓ Found known Gradle Wrapper JAR files:
+2025-10-30T20:40:06.7295422Z   498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17 gradle/wrapper/gradle-wrapper.jar
+2025-10-30T20:40:06.7296419Z ##[endgroup]
+2025-10-30T20:40:06.7459158Z ##[group]Run ./gradlew build --continue
+2025-10-30T20:40:06.7459600Z [36;1m./gradlew build --continue[0m
+2025-10-30T20:40:06.7494225Z shell: /usr/bin/bash -e {0}
+2025-10-30T20:40:06.7494514Z env:
+2025-10-30T20:40:06.7494818Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:40:06.7495284Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:40:06.7495699Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2025-10-30T20:40:06.7496033Z   GRADLE_USER_HOME: /home/runner/.gradle
+2025-10-30T20:40:06.7496353Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2025-10-30T20:40:06.7496681Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2025-10-30T20:40:06.7497171Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2025-10-30T20:40:06.7497683Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2025-10-30T20:40:06.7498022Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2025-10-30T20:40:06.7498311Z ##[endgroup]
+2025-10-30T20:40:07.5383968Z Starting a Gradle Daemon (subsequent builds will be faster)
+2025-10-30T20:40:14.6400692Z > Task :buildSrc:checkKotlinGradlePluginConfigurationErrors
+2025-10-30T20:40:15.0375283Z > Task :buildSrc:pluginDescriptors
+2025-10-30T20:40:15.0376207Z > Task :buildSrc:processResources NO-SOURCE
+2025-10-30T20:40:18.7375177Z > Task :buildSrc:compileKotlin
+2025-10-30T20:40:18.7378257Z > Task :buildSrc:compileJava NO-SOURCE
+2025-10-30T20:40:18.7380697Z > Task :buildSrc:compileGroovy NO-SOURCE
+2025-10-30T20:40:18.7382241Z > Task :buildSrc:classes UP-TO-DATE
+2025-10-30T20:40:18.8414682Z 
+2025-10-30T20:40:18.8415673Z > Task :buildSrc:jar
+2025-10-30T20:40:18.8416683Z :jar: No valid plugin descriptors were found in META-INF/gradle-plugins
+2025-10-30T20:40:23.8372880Z 
+2025-10-30T20:40:23.8380426Z > Task :app:preBuild UP-TO-DATE
+2025-10-30T20:40:23.8415376Z > Task :app:preDebugBuild UP-TO-DATE
+2025-10-30T20:40:23.8416325Z > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+2025-10-30T20:40:23.8417359Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+2025-10-30T20:40:24.2379106Z > Task :app:dataBindingMergeDependencyArtifactsDebug
+2025-10-30T20:40:24.2386262Z > Task :app:generateDebugResValues
+2025-10-30T20:40:24.2390885Z > Task :app:generateDebugResources
+2025-10-30T20:40:25.8374521Z > Task :app:packageDebugResources
+2025-10-30T20:40:26.8373946Z > Task :app:mapDebugSourceSetPaths
+2025-10-30T20:40:26.8385482Z > Task :app:createDebugCompatibleScreenManifests
+2025-10-30T20:40:26.8394869Z > Task :app:checkDebugAarMetadata
+2025-10-30T20:40:26.8403814Z > Task :app:extractDeepLinksDebug
+2025-10-30T20:40:26.8409606Z > Task :app:parseDebugLocalResources
+2025-10-30T20:40:26.9407285Z > Task :app:mergeDebugResources
+2025-10-30T20:40:27.1373899Z > Task :app:processDebugMainManifest
+2025-10-30T20:40:27.3378786Z > Task :app:dataBindingGenBaseClassesDebug
+2025-10-30T20:40:27.4374763Z > Task :app:processDebugManifest
+2025-10-30T20:40:27.5374528Z > Task :app:processDebugManifestForPackage
+2025-10-30T20:40:27.5375276Z > Task :app:javaPreCompileDebug
+2025-10-30T20:40:27.6402876Z > Task :app:mergeDebugShaders
+2025-10-30T20:40:27.6404159Z > Task :app:compileDebugShaders NO-SOURCE
+2025-10-30T20:40:27.6405025Z > Task :app:generateDebugAssets UP-TO-DATE
+2025-10-30T20:40:27.6405932Z > Task :app:mergeDebugAssets
+2025-10-30T20:40:27.6406666Z > Task :app:compressDebugAssets
+2025-10-30T20:40:27.8400200Z > Task :app:desugarDebugFileDependencies
+2025-10-30T20:40:27.8400962Z > Task :app:mergeDebugJniLibFolders
+2025-10-30T20:40:27.8401742Z > Task :app:checkDebugDuplicateClasses
+2025-10-30T20:40:27.9373443Z > Task :app:mergeDebugNativeLibs
+2025-10-30T20:40:28.0387347Z > Task :app:mergeLibDexDebug
+2025-10-30T20:40:28.1382143Z 
+2025-10-30T20:40:28.1382771Z > Task :app:stripDebugDebugSymbols
+2025-10-30T20:40:28.1383737Z Unable to strip the following libraries, packaging them as they are: libdatastore_shared_counter.so.
+2025-10-30T20:40:28.6379520Z 
+2025-10-30T20:40:28.6380406Z > Task :app:processDebugResources
+2025-10-30T20:40:29.4373596Z > Task :app:validateSigningDebug
+2025-10-30T20:40:30.7384685Z > Task :app:writeDebugAppMetadata
+2025-10-30T20:40:30.8391961Z > Task :app:writeDebugSigningConfigVersions
+2025-10-30T20:40:30.8393065Z > Task :app:buildKotlinToolingMetadata
+2025-10-30T20:40:30.8398506Z > Task :app:preReleaseBuild UP-TO-DATE
+2025-10-30T20:40:30.9382562Z > Task :app:dataBindingMergeDependencyArtifactsRelease
+2025-10-30T20:40:30.9393594Z > Task :app:generateReleaseResValues
+2025-10-30T20:40:30.9394520Z > Task :app:generateReleaseResources
+2025-10-30T20:40:32.8404563Z > Task :app:packageReleaseResources
+2025-10-30T20:40:34.6374526Z > Task :app:parseReleaseLocalResources
+2025-10-30T20:40:34.6375794Z > Task :app:checkReleaseAarMetadata
+2025-10-30T20:40:34.6376708Z > Task :app:mapReleaseSourceSetPaths
+2025-10-30T20:40:34.6389226Z > Task :app:createReleaseCompatibleScreenManifests
+2025-10-30T20:40:34.7406136Z > Task :app:extractDeepLinksRelease
+2025-10-30T20:40:34.8382046Z > Task :app:processReleaseMainManifest
+2025-10-30T20:40:34.8386993Z > Task :app:processReleaseManifest
+2025-10-30T20:40:34.9387312Z > Task :app:processReleaseManifestForPackage
+2025-10-30T20:40:34.9392181Z > Task :app:javaPreCompileRelease
+2025-10-30T20:40:35.0407241Z > Task :app:extractProguardFiles
+2025-10-30T20:40:35.0442582Z > Task :app:mergeReleaseJniLibFolders
+2025-10-30T20:40:35.0443500Z > Task :app:mergeReleaseNativeLibs
+2025-10-30T20:40:35.1386754Z 
+2025-10-30T20:40:35.1387727Z > Task :app:stripReleaseDebugSymbols
+2025-10-30T20:40:35.1389027Z Unable to strip the following libraries, packaging them as they are: libdatastore_shared_counter.so.
+2025-10-30T20:40:35.1389988Z 
+2025-10-30T20:40:35.1390397Z > Task :app:extractReleaseNativeSymbolTables
+2025-10-30T20:40:35.1470725Z > Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+2025-10-30T20:40:35.2428006Z > Task :app:checkReleaseDuplicateClasses
+2025-10-30T20:40:35.4386644Z > Task :app:mergeReleaseResources
+2025-10-30T20:40:35.5426610Z > Task :app:mergeReleaseArtProfile
+2025-10-30T20:40:35.6373801Z > Task :app:dataBindingGenBaseClassesRelease
+2025-10-30T20:40:35.6375147Z > Task :app:mergeReleaseStartupProfile
+2025-10-30T20:40:35.7402714Z > Task :app:mergeReleaseShaders
+2025-10-30T20:40:35.7404056Z > Task :app:compileReleaseShaders NO-SOURCE
+2025-10-30T20:40:35.7404935Z > Task :app:generateReleaseAssets UP-TO-DATE
+2025-10-30T20:40:35.7405751Z > Task :app:mergeReleaseAssets
+2025-10-30T20:40:35.7406460Z > Task :app:compressReleaseAssets
+2025-10-30T20:40:35.9402881Z > Task :app:extractReleaseVersionControlInfo
+2025-10-30T20:40:36.1373707Z > Task :app:collectReleaseDependencies
+2025-10-30T20:40:36.4383973Z > Task :app:sdkReleaseDependencyData
+2025-10-30T20:40:36.4392420Z > Task :app:validateSigningRelease
+2025-10-30T20:40:36.4393339Z > Task :app:writeReleaseAppMetadata
+2025-10-30T20:40:36.4394116Z > Task :app:writeReleaseSigningConfigVersions
+2025-10-30T20:40:37.4376867Z > Task :app:processReleaseResources
+2025-10-30T20:40:37.5380213Z > Task :app:mergeExtDexDebug
+2025-10-30T20:40:38.4383180Z 
+2025-10-30T20:40:38.4392018Z > Task :app:detekt
+2025-10-30T20:40:38.4393867Z Property 'style>ForbiddenComment>values' is deprecated. Use `comments` instead, make sure you escape your text for Regular Expressions..
+2025-10-30T20:40:41.3373302Z 
+2025-10-30T20:40:41.3374148Z > Task :app:kspDebugKotlin
+2025-10-30T20:40:41.8371882Z 
+2025-10-30T20:40:41.8390603Z > Task :app:detekt FAILED
+2025-10-30T20:40:41.8430090Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/service/OverlayService.kt:181:16: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8432758Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:98:39: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8435203Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:99:39: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8441996Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:100:39: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8444580Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:103:37: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8447065Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:104:37: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8449527Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:106:36: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8452200Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:107:36: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8454769Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:98:25: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8457400Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:25: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8459984Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:32: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8493310Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:61: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8496402Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:100:47: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8499039Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:100:56: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8501768Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:106:65: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8504345Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:107:69: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8506935Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:108:69: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8509479Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/util/WorkManagerScheduler.kt:16:13: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:40:41.8510875Z 
+2025-10-30T20:40:42.1383161Z 
+2025-10-30T20:40:42.1393249Z > Task :app:preDebugAndroidTestBuild SKIPPED
+2025-10-30T20:40:42.1394532Z > Task :app:generateDebugAndroidTestResValues
+2025-10-30T20:40:42.1396590Z > Task :app:preDebugUnitTestBuild UP-TO-DATE
+2025-10-30T20:40:42.1397783Z > Task :app:javaPreCompileDebugUnitTest
+2025-10-30T20:40:42.1398988Z > Task :app:preReleaseUnitTestBuild UP-TO-DATE
+2025-10-30T20:40:42.1400168Z > Task :app:javaPreCompileReleaseUnitTest
+2025-10-30T20:40:42.6373198Z > Task :app:convertLinkedResourcesToProtoRelease
+2025-10-30T20:40:44.6373867Z > Task :app:kspReleaseKotlin
+2025-10-30T20:40:53.8375114Z > Task :app:compileDebugKotlin
+2025-10-30T20:40:53.8378992Z > Task :app:compileReleaseKotlin
+2025-10-30T20:40:55.4379572Z > Task :app:compileDebugJavaWithJavac
+2025-10-30T20:40:55.5382627Z > Task :app:processDebugJavaRes
+2025-10-30T20:40:56.3372550Z > Task :app:mergeDebugJavaResource
+2025-10-30T20:40:57.8452903Z > Task :app:dexBuilderDebug
+2025-10-30T20:40:58.0372568Z > Task :app:mergeProjectDexDebug
+2025-10-30T20:40:58.3395975Z > Task :app:compileReleaseJavaWithJavac
+2025-10-30T20:40:58.5372566Z > Task :app:generateReleaseLintVitalReportModel
+2025-10-30T20:40:58.7373093Z > Task :app:mergeReleaseGeneratedProguardFiles
+2025-10-30T20:40:58.7377362Z > Task :app:processReleaseJavaRes
+2025-10-30T20:40:58.9373420Z > Task :app:packageDebug
+2025-10-30T20:40:58.9375349Z > Task :app:createDebugApkListingFileRedirect
+2025-10-30T20:40:58.9384932Z > Task :app:assembleDebug
+2025-10-30T20:40:59.0372664Z > Task :app:bundleDebugClassesToCompileJar
+2025-10-30T20:40:59.1444402Z > Task :app:generateDebugAndroidTestLintModel
+2025-10-30T20:40:59.2373551Z > Task :app:expandReleaseArtProfileWildcards
+2025-10-30T20:40:59.2374650Z > Task :app:generateDebugLintReportModel
+2025-10-30T20:40:59.3374141Z > Task :app:generateDebugUnitTestLintModel
+2025-10-30T20:40:59.3376185Z > Task :app:mergeReleaseJavaResource
+2025-10-30T20:41:11.5395287Z > Task :app:lintAnalyzeDebugAndroidTest
+2025-10-30T20:41:15.2372651Z > Task :app:lintAnalyzeDebugUnitTest
+2025-10-30T20:41:15.3375254Z > Task :app:bundleDebugClassesToRuntimeJar
+2025-10-30T20:41:15.3376360Z > Task :app:kspDebugUnitTestKotlin NO-SOURCE
+2025-10-30T20:41:15.3377239Z > Task :app:compileDebugUnitTestKotlin NO-SOURCE
+2025-10-30T20:41:15.3378208Z > Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+2025-10-30T20:41:15.3379075Z > Task :app:processDebugUnitTestJavaRes NO-SOURCE
+2025-10-30T20:41:15.3379818Z > Task :app:testDebugUnitTest NO-SOURCE
+2025-10-30T20:41:15.4374426Z > Task :app:bundleReleaseClassesToRuntimeJar
+2025-10-30T20:41:15.4379499Z > Task :app:bundleReleaseClassesToCompileJar
+2025-10-30T20:41:15.4384226Z > Task :app:kspReleaseUnitTestKotlin NO-SOURCE
+2025-10-30T20:41:15.5372674Z > Task :app:compileReleaseUnitTestKotlin NO-SOURCE
+2025-10-30T20:41:15.5408695Z > Task :app:compileReleaseUnitTestJavaWithJavac NO-SOURCE
+2025-10-30T20:41:15.5409799Z > Task :app:processReleaseUnitTestJavaRes NO-SOURCE
+2025-10-30T20:41:15.5410703Z > Task :app:testReleaseUnitTest NO-SOURCE
+2025-10-30T20:41:15.5414752Z > Task :app:test UP-TO-DATE
+2025-10-30T20:41:24.9374275Z > Task :app:lintVitalAnalyzeRelease
+2025-10-30T20:41:24.9375514Z > Task :app:lintVitalReportRelease SKIPPED
+2025-10-30T20:41:24.9376413Z > Task :app:lintVitalRelease SKIPPED
+2025-10-30T20:41:29.3383107Z > Task :app:lintAnalyzeDebug
+2025-10-30T20:41:29.3384168Z > Task :app:minifyReleaseWithR8
+2025-10-30T20:41:32.0371650Z 
+2025-10-30T20:41:32.0376271Z > Task :app:lintReportDebug
+2025-10-30T20:41:32.0381205Z Wrote HTML report to file:///home/runner/work/Ko/Ko/app/build/reports/lint-results-debug.html
+2025-10-30T20:41:32.0386368Z 
+2025-10-30T20:41:32.0392427Z > Task :app:lintDebug
+2025-10-30T20:41:32.0393286Z > Task :app:lint
+2025-10-30T20:42:11.8372581Z > Task :app:compileReleaseArtProfile
+2025-10-30T20:42:13.7372099Z > Task :app:shrinkReleaseRes
+2025-10-30T20:42:13.8372389Z > Task :app:convertShrunkResourcesToBinaryRelease
+2025-10-30T20:42:14.0375982Z > Task :app:optimizeReleaseResources
+2025-10-30T20:42:14.2372520Z > Task :app:packageRelease
+2025-10-30T20:42:14.2377112Z > Task :app:createReleaseApkListingFileRedirect
+2025-10-30T20:42:14.2377812Z > Task :app:assembleRelease
+2025-10-30T20:42:14.2378334Z > Task :app:assemble
+2025-10-30T20:42:14.3373163Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1761856810169.json
+2025-10-30T20:42:14.3393400Z 
+2025-10-30T20:42:14.3426582Z FAILURE: Build failed with an exception.
+2025-10-30T20:42:14.3427198Z 109 actionable tasks: 109 executed
+2025-10-30T20:42:14.3427726Z 
+2025-10-30T20:42:14.3430438Z * What went wrong:
+2025-10-30T20:42:14.3433528Z Execution failed for task ':app:detekt'.
+2025-10-30T20:42:14.3434122Z > Analysis failed with 18 weighted issues.
+2025-10-30T20:42:14.3434802Z 
+2025-10-30T20:42:14.3434962Z * Try:
+2025-10-30T20:42:14.3435428Z > Run with --stacktrace option to get the stack trace.
+2025-10-30T20:42:14.3436119Z > Run with --info or --debug option to get more log output.
+2025-10-30T20:42:14.3436785Z > Run with --scan to get full insights.
+2025-10-30T20:42:14.3437498Z > Get more help at https://help.gradle.org.
+2025-10-30T20:42:14.3437880Z 
+2025-10-30T20:42:14.3438056Z BUILD FAILED in 2m 7s
+2025-10-30T20:42:14.7810292Z ##[error]Process completed with exit code 1.
+2025-10-30T20:42:14.7877449Z ##[group]Run actions/upload-artifact@v4
+2025-10-30T20:42:14.7877789Z with:
+2025-10-30T20:42:14.7878005Z   name: build-reports
+2025-10-30T20:42:14.7878297Z   path: **/build/reports/
+**/build/test-results/
+
+2025-10-30T20:42:14.7878630Z   if-no-files-found: warn
+2025-10-30T20:42:14.7878889Z   compression-level: 6
+2025-10-30T20:42:14.7879145Z   overwrite: false
+2025-10-30T20:42:14.7879385Z   include-hidden-files: false
+2025-10-30T20:42:14.7879639Z env:
+2025-10-30T20:42:14.7879923Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:42:14.7880404Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:42:14.7880804Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2025-10-30T20:42:14.7881139Z   GRADLE_USER_HOME: /home/runner/.gradle
+2025-10-30T20:42:14.7881695Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2025-10-30T20:42:14.7882037Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2025-10-30T20:42:14.7882527Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2025-10-30T20:42:14.7883015Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2025-10-30T20:42:14.7883367Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2025-10-30T20:42:14.7883658Z ##[endgroup]
+2025-10-30T20:42:15.4923656Z With the provided path, there will be 4 files uploaded
+2025-10-30T20:42:15.4930966Z Artifact name is valid!
+2025-10-30T20:42:15.4933196Z Root directory input is valid!
+2025-10-30T20:42:15.7970710Z Beginning upload of artifact content to blob storage
+2025-10-30T20:42:16.2858291Z Uploaded bytes 53861
+2025-10-30T20:42:16.3729872Z Finished uploading artifact content to blob storage!
+2025-10-30T20:42:16.3733489Z SHA256 digest of uploaded artifact zip is 4f84f4b2fdc71f9ba8ee73da5b4baf71500a3dacefcbf5ec9472c3eeaa39390b
+2025-10-30T20:42:16.3735243Z Finalizing artifact upload
+2025-10-30T20:42:16.5290181Z Artifact build-reports.zip successfully finalized. Artifact ID 4422952489
+2025-10-30T20:42:16.5291957Z Artifact build-reports has been successfully uploaded! Final size is 53861 bytes. Artifact ID is 4422952489
+2025-10-30T20:42:16.5299138Z Artifact download URL: https://github.com/DarkPhilosophy/Ko/actions/runs/18954412360/artifacts/4422952489
+2025-10-30T20:42:16.5478288Z Post job cleanup.
+2025-10-30T20:42:16.8518187Z In post-action step
+2025-10-30T20:42:16.8530346Z ##[group]Stopping Gradle daemons
+2025-10-30T20:42:16.8531888Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a/gradle-8.9
+2025-10-30T20:42:16.8550229Z [command]/home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a/gradle-8.9/bin/gradle --stop
+2025-10-30T20:42:17.4364344Z Stopping Daemon(s)
+2025-10-30T20:42:17.4365285Z 1 Daemon stopped
+2025-10-30T20:42:17.4520750Z ##[endgroup]
+2025-10-30T20:42:17.4523253Z Not performing cache-cleanup due to build failure
+2025-10-30T20:42:17.4525759Z ##[group]Caching Gradle state
+2025-10-30T20:42:19.7887093Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Ko/Ko --files-from manifest.txt --use-compress-program zstdmt
+2025-10-30T20:42:21.2048780Z Sent 3115087 of 3115087 (100.0%), 3.0 MBs/sec
+2025-10-30T20:42:21.5491966Z Saved cache entry with key gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-fcaa76ab7fde7efd2919155dd3660a16bc1f8389 from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 1775ms
+2025-10-30T20:42:21.5494399Z ##[endgroup]
+2025-10-30T20:42:21.5498726Z Generating Job Summary
+2025-10-30T20:42:21.5511824Z Completed post-action step
+2025-10-30T20:42:21.5693526Z Post job cleanup.
+2025-10-30T20:42:21.7390381Z Post job cleanup.
+2025-10-30T20:42:21.8403048Z [command]/usr/bin/git version
+2025-10-30T20:42:21.8450325Z git version 2.51.0
+2025-10-30T20:42:21.8495646Z Temporarily overriding HOME='/home/runner/work/_temp/17ebe3a6-f4a2-4846-89ae-756586d955c0' before making global git config changes
+2025-10-30T20:42:21.8497090Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T20:42:21.8508164Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Ko/Ko
+2025-10-30T20:42:21.8541924Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T20:42:21.8574056Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T20:42:21.8798804Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T20:42:21.8819701Z http.https://github.com/.extraheader
+2025-10-30T20:42:21.8832937Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-10-30T20:42:21.8863806Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T20:42:21.9188053Z Cleaning up orphan processes
