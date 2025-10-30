@@ -65,4 +65,3 @@ class ScreenshotApp : Application() {
             private set
     }
 }
-
