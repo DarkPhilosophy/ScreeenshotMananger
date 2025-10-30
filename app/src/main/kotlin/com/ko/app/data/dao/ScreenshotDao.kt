@@ -68,4 +68,3 @@ interface ScreenshotDao {
     @Query("UPDATE screenshots SET isMarkedForDeletion = 1, deletionTimestamp = :deletionTime WHERE id = :id")
     suspend fun markForDeletion(id: Long, deletionTime: Long)
 }
-

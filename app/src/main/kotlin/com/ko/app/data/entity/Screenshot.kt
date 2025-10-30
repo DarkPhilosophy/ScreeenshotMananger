@@ -24,4 +24,3 @@ data class Screenshot(
 
     val thumbnailPath: String? = null
 )
-

@@ -90,4 +90,3 @@ class NotificationHelper(private val context: Context) {
         const val NOTIFICATION_ID_BASE = 2000
     }
 }
-

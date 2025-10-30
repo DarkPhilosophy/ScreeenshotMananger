@@ -37,4 +37,3 @@ class NotificationActionReceiver : BroadcastReceiver() {
         const val ACTION_KEEP = "com.ko.app.ACTION_KEEP"
     }
 }
-

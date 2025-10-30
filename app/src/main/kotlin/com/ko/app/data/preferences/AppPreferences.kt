@@ -103,4 +103,3 @@ class AppPreferences(private val context: Context) {
         return result
     }
 }
-

@@ -80,4 +80,3 @@ class ScreenshotRepository(private val screenshotDao: ScreenshotDao) {
         screenshotDao.deleteAll()
     }
 }
-

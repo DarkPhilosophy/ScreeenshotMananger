@@ -28,4 +28,3 @@ object WorkManagerScheduler {
         WorkManager.getInstance(context).cancelUniqueWork(DELETION_WORK_NAME)
     }
 }
-
