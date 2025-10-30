@@ -21,6 +21,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+private const val FIFTEEN_MINUTES = 15L
+
 class OverlayService : Service() {
 
     private var windowManager: WindowManager? = null
@@ -77,7 +79,7 @@ class OverlayService : Service() {
     private fun setupButtons() {
         overlayView?.apply {
             findViewById<MaterialButton>(R.id.btn15Minutes).setOnClickListener {
-                handleDeletionTime(TimeUnit.MINUTES.toMillis(15))
+                handleDeletionTime(TimeUnit.MINUTES.toMillis(FIFTEEN_MINUTES))
             }
 
             findViewById<MaterialButton>(R.id.btn2Hours).setOnClickListener {

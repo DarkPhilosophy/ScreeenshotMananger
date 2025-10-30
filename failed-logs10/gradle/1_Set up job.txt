@@ -1,0 +1,44 @@
+﻿2025-10-30T20:14:00.5845922Z Current runner version: '2.328.0'
+2025-10-30T20:14:00.5881779Z ##[group]Runner Image Provisioner
+2025-10-30T20:14:00.5883265Z Hosted Compute Agent
+2025-10-30T20:14:00.5884363Z Version: 20250912.392
+2025-10-30T20:14:00.5885345Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-30T20:14:00.5886591Z Build Date: 2025-09-12T15:23:14Z
+2025-10-30T20:14:00.5887514Z ##[endgroup]
+2025-10-30T20:14:00.5888260Z ##[group]Operating System
+2025-10-30T20:14:00.5889359Z Ubuntu
+2025-10-30T20:14:00.5890087Z 24.04.3
+2025-10-30T20:14:00.5890780Z LTS
+2025-10-30T20:14:00.5891559Z ##[endgroup]
+2025-10-30T20:14:00.5892348Z ##[group]Runner Image
+2025-10-30T20:14:00.5893329Z Image: ubuntu-24.04
+2025-10-30T20:14:00.5894341Z Version: 20250929.60.1
+2025-10-30T20:14:00.5896095Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-30T20:14:00.5898596Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-30T20:14:00.5900494Z ##[endgroup]
+2025-10-30T20:14:00.5905295Z ##[group]GITHUB_TOKEN Permissions
+2025-10-30T20:14:00.5908033Z Actions: write
+2025-10-30T20:14:00.5909106Z Attestations: write
+2025-10-30T20:14:00.5910010Z Checks: write
+2025-10-30T20:14:00.5910804Z Contents: write
+2025-10-30T20:14:00.5911902Z Deployments: write
+2025-10-30T20:14:00.5912747Z Discussions: write
+2025-10-30T20:14:00.5913612Z Issues: write
+2025-10-30T20:14:00.5914633Z Metadata: read
+2025-10-30T20:14:00.5915446Z Models: read
+2025-10-30T20:14:00.5916202Z Packages: write
+2025-10-30T20:14:00.5917249Z Pages: write
+2025-10-30T20:14:00.5918136Z PullRequests: write
+2025-10-30T20:14:00.5919627Z RepositoryProjects: write
+2025-10-30T20:14:00.5920652Z SecurityEvents: write
+2025-10-30T20:14:00.5921665Z Statuses: write
+2025-10-30T20:14:00.5922688Z ##[endgroup]
+2025-10-30T20:14:00.5926363Z Secret source: Actions
+2025-10-30T20:14:00.5927945Z Prepare workflow directory
+2025-10-30T20:14:00.6412101Z Prepare all required actions
+2025-10-30T20:14:00.6471118Z Getting action download info
+2025-10-30T20:14:00.9075241Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-30T20:14:00.9808716Z Download action repository 'actions/setup-java@v4' (SHA:c5195efecf7bdfc987ee8bae7a71cb8b11521c00)
+2025-10-30T20:14:01.5639734Z Download action repository 'gradle/actions@v4' (SHA:748248ddd2a24f49513d8f472f81c3a07d4d50e1)
+2025-10-30T20:14:02.3325483Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-30T20:14:02.5776663Z Complete job name: gradle

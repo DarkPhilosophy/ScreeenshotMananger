@@ -27,6 +27,7 @@ import java.io.File
 
 private const val MILLIS_PER_SECOND = 1000L
 private const val PROCESSING_DELAY_MS = 500L
+private const val CLEANUP_DELAY_MS = 1000L
 
 class ScreenshotMonitorService : Service() {
 
@@ -184,7 +185,7 @@ class ScreenshotMonitorService : Service() {
         super.onDestroy()
         contentResolver.unregisterContentObserver(contentObserver)
         serviceScope.launch {
-            delay(1000)
+            delay(CLEANUP_DELAY_MS)
         }
     }
 
