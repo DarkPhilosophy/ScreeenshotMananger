@@ -1,0 +1,32 @@
+﻿2025-10-30T19:02:17.1008951Z ##[group]Run actions/upload-artifact@v4
+2025-10-30T19:02:17.1009326Z with:
+2025-10-30T19:02:17.1009555Z   name: build-reports
+2025-10-30T19:02:17.1009870Z   path: **/build/reports/
+**/build/test-results/
+
+2025-10-30T19:02:17.1010227Z   if-no-files-found: warn
+2025-10-30T19:02:17.1010501Z   compression-level: 6
+2025-10-30T19:02:17.1010764Z   overwrite: false
+2025-10-30T19:02:17.1011023Z   include-hidden-files: false
+2025-10-30T19:02:17.1011302Z env:
+2025-10-30T19:02:17.1011613Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T19:02:17.1012090Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T19:02:17.1012513Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2025-10-30T19:02:17.1012878Z   GRADLE_USER_HOME: /home/runner/.gradle
+2025-10-30T19:02:17.1013233Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2025-10-30T19:02:17.1013577Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2025-10-30T19:02:17.1014043Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2025-10-30T19:02:17.1014617Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2025-10-30T19:02:17.1014983Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2025-10-30T19:02:17.1015294Z ##[endgroup]
+2025-10-30T19:02:17.8402188Z With the provided path, there will be 4 files uploaded
+2025-10-30T19:02:17.8411481Z Artifact name is valid!
+2025-10-30T19:02:17.8413692Z Root directory input is valid!
+2025-10-30T19:02:18.0038337Z Beginning upload of artifact content to blob storage
+2025-10-30T19:02:18.2693391Z Uploaded bytes 55176
+2025-10-30T19:02:18.3170338Z Finished uploading artifact content to blob storage!
+2025-10-30T19:02:18.3174655Z SHA256 digest of uploaded artifact zip is afc43467742bca2862a27ff9328db430834a28e770872b0508cccb735f923858
+2025-10-30T19:02:18.3177615Z Finalizing artifact upload
+2025-10-30T19:02:18.4468425Z Artifact build-reports.zip successfully finalized. Artifact ID 4421974844
+2025-10-30T19:02:18.4469874Z Artifact build-reports has been successfully uploaded! Final size is 55176 bytes. Artifact ID is 4421974844
+2025-10-30T19:02:18.4478588Z Artifact download URL: https://github.com/DarkPhilosophy/Ko/actions/runs/18951986061/artifacts/4421974844

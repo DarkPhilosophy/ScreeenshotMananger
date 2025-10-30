@@ -10,6 +10,7 @@ import androidx.room.Update
 import com.ko.app.data.entity.Screenshot
 import kotlinx.coroutines.flow.Flow
 
+@Suppress("TooManyFunctions")
 @Dao
 interface ScreenshotDao {
 
