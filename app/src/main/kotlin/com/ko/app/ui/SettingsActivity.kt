@@ -122,7 +122,11 @@ class SettingsActivity : AppCompatActivity() {
     private fun showFolderDialog() {
         AlertDialog.Builder(this)
             .setTitle("Screenshot Folder")
-            .setMessage("Current folder: ${binding.folderPathText.text}\n\nNote: Folder selection is currently set to default. Custom folder selection requires additional implementation.")
+            .setMessage(
+                "Current folder: ${binding.folderPathText.text}\n\n" +
+                    "Note: Folder selection is currently set to default. " +
+                    "Custom folder selection requires additional implementation."
+            )
             .setPositiveButton("OK", null)
             .show()
     }
