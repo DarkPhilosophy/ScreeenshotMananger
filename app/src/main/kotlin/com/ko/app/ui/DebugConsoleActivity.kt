@@ -152,4 +152,3 @@ class DebugConsoleActivity : AppCompatActivity() {
         startActivity(Intent.createChooser(intent, "Share Logs"))
     }
 }
-

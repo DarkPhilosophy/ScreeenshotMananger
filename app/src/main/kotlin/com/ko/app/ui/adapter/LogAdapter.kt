@@ -55,4 +55,3 @@ class LogAdapter : ListAdapter<DebugLogger.LogEntry, LogAdapter.LogViewHolder>(L
         }
     }
 }
-

@@ -116,4 +116,3 @@ object DebugLogger {
         }
     }
 }
-
