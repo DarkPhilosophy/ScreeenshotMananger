@@ -50,8 +50,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun loadSettings() {
         lifecycleScope.launch {
             val isManualMode = app.preferences.isManualMarkMode.first()
-            binding.manualMarkSwitch.isChecked = isManualMode
-            updateDeletionTimeCardVisibility(isManualMode)
+            updateModeUI(isManualMode)
 
             val deletionTime = app.preferences.deletionTimeMillis.first()
             binding.deletionTimeText.text = formatDeletionTime(deletionTime)
@@ -65,11 +64,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.manualMarkSwitch.setOnCheckedChangeListener { _, isChecked ->
+        binding.btnToggleMode.setOnClickListener {
             lifecycleScope.launch {
-                app.preferences.setManualMarkMode(isChecked)
-                updateDeletionTimeCardVisibility(isChecked)
+                val currentMode = app.preferences.isManualMarkMode.first()
+                val newMode = !currentMode
+                app.preferences.setManualMarkMode(newMode)
+                updateModeUI(newMode)
             }
+        }
+
+        binding.deletionTimeContainer.setOnClickListener {
+            showDeletionTimeDialog()
         }
 
         binding.notificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -78,17 +83,23 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnChangeDeletionTime.setOnClickListener {
-            showDeletionTimeDialog()
-        }
-
-        binding.btnChangeFolder.setOnClickListener {
+        binding.folderPathText.setOnClickListener {
             showFolderDialog()
         }
     }
 
-    private fun updateDeletionTimeCardVisibility(isManualMode: Boolean) {
-        binding.deletionTimeCard.visibility = if (isManualMode) View.GONE else View.VISIBLE
+    private fun updateModeUI(isManualMode: Boolean) {
+        if (isManualMode) {
+            binding.btnToggleMode.text = "Manual"
+            binding.deletionTimeContainer.visibility = View.GONE
+            binding.modeDescription.text =
+                "You'll choose deletion time for each screenshot when it's captured"
+        } else {
+            binding.btnToggleMode.text = "Automatic"
+            binding.deletionTimeContainer.visibility = View.VISIBLE
+            binding.modeDescription.text =
+                "Screenshots will be automatically deleted after the specified time"
+        }
     }
 
     private fun showDeletionTimeDialog() {
@@ -102,7 +113,8 @@ class SettingsActivity : AppCompatActivity() {
             "12 hours",
             "1 day",
             "3 days",
-            "1 week"
+            "1 week",
+            "Custom..."
         )
 
         val values = longArrayOf(
@@ -121,9 +133,72 @@ class SettingsActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Select Deletion Time")
             .setItems(options) { _, which ->
+                if (which == options.size - 1) {
+                    showCustomTimeDialog()
+                } else {
+                    lifecycleScope.launch {
+                        app.preferences.setDeletionTimeMillis(values[which])
+                        binding.deletionTimeText.text = options[which]
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showCustomTimeDialog() {
+        val timeUnits = arrayOf("Minutes", "Hours", "Days")
+        var selectedUnit = 0
+        var timeValue = 15
+
+        val dialogView = layoutInflater.inflate(android.R.layout.simple_list_item_1, null)
+        val inputLayout = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(50, 40, 50, 10)
+        }
+
+        val valueInput = android.widget.EditText(this).apply {
+            hint = "Enter time value"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            setText("15")
+        }
+
+        val unitSpinner = android.widget.Spinner(this).apply {
+            adapter = android.widget.ArrayAdapter(
+                this@SettingsActivity,
+                android.R.layout.simple_spinner_item,
+                timeUnits
+            ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+        }
+
+        inputLayout.addView(android.widget.TextView(this).apply {
+            text = "Time value:"
+            setPadding(0, 0, 0, 8)
+        })
+        inputLayout.addView(valueInput)
+        inputLayout.addView(android.widget.TextView(this).apply {
+            text = "Time unit:"
+            setPadding(0, 20, 0, 8)
+        })
+        inputLayout.addView(unitSpinner)
+
+        AlertDialog.Builder(this)
+            .setTitle("Custom Deletion Time")
+            .setView(inputLayout)
+            .setPositiveButton("Set") { _, _ ->
+                val value = valueInput.text.toString().toIntOrNull() ?: 15
+                val unit = unitSpinner.selectedItemPosition
+
+                val millis = when (unit) {
+                    0 -> TimeUnit.MINUTES.toMillis(value.toLong())
+                    1 -> TimeUnit.HOURS.toMillis(value.toLong())
+                    2 -> TimeUnit.DAYS.toMillis(value.toLong())
+                    else -> TimeUnit.MINUTES.toMillis(value.toLong())
+                }
+
                 lifecycleScope.launch {
-                    app.preferences.setDeletionTimeMillis(values[which])
-                    binding.deletionTimeText.text = options[which]
+                    app.preferences.setDeletionTimeMillis(millis)
+                    binding.deletionTimeText.text = formatDeletionTime(millis)
                 }
             }
             .setNegativeButton("Cancel", null)

@@ -9,7 +9,7 @@ import com.ko.app.data.entity.Screenshot
 
 @Database(
     entities = [Screenshot::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ScreenshotDatabase : RoomDatabase() {

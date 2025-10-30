@@ -1,9 +1,13 @@
 package com.ko.app.data.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "screenshots")
+@Entity(
+    tableName = "screenshots",
+    indices = [Index(value = ["filePath"], unique = true)]
+)
 data class Screenshot(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

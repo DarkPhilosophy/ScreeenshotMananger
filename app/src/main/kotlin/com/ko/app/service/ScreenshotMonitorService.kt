@@ -43,6 +43,7 @@ class ScreenshotMonitorService : Service() {
 
         startForeground(NOTIFICATION_ID, createForegroundNotification())
         setupContentObserver()
+        scanExistingScreenshots()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -141,15 +142,16 @@ class ScreenshotMonitorService : Service() {
         createdAt: Long
     ) {
         val file = File(filePath)
-        if (!file.exists()) return
+        if (!file.exists() || file.length() == 0L) return
 
+        val actualFileSize = file.length()
         val isManualMode = app.preferences.isManualMarkMode.first()
 
         if (isManualMode) {
             val screenshot = Screenshot(
                 filePath = filePath,
                 fileName = fileName,
-                fileSize = fileSize,
+                fileSize = actualFileSize,
                 createdAt = createdAt,
                 deletionTimestamp = null,
                 isMarkedForDeletion = false,
@@ -169,7 +171,7 @@ class ScreenshotMonitorService : Service() {
             val screenshot = Screenshot(
                 filePath = filePath,
                 fileName = fileName,
-                fileSize = fileSize,
+                fileSize = actualFileSize,
                 createdAt = createdAt,
                 deletionTimestamp = deletionTimestamp,
                 isMarkedForDeletion = true,
@@ -178,6 +180,41 @@ class ScreenshotMonitorService : Service() {
             val id = app.repository.insert(screenshot)
 
             notificationHelper.showScreenshotNotification(id, fileName, deletionTimestamp)
+        }
+    }
+
+    private fun scanExistingScreenshots() {
+        serviceScope.launch {
+            try {
+                val screenshotFolder = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES
+                ).absolutePath + "/Screenshots"
+
+                val folder = File(screenshotFolder)
+                if (!folder.exists() || !folder.isDirectory) return@launch
+
+                val imageFiles = folder.listFiles { file ->
+                    file.isFile && (file.extension.lowercase() in listOf("png", "jpg", "jpeg"))
+                }
+
+                imageFiles?.forEach { file ->
+                    val existing = app.repository.getByFilePath(file.absolutePath)
+                    if (existing == null && file.exists() && file.length() > 0) {
+                        val screenshot = Screenshot(
+                            filePath = file.absolutePath,
+                            fileName = file.name,
+                            fileSize = file.length(),
+                            createdAt = file.lastModified(),
+                            deletionTimestamp = null,
+                            isMarkedForDeletion = false,
+                            isKept = false
+                        )
+                        app.repository.insert(screenshot)
+                    }
+                }
+            } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

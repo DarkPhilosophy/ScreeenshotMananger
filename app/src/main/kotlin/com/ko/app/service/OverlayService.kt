@@ -44,7 +44,15 @@ class OverlayService : Service() {
         filePath = intent?.getStringExtra("file_path") ?: ""
 
         if (screenshotId != -1L) {
-            showOverlay()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (android.provider.Settings.canDrawOverlays(this)) {
+                    showOverlay()
+                } else {
+                    stopSelf()
+                }
+            } else {
+                showOverlay()
+            }
         } else {
             stopSelf()
         }
@@ -53,33 +61,38 @@ class OverlayService : Service() {
     }
 
     private fun showOverlay() {
-        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        try {
+            windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
-        val layoutType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            @Suppress("DEPRECATION")
-            WindowManager.LayoutParams.TYPE_PHONE
+            val layoutType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            } else {
+                @Suppress("DEPRECATION")
+                WindowManager.LayoutParams.TYPE_PHONE
+            }
+
+            val params = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                layoutType,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                PixelFormat.TRANSLUCENT
+            ).apply {
+                gravity = Gravity.CENTER
+            }
+
+            overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null)
+
+            setupButtons()
+
+            windowManager?.addView(overlayView, params)
+
+            animateOverlayIn()
+        } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
+            e.printStackTrace()
+            stopSelf()
         }
-
-        val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            layoutType,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-            PixelFormat.TRANSLUCENT
-        ).apply {
-            gravity = Gravity.CENTER
-        }
-
-        overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null)
-
-        setupButtons()
-
-        windowManager?.addView(overlayView, params)
-
-        animateOverlayIn()
     }
 
     private fun setupButtons() {

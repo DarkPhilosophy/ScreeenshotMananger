@@ -53,10 +53,13 @@ class ScreenshotAdapter(
 
         fun bind(screenshot: Screenshot) {
             fileName.text = screenshot.fileName
-            fileSize.text = formatFileSize(screenshot.fileSize)
+
+            val file = File(screenshot.filePath)
+            val actualFileSize = if (file.exists()) file.length() else screenshot.fileSize
+            fileSize.text = formatFileSize(actualFileSize)
 
             Glide.with(itemView.context)
-                .load(File(screenshot.filePath))
+                .load(file)
                 .centerCrop()
                 .placeholder(android.R.drawable.ic_menu_gallery)
                 .into(thumbnail)
