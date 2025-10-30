@@ -92,7 +92,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        binding.folderPathText.setOnClickListener {
+        binding.folderPathContainer.setOnClickListener {
             showFolderDialog()
         }
     }

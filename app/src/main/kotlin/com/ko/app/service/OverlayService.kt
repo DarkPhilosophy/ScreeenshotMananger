@@ -90,6 +90,7 @@ class OverlayService : Service() {
 
             animateOverlayIn()
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            android.util.Log.e("OverlayService", "Failed to show overlay", e)
             stopSelf()
         }
     }

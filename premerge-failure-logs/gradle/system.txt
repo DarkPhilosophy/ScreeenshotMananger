@@ -1,5 +1,0 @@
-2025-10-30T21:39:10.5950000Z Requested labels: ubuntu-latest
-2025-10-30T21:39:10.5950000Z Job defined at: DarkPhilosophy/Ko/.github/workflows/pre-merge.yaml@refs/heads/main
-2025-10-30T21:39:10.5950000Z Waiting for a runner to pick up this job...
-2025-10-30T21:39:11.1000000Z Job is about to start running on the hosted runner: GitHub Actions 1000000283
-2025-10-30T21:39:11.1000000Z Job is waiting for a hosted runner to come online.

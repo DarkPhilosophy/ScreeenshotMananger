@@ -54,18 +54,29 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
                         android:padding="12dp"
                         android:layout_marginBottom="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnToggleMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Automatic"
+                            android:textSize="12sp"
+                            android:layout_marginEnd="16dp"
+                            style="@style/Widget.Material3.Button.TonalButton.Icon"
+                            app:icon="@android:drawable/ic_menu_rotate" />
 
                         <LinearLayout
                             android:id="@+id/deletionTimeContainer"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -74,26 +85,32 @@
                                 android:textSize="12sp"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
-                            <TextView
-                                android:id="@+id/deletionTimeText"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="15 minutes"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="?attr/colorPrimary"
-                                android:layout_marginTop="4dp" />
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="4dp">
+
+                                <TextView
+                                    android:id="@+id/deletionTimeText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="15 minutes"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="?attr/colorPrimary" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@android:drawable/ic_menu_edit"
+                                    android:layout_marginStart="8dp"
+                                    android:contentDescription="Edit time" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnToggleMode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Automatic"
-                            android:textSize="12sp"
-                            style="@style/Widget.Material3.Button.TonalButton.Icon"
-                            app:icon="@android:drawable/ic_menu_rotate" />
 
                     </LinearLayout>
 
@@ -162,17 +179,41 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp" />
 
-                    <TextView
-                        android:id="@+id/folderPathText"
+                    <LinearLayout
+                        android:id="@+id/folderPathContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Pictures/Screenshots"
-                        android:textSize="14sp"
-                        android:textColor="?attr/colorPrimary"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:padding="12dp" />
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:layout_marginEnd="12dp"
+                            android:contentDescription="Folder icon" />
+
+                        <TextView
+                            android:id="@+id/folderPathText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Pictures/Screenshots"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@android:drawable/ic_menu_edit"
+                            android:layout_marginStart="8dp"
+                            android:contentDescription="Edit folder" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
