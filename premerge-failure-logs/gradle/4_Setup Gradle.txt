@@ -1,0 +1,86 @@
+﻿2025-10-30T21:39:28.3195983Z ##[group]Run gradle/actions/setup-gradle@v4
+2025-10-30T21:39:28.3196395Z with:
+2025-10-30T21:39:28.3196574Z   cache-disabled: false
+2025-10-30T21:39:28.3196790Z   cache-read-only: false
+2025-10-30T21:39:28.3197035Z   cache-write-only: false
+2025-10-30T21:39:28.3197264Z   cache-overwrite-existing: false
+2025-10-30T21:39:28.3197507Z   cache-cleanup: on-success
+2025-10-30T21:39:28.3197764Z   gradle-home-cache-includes: caches
+notifications
+
+2025-10-30T21:39:28.3198058Z   add-job-summary: always
+2025-10-30T21:39:28.3198287Z   add-job-summary-as-pr-comment: never
+2025-10-30T21:39:28.3198548Z   dependency-graph: disabled
+2025-10-30T21:39:28.3198825Z   dependency-graph-report-dir: dependency-graph-reports
+2025-10-30T21:39:28.3199166Z   dependency-graph-continue-on-failure: true
+2025-10-30T21:39:28.3199434Z   build-scan-publish: false
+2025-10-30T21:39:28.3199684Z   validate-wrappers: true
+2025-10-30T21:39:28.3200081Z   allow-snapshot-wrappers: false
+2025-10-30T21:39:28.3200336Z   gradle-home-cache-strict-match: false
+2025-10-30T21:39:28.3200658Z   workflow-job-context: null
+2025-10-30T21:39:28.3201021Z   github-token: ***
+2025-10-30T21:39:28.3201202Z env:
+2025-10-30T21:39:28.3201451Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T21:39:28.3201834Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T21:39:28.3202131Z ##[endgroup]
+2025-10-30T21:39:28.7118783Z Merged default JDK locations into /home/runner/.m2/toolchains.xml
+2025-10-30T21:39:28.7121605Z Preparing cache for cleanup.
+2025-10-30T21:39:28.7125911Z ##[group]Restore Gradle state from cache
+2025-10-30T21:39:28.8035277Z Cache hit for restore-key: gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-cc0eea0d71010b6e5304fb7056343c7574b4a909
+2025-10-30T21:39:29.0239419Z Received 3110413 of 3110413 (100.0%), 17.3 MBs/sec
+2025-10-30T21:39:29.0241847Z Cache Size: ~3 MB (3110413 B)
+2025-10-30T21:39:29.0270634Z [command]/usr/bin/tar -xf /home/runner/work/_temp/fc60f879-d66c-4542-be51-bbc35511ac6d/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:29.1454862Z Cache restored successfully
+2025-10-30T21:39:29.1467224Z Restored cache entry with key gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-8d0b3e32deb04e22aec82f7487369fc70085c8be to /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 433ms
+2025-10-30T21:39:29.2145575Z Cache hit for: gradle-dependencies-v1-9e086cbfdd25e641fdd6614a94c1852c
+2025-10-30T21:39:29.2152318Z Cache hit for: gradle-kotlin-dsl-v1-fc647735720b97bc1f9f21095463ba6e
+2025-10-30T21:39:29.2206254Z Cache hit for: gradle-wrapper-zips-v1-df6ecc383658ce44d9cbac4d1bfd12bf
+2025-10-30T21:39:29.2234037Z Cache hit for: gradle-instrumented-jars-v1-02c1023f0ebd7e0cc09a6619483fd736
+2025-10-30T21:39:29.2281522Z Cache hit for: gradle-groovy-dsl-v1-f0c3eb7899ff79850cdcb0adcba4089a
+2025-10-30T21:39:29.2320453Z Cache hit for: gradle-generated-gradle-jars-v1-26cfecc158c44513d188405a5d2d0d9c
+2025-10-30T21:39:29.2345953Z Cache hit for: gradle-transforms-v1-4aeb517ddd7f7ea584ab677cafb5f02d
+2025-10-30T21:39:29.3787870Z Received 121700 of 121700 (100.0%), 0.9 MBs/sec
+2025-10-30T21:39:29.3790882Z Cache Size: ~0 MB (121700 B)
+2025-10-30T21:39:29.3840554Z Received 188865 of 188865 (100.0%), 1.9 MBs/sec
+2025-10-30T21:39:29.3841178Z Cache Size: ~0 MB (188865 B)
+2025-10-30T21:39:29.3893188Z Received 257458 of 257458 (100.0%), 1.7 MBs/sec
+2025-10-30T21:39:29.3893803Z Cache Size: ~0 MB (257458 B)
+2025-10-30T21:39:29.8625879Z Received 39619898 of 39619898 (100.0%), 66.4 MBs/sec
+2025-10-30T21:39:29.8626543Z Cache Size: ~38 MB (39619898 B)
+2025-10-30T21:39:30.1155777Z [command]/usr/bin/tar -xf /home/runner/work/_temp/da864989-ae9a-43b0-9f79-8c13a6944e32/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:30.1693315Z [command]/usr/bin/tar -xf /home/runner/work/_temp/731243c9-37a4-4c7b-97a0-0b3a182ac724/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:30.2332481Z Cache restored successfully
+2025-10-30T21:39:30.2333324Z [command]/usr/bin/tar -xf /home/runner/work/_temp/73f0d47e-fba3-4aef-bc4f-9f82d22128d8/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:30.3030910Z Cache restored successfully
+2025-10-30T21:39:30.3039633Z Received 100663296 of 464969354 (21.6%), 91.5 MBs/sec
+2025-10-30T21:39:30.3044565Z Restored cache entry with key gradle-instrumented-jars-v1-02c1023f0ebd7e0cc09a6619483fd736 to /home/runner/.gradle/caches/jars-*/*/ in 1155ms
+2025-10-30T21:39:30.3535473Z Received 75497472 of 135123693 (55.9%), 69.4 MBs/sec
+2025-10-30T21:39:30.3536195Z Received 79691776 of 175127329 (45.5%), 75.4 MBs/sec
+2025-10-30T21:39:30.3539024Z Restored cache entry with key gradle-groovy-dsl-v1-f0c3eb7899ff79850cdcb0adcba4089a to /home/runner/.gradle/caches/*/groovy-dsl/*/ in 1205ms
+2025-10-30T21:39:30.3868856Z Cache restored successfully
+2025-10-30T21:39:30.4118521Z Restored cache entry with key gradle-kotlin-dsl-v1-fc647735720b97bc1f9f21095463ba6e to /home/runner/.gradle/caches/*/kotlin-dsl/accessors/*/,/home/runner/.gradle/caches/*/kotlin-dsl/scripts/*/ in 1263ms
+2025-10-30T21:39:30.7328765Z [command]/usr/bin/tar -xf /home/runner/work/_temp/27d69c21-2a08-41fa-9e83-2f747ad36c80/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:31.0313727Z Received 135123693 of 135123693 (100.0%), 75.2 MBs/sec
+2025-10-30T21:39:31.0316940Z Cache Size: ~129 MB (135123693 B)
+2025-10-30T21:39:31.0915109Z Cache restored successfully
+2025-10-30T21:39:31.1104725Z Restored cache entry with key gradle-generated-gradle-jars-v1-26cfecc158c44513d188405a5d2d0d9c to /home/runner/.gradle/caches/8.9/generated-gradle-jars/gradle-api-8.9.jar in 1963ms
+2025-10-30T21:39:31.2377573Z [command]/usr/bin/tar -xf /home/runner/work/_temp/ef2c5bdd-53a2-4001-b388-8dcd9e3fa366/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:31.2747755Z Received 175127329 of 175127329 (100.0%), 86.6 MBs/sec
+2025-10-30T21:39:31.2750211Z Cache Size: ~167 MB (175127329 B)
+2025-10-30T21:39:31.2778913Z [command]/usr/bin/tar -xf /home/runner/work/_temp/03400c1d-3559-478c-bb38-d84609b4818c/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:31.3083064Z Received 234881024 of 464969354 (50.5%), 109.1 MBs/sec
+2025-10-30T21:39:31.6894702Z Cache restored successfully
+2025-10-30T21:39:31.7377164Z Restored cache entry with key gradle-wrapper-zips-v1-df6ecc383658ce44d9cbac4d1bfd12bf to /home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a in 2590ms
+2025-10-30T21:39:32.3080128Z Received 406847488 of 464969354 (87.5%), 127.1 MBs/sec
+2025-10-30T21:39:32.5138822Z Received 464969354 of 464969354 (100.0%), 136.1 MBs/sec
+2025-10-30T21:39:32.5142759Z Cache Size: ~443 MB (464969354 B)
+2025-10-30T21:39:32.5174663Z [command]/usr/bin/tar -xf /home/runner/work/_temp/702e31ff-a279-4d14-88ff-0b5977100844/cache.tzst -P -C /home/runner/work/Ko/Ko --use-compress-program unzstd
+2025-10-30T21:39:34.1589418Z Cache restored successfully
+2025-10-30T21:39:34.2535242Z Restored cache entry with key gradle-dependencies-v1-9e086cbfdd25e641fdd6614a94c1852c to /home/runner/.gradle/caches/modules-*/files-*/*/*/*/* in 5105ms
+2025-10-30T21:39:34.3939387Z Cache restored successfully
+2025-10-30T21:39:34.4226418Z Restored cache entry with key gradle-transforms-v1-4aeb517ddd7f7ea584ab677cafb5f02d to /home/runner/.gradle/caches/transforms-4/*/,/home/runner/.gradle/caches/*/transforms/*/ in 5273ms
+2025-10-30T21:39:34.4297686Z ##[endgroup]
+2025-10-30T21:39:34.4394089Z ##[group]All Gradle Wrapper jars are valid
+2025-10-30T21:39:34.4395336Z ✓ Found known Gradle Wrapper JAR files:
+2025-10-30T21:39:34.4395903Z   498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17 gradle/wrapper/gradle-wrapper.jar
+2025-10-30T21:39:34.4396586Z ##[endgroup]

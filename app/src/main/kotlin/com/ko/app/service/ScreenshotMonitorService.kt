@@ -138,7 +138,7 @@ class ScreenshotMonitorService : Service() {
     private suspend fun processNewScreenshot(
         filePath: String,
         fileName: String,
-        fileSize: Long,
+        @Suppress("UNUSED_PARAMETER") fileSize: Long,
         createdAt: Long
     ) {
         val file = File(filePath)

@@ -1,0 +1,7 @@
+﻿2025-10-30T21:39:18.0774355Z ##[group]Run gradle/actions/wrapper-validation@v4
+2025-10-30T21:39:18.0774745Z with:
+2025-10-30T21:39:18.0774974Z   min-wrapper-count: 1
+2025-10-30T21:39:18.0775227Z   allow-snapshots: false
+2025-10-30T21:39:18.0775468Z ##[endgroup]
+2025-10-30T21:39:18.3301226Z ✓ Found known Gradle Wrapper JAR files:
+2025-10-30T21:39:18.3302484Z   498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17 gradle/wrapper/gradle-wrapper.jar

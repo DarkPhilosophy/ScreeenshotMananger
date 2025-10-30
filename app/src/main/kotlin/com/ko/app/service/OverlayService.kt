@@ -89,8 +89,7 @@ class OverlayService : Service() {
             windowManager?.addView(overlayView, params)
 
             animateOverlayIn()
-        } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
-            e.printStackTrace()
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             stopSelf()
         }
     }

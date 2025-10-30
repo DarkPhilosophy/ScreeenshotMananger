@@ -21,6 +21,15 @@ private const val TWELVE_HOURS = 12L
 private const val ONE_DAY = 1L
 private const val THREE_DAYS = 3L
 private const val SEVEN_DAYS = 7L
+private const val DEFAULT_TIME_VALUE = 15
+private const val PADDING_HORIZONTAL = 50
+private const val PADDING_TOP = 40
+private const val PADDING_BOTTOM = 10
+private const val PADDING_SMALL = 8
+private const val PADDING_MEDIUM = 20
+private const val UNIT_MINUTES = 0
+private const val UNIT_HOURS = 1
+private const val UNIT_DAYS = 2
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -148,19 +157,15 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun showCustomTimeDialog() {
         val timeUnits = arrayOf("Minutes", "Hours", "Days")
-        var selectedUnit = 0
-        var timeValue = 15
-
-        val dialogView = layoutInflater.inflate(android.R.layout.simple_list_item_1, null)
         val inputLayout = android.widget.LinearLayout(this).apply {
             orientation = android.widget.LinearLayout.VERTICAL
-            setPadding(50, 40, 50, 10)
+            setPadding(PADDING_HORIZONTAL, PADDING_TOP, PADDING_HORIZONTAL, PADDING_BOTTOM)
         }
 
         val valueInput = android.widget.EditText(this).apply {
             hint = "Enter time value"
             inputType = android.text.InputType.TYPE_CLASS_NUMBER
-            setText("15")
+            setText(DEFAULT_TIME_VALUE.toString())
         }
 
         val unitSpinner = android.widget.Spinner(this).apply {
@@ -173,12 +178,12 @@ class SettingsActivity : AppCompatActivity() {
 
         inputLayout.addView(android.widget.TextView(this).apply {
             text = "Time value:"
-            setPadding(0, 0, 0, 8)
+            setPadding(0, 0, 0, PADDING_SMALL)
         })
         inputLayout.addView(valueInput)
         inputLayout.addView(android.widget.TextView(this).apply {
             text = "Time unit:"
-            setPadding(0, 20, 0, 8)
+            setPadding(0, PADDING_MEDIUM, 0, PADDING_SMALL)
         })
         inputLayout.addView(unitSpinner)
 
@@ -186,13 +191,13 @@ class SettingsActivity : AppCompatActivity() {
             .setTitle("Custom Deletion Time")
             .setView(inputLayout)
             .setPositiveButton("Set") { _, _ ->
-                val value = valueInput.text.toString().toIntOrNull() ?: 15
+                val value = valueInput.text.toString().toIntOrNull() ?: DEFAULT_TIME_VALUE
                 val unit = unitSpinner.selectedItemPosition
 
                 val millis = when (unit) {
-                    0 -> TimeUnit.MINUTES.toMillis(value.toLong())
-                    1 -> TimeUnit.HOURS.toMillis(value.toLong())
-                    2 -> TimeUnit.DAYS.toMillis(value.toLong())
+                    UNIT_MINUTES -> TimeUnit.MINUTES.toMillis(value.toLong())
+                    UNIT_HOURS -> TimeUnit.HOURS.toMillis(value.toLong())
+                    UNIT_DAYS -> TimeUnit.DAYS.toMillis(value.toLong())
                     else -> TimeUnit.MINUTES.toMillis(value.toLong())
                 }
 
