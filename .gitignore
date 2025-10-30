@@ -23,6 +23,16 @@ build/
 # Gradle wrapper jar should NOT be ignored
 !gradle/wrapper/gradle-wrapper.jar
 
+# Build and workflow logs
+build-logs/
+build-logs.zip
+premerge-logs/
+premerge-logs.zip
+premerge7-logs/
+premerge7-logs.zip
+workflow-logs/
+workflow-logs.zip
+
 # Local configuration file (sdk path, etc)
 local.properties
 
