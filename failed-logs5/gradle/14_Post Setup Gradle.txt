@@ -1,0 +1,16 @@
+﻿2025-10-30T19:42:42.6489906Z Post job cleanup.
+2025-10-30T19:42:42.9465988Z In post-action step
+2025-10-30T19:42:42.9477648Z ##[group]Stopping Gradle daemons
+2025-10-30T19:42:42.9479328Z Stopping Gradle daemons for /home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a/gradle-8.9
+2025-10-30T19:42:42.9499027Z [command]/home/runner/.gradle/wrapper/dists/gradle-8.9-bin/90cnw93cvbtalezasaz0blq0a/gradle-8.9/bin/gradle --stop
+2025-10-30T19:42:43.5406717Z Stopping Daemon(s)
+2025-10-30T19:42:43.5407290Z 1 Daemon stopped
+2025-10-30T19:42:43.5524212Z ##[endgroup]
+2025-10-30T19:42:43.5525884Z Not performing cache-cleanup due to build failure
+2025-10-30T19:42:43.5526871Z ##[group]Caching Gradle state
+2025-10-30T19:42:45.8689970Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/Ko/Ko --files-from manifest.txt --use-compress-program zstdmt
+2025-10-30T19:42:46.2513276Z Sent 3096693 of 3096693 (100.0%), 17.6 MBs/sec
+2025-10-30T19:42:46.3213536Z Saved cache entry with key gradle-home-v1|Linux-X64|gradle[6eee06fbbd70c3de1dfc5503b36cf935]-1da3a0d9b5b48f92f306ca47ec8bcd315777a791 from /home/runner/.gradle/caches,/home/runner/.gradle/notifications,/home/runner/.gradle/.setup-gradle in 466ms
+2025-10-30T19:42:46.3217252Z ##[endgroup]
+2025-10-30T19:42:46.3221610Z Generating Job Summary
+2025-10-30T19:42:46.3234781Z Completed post-action step

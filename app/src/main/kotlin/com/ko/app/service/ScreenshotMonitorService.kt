@@ -189,4 +189,3 @@ class ScreenshotMonitorService : Service() {
         private const val NOTIFICATION_ID = 1001
     }
 }
-
