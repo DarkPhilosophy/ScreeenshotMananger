@@ -179,7 +179,7 @@ class OverlayService : Service() {
         overlayView?.let {
             try {
                 windowManager?.removeView(it)
-            } catch (e: Exception) {
+            } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
                 e.printStackTrace()
             }
         }
