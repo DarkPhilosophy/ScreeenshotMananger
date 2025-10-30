@@ -22,6 +22,8 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 private const val FIFTEEN_MINUTES = 15L
+private const val THREE_DAYS = 3L
+private const val ONE_WEEK = 7L
 
 class OverlayService : Service() {
 
@@ -87,11 +89,11 @@ class OverlayService : Service() {
             }
 
             findViewById<MaterialButton>(R.id.btn3Days).setOnClickListener {
-                handleDeletionTime(TimeUnit.DAYS.toMillis(3))
+                handleDeletionTime(TimeUnit.DAYS.toMillis(THREE_DAYS))
             }
 
             findViewById<MaterialButton>(R.id.btn1Week).setOnClickListener {
-                handleDeletionTime(TimeUnit.DAYS.toMillis(7))
+                handleDeletionTime(TimeUnit.DAYS.toMillis(ONE_WEEK))
             }
 
             findViewById<MaterialButton>(R.id.btnKeep).setOnClickListener {
