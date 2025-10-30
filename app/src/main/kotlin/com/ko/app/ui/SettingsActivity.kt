@@ -1,7 +1,10 @@
 package com.ko.app.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -35,6 +38,14 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var app: ScreenshotApp
+
+    private val folderPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocumentTree()
+    ) { uri ->
+        uri?.let {
+            handleFolderSelection(it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -211,15 +222,42 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun showFolderDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Screenshot Folder")
-            .setMessage(
-                "Current folder: ${binding.folderPathText.text}\n\n" +
-                    "Note: Folder selection is currently set to default. " +
-                    "Custom folder selection requires additional implementation."
+        folderPickerLauncher.launch(null)
+    }
+
+    private fun handleFolderSelection(uri: Uri) {
+        try {
+            // Persist URI permissions
+            contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
             )
-            .setPositiveButton("OK", null)
-            .show()
+
+            // Extract folder path for display
+            val folderPath = uri.path?.substringAfter(":")?.let {
+                if (it.startsWith("/")) it.substring(1) else it
+            } ?: uri.toString()
+
+            // Save folder URI to preferences
+            lifecycleScope.launch {
+                app.preferences.setScreenshotFolder(uri.toString())
+                binding.folderPathText.text = folderPath
+            }
+
+            // Show success message
+            AlertDialog.Builder(this)
+                .setTitle("Folder Selected")
+                .setMessage("Screenshot folder has been updated to:\n$folderPath")
+                .setPositiveButton("OK", null)
+                .show()
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            android.util.Log.e("SettingsActivity", "Failed to handle folder selection", e)
+            AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setMessage("Failed to select folder. Please try again.")
+                .setPositiveButton("OK", null)
+                .show()
+        }
     }
 
     private fun formatDeletionTime(millis: Long): String {
