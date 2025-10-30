@@ -18,6 +18,9 @@ import java.util.concurrent.TimeUnit
 
 private const val BYTES_IN_KB = 1024
 private const val BYTES_IN_MB = 1024 * 1024
+private const val HOURS_IN_DAY = 24L
+private const val MINUTES_IN_HOUR = 60L
+private const val SECONDS_IN_MINUTE = 60L
 
 class ScreenshotAdapter(
     private val onKeepClick: (Screenshot) -> Unit,
@@ -106,9 +109,9 @@ class ScreenshotAdapter(
 
         private fun formatTimeRemaining(millis: Long): String {
             val days = TimeUnit.MILLISECONDS.toDays(millis)
-            val hours = TimeUnit.MILLISECONDS.toHours(millis) % 24
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % 60
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60
+            val hours = TimeUnit.MILLISECONDS.toHours(millis) % HOURS_IN_DAY
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % MINUTES_IN_HOUR
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % SECONDS_IN_MINUTE
 
             return when {
                 days > 0 -> "${days}d ${hours}h"
