@@ -1,0 +1,209 @@
+﻿2025-10-30T20:45:34.1385702Z ##[group]Run ./gradlew build --continue
+2025-10-30T20:45:34.1386324Z [36;1m./gradlew build --continue[0m
+2025-10-30T20:45:34.1435099Z shell: /usr/bin/bash -e {0}
+2025-10-30T20:45:34.1435575Z env:
+2025-10-30T20:45:34.1436072Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:45:34.1436819Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.17-10/x64
+2025-10-30T20:45:34.1437500Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2025-10-30T20:45:34.1438048Z   GRADLE_USER_HOME: /home/runner/.gradle
+2025-10-30T20:45:34.1438560Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2025-10-30T20:45:34.1439084Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2025-10-30T20:45:34.1439851Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2025-10-30T20:45:34.1440856Z   DEVELOCITY_INJECTION_CUSTOM_VALUE: gradle-actions
+2025-10-30T20:45:34.1441445Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2025-10-30T20:45:34.1441939Z ##[endgroup]
+2025-10-30T20:45:34.8897120Z Starting a Gradle Daemon (subsequent builds will be faster)
+2025-10-30T20:45:42.2904948Z > Task :buildSrc:checkKotlinGradlePluginConfigurationErrors
+2025-10-30T20:45:42.7900266Z > Task :buildSrc:pluginDescriptors
+2025-10-30T20:45:42.7903681Z > Task :buildSrc:processResources NO-SOURCE
+2025-10-30T20:45:46.7919804Z > Task :buildSrc:compileKotlin
+2025-10-30T20:45:46.7921831Z > Task :buildSrc:compileJava NO-SOURCE
+2025-10-30T20:45:46.7922404Z > Task :buildSrc:compileGroovy NO-SOURCE
+2025-10-30T20:45:46.7922934Z > Task :buildSrc:classes UP-TO-DATE
+2025-10-30T20:45:46.9015336Z 
+2025-10-30T20:45:46.9041784Z > Task :buildSrc:jar
+2025-10-30T20:45:46.9042557Z :jar: No valid plugin descriptors were found in META-INF/gradle-plugins
+2025-10-30T20:45:51.9882870Z 
+2025-10-30T20:45:51.9898610Z > Task :app:preBuild UP-TO-DATE
+2025-10-30T20:45:51.9949916Z > Task :app:preDebugBuild UP-TO-DATE
+2025-10-30T20:45:51.9951227Z > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+2025-10-30T20:45:51.9952273Z > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+2025-10-30T20:45:52.3886819Z > Task :app:dataBindingMergeDependencyArtifactsDebug
+2025-10-30T20:45:52.3894391Z > Task :app:generateDebugResValues
+2025-10-30T20:45:52.3899450Z > Task :app:generateDebugResources
+2025-10-30T20:45:54.0888330Z > Task :app:packageDebugResources
+2025-10-30T20:45:55.8886952Z > Task :app:mergeDebugResources
+2025-10-30T20:45:55.8913919Z > Task :app:parseDebugLocalResources
+2025-10-30T20:45:55.8926781Z > Task :app:mapDebugSourceSetPaths
+2025-10-30T20:45:55.9883696Z > Task :app:checkDebugAarMetadata
+2025-10-30T20:45:56.1884383Z > Task :app:dataBindingGenBaseClassesDebug
+2025-10-30T20:45:56.1885176Z > Task :app:createDebugCompatibleScreenManifests
+2025-10-30T20:45:56.1897823Z > Task :app:extractDeepLinksDebug
+2025-10-30T20:45:56.3883772Z > Task :app:processDebugMainManifest
+2025-10-30T20:45:56.4936693Z > Task :app:processDebugManifest
+2025-10-30T20:45:56.5888450Z > Task :app:javaPreCompileDebug
+2025-10-30T20:45:56.5889099Z > Task :app:mergeDebugShaders
+2025-10-30T20:45:56.5889687Z > Task :app:compileDebugShaders NO-SOURCE
+2025-10-30T20:45:56.5890306Z > Task :app:generateDebugAssets UP-TO-DATE
+2025-10-30T20:45:56.5891165Z > Task :app:mergeDebugAssets
+2025-10-30T20:45:56.5891685Z > Task :app:compressDebugAssets
+2025-10-30T20:45:56.6884237Z > Task :app:processDebugManifestForPackage
+2025-10-30T20:45:56.6884971Z > Task :app:checkDebugDuplicateClasses
+2025-10-30T20:45:56.7887054Z > Task :app:desugarDebugFileDependencies
+2025-10-30T20:45:56.8885795Z > Task :app:mergeDebugJniLibFolders
+2025-10-30T20:45:56.8886708Z > Task :app:mergeLibDexDebug
+2025-10-30T20:45:56.9905419Z > Task :app:mergeDebugNativeLibs
+2025-10-30T20:45:57.8883070Z > Task :app:processDebugResources
+2025-10-30T20:45:58.3922256Z > Task :app:validateSigningDebug
+2025-10-30T20:45:59.9884900Z > Task :app:writeDebugAppMetadata
+2025-10-30T20:45:59.9889318Z > Task :app:writeDebugSigningConfigVersions
+2025-10-30T20:46:00.0889885Z 
+2025-10-30T20:46:00.0894722Z > Task :app:stripDebugDebugSymbols
+2025-10-30T20:46:00.0907357Z Unable to strip the following libraries, packaging them as they are: libdatastore_shared_counter.so.
+2025-10-30T20:46:00.0912444Z 
+2025-10-30T20:46:00.0916401Z > Task :app:buildKotlinToolingMetadata
+2025-10-30T20:46:00.0920985Z > Task :app:preReleaseBuild UP-TO-DATE
+2025-10-30T20:46:00.1882422Z > Task :app:dataBindingMergeDependencyArtifactsRelease
+2025-10-30T20:46:00.1886998Z > Task :app:generateReleaseResValues
+2025-10-30T20:46:00.2902197Z > Task :app:generateReleaseResources
+2025-10-30T20:46:02.0905349Z > Task :app:packageReleaseResources
+2025-10-30T20:46:04.5931886Z > Task :app:parseReleaseLocalResources
+2025-10-30T20:46:04.5932986Z > Task :app:checkReleaseAarMetadata
+2025-10-30T20:46:04.6884001Z > Task :app:mapReleaseSourceSetPaths
+2025-10-30T20:46:04.6895741Z > Task :app:createReleaseCompatibleScreenManifests
+2025-10-30T20:46:04.6896691Z > Task :app:extractDeepLinksRelease
+2025-10-30T20:46:04.8883819Z > Task :app:processReleaseMainManifest
+2025-10-30T20:46:04.8892053Z > Task :app:processReleaseManifest
+2025-10-30T20:46:04.8892822Z > Task :app:processReleaseManifestForPackage
+2025-10-30T20:46:04.8893482Z > Task :app:javaPreCompileRelease
+2025-10-30T20:46:04.9928013Z > Task :app:extractProguardFiles
+2025-10-30T20:46:04.9945962Z > Task :app:mergeReleaseJniLibFolders
+2025-10-30T20:46:05.0894717Z > Task :app:mergeReleaseNativeLibs
+2025-10-30T20:46:05.0907398Z 
+2025-10-30T20:46:05.0933000Z > Task :app:stripReleaseDebugSymbols
+2025-10-30T20:46:05.0939903Z Unable to strip the following libraries, packaging them as they are: libdatastore_shared_counter.so.
+2025-10-30T20:46:05.0944775Z 
+2025-10-30T20:46:05.0953766Z > Task :app:extractReleaseNativeSymbolTables
+2025-10-30T20:46:05.0959430Z > Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+2025-10-30T20:46:05.1910180Z > Task :app:mergeReleaseResources
+2025-10-30T20:46:05.1914694Z > Task :app:checkReleaseDuplicateClasses
+2025-10-30T20:46:05.1918909Z > Task :app:dataBindingGenBaseClassesRelease
+2025-10-30T20:46:05.9921841Z > Task :app:mergeExtDexDebug
+2025-10-30T20:46:05.9922999Z > Task :app:mergeReleaseArtProfile
+2025-10-30T20:46:05.9923973Z > Task :app:mergeReleaseStartupProfile
+2025-10-30T20:46:06.0882343Z > Task :app:mergeReleaseShaders
+2025-10-30T20:46:06.0887462Z > Task :app:compileReleaseShaders NO-SOURCE
+2025-10-30T20:46:06.0917239Z > Task :app:generateReleaseAssets UP-TO-DATE
+2025-10-30T20:46:06.0921341Z > Task :app:mergeReleaseAssets
+2025-10-30T20:46:06.0922118Z > Task :app:compressReleaseAssets
+2025-10-30T20:46:06.2881881Z > Task :app:extractReleaseVersionControlInfo
+2025-10-30T20:46:06.3913298Z > Task :app:collectReleaseDependencies
+2025-10-30T20:46:06.5882297Z > Task :app:processReleaseResources
+2025-10-30T20:46:06.6882079Z > Task :app:sdkReleaseDependencyData
+2025-10-30T20:46:06.8896311Z > Task :app:validateSigningRelease
+2025-10-30T20:46:06.8900985Z > Task :app:writeReleaseAppMetadata
+2025-10-30T20:46:06.8901859Z > Task :app:writeReleaseSigningConfigVersions
+2025-10-30T20:46:08.8883316Z 
+2025-10-30T20:46:08.8887762Z > Task :app:detekt
+2025-10-30T20:46:08.8893282Z Property 'style>ForbiddenComment>values' is deprecated. Use `comments` instead, make sure you escape your text for Regular Expressions..
+2025-10-30T20:46:12.1881944Z 
+2025-10-30T20:46:12.1883866Z > Task :app:kspDebugKotlin
+2025-10-30T20:46:12.2882474Z > Task :app:kspReleaseKotlin
+2025-10-30T20:46:12.8889125Z 
+2025-10-30T20:46:12.8893734Z > Task :app:detekt FAILED
+2025-10-30T20:46:12.8895476Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:103:39: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8899760Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:106:37: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8902335Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:107:37: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8905269Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:109:36: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8907676Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/SettingsActivity.kt:110:36: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8910154Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:98:25: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8912900Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:25: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8915472Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:32: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8918030Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:99:61: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8920592Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:100:47: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8923214Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:100:56: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8925574Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:106:65: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8927933Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:107:69: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8930291Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/ui/adapter/ScreenshotAdapter.kt:108:69: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8933072Z /home/runner/work/Ko/Ko/app/src/main/kotlin/com/ko/app/util/WorkManagerScheduler.kt:16:13: This expression contains a magic number. Consider defining it to a well named constant. [MagicNumber]
+2025-10-30T20:46:12.8934321Z 
+2025-10-30T20:46:12.9881520Z 
+2025-10-30T20:46:12.9924977Z > Task :app:convertLinkedResourcesToProtoRelease
+2025-10-30T20:46:12.9925999Z > Task :app:preDebugAndroidTestBuild SKIPPED
+2025-10-30T20:46:12.9929642Z > Task :app:generateDebugAndroidTestResValues
+2025-10-30T20:46:12.9932135Z > Task :app:preDebugUnitTestBuild UP-TO-DATE
+2025-10-30T20:46:13.0904567Z > Task :app:preReleaseUnitTestBuild UP-TO-DATE
+2025-10-30T20:46:13.0909016Z > Task :app:javaPreCompileDebugUnitTest
+2025-10-30T20:46:13.0909850Z > Task :app:javaPreCompileReleaseUnitTest
+2025-10-30T20:46:24.4892954Z > Task :app:compileReleaseKotlin
+2025-10-30T20:46:24.4933083Z > Task :app:compileDebugKotlin
+2025-10-30T20:46:26.1881627Z > Task :app:compileDebugJavaWithJavac
+2025-10-30T20:46:26.1884718Z > Task :app:processDebugJavaRes
+2025-10-30T20:46:27.3881290Z > Task :app:mergeDebugJavaResource
+2025-10-30T20:46:28.7881579Z > Task :app:dexBuilderDebug
+2025-10-30T20:46:29.0881162Z > Task :app:mergeProjectDexDebug
+2025-10-30T20:46:29.3881641Z > Task :app:compileReleaseJavaWithJavac
+2025-10-30T20:46:29.5884426Z > Task :app:generateReleaseLintVitalReportModel
+2025-10-30T20:46:29.7882545Z > Task :app:mergeReleaseGeneratedProguardFiles
+2025-10-30T20:46:29.7885433Z > Task :app:processReleaseJavaRes
+2025-10-30T20:46:29.9882183Z > Task :app:packageDebug
+2025-10-30T20:46:29.9883088Z > Task :app:createDebugApkListingFileRedirect
+2025-10-30T20:46:29.9884100Z > Task :app:assembleDebug
+2025-10-30T20:46:30.0882971Z > Task :app:bundleDebugClassesToCompileJar
+2025-10-30T20:46:30.2883975Z > Task :app:generateDebugAndroidTestLintModel
+2025-10-30T20:46:30.2891680Z > Task :app:expandReleaseArtProfileWildcards
+2025-10-30T20:46:30.2892594Z > Task :app:generateDebugLintReportModel
+2025-10-30T20:46:30.3925099Z > Task :app:generateDebugUnitTestLintModel
+2025-10-30T20:46:30.4882593Z > Task :app:mergeReleaseJavaResource
+2025-10-30T20:46:41.6881553Z > Task :app:lintAnalyzeDebugAndroidTest
+2025-10-30T20:46:45.4881520Z > Task :app:lintAnalyzeDebugUnitTest
+2025-10-30T20:46:45.5887535Z > Task :app:bundleDebugClassesToRuntimeJar
+2025-10-30T20:46:45.5888613Z > Task :app:kspDebugUnitTestKotlin NO-SOURCE
+2025-10-30T20:46:45.5889478Z > Task :app:compileDebugUnitTestKotlin NO-SOURCE
+2025-10-30T20:46:45.5895153Z > Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+2025-10-30T20:46:45.5896302Z > Task :app:processDebugUnitTestJavaRes NO-SOURCE
+2025-10-30T20:46:45.5942325Z > Task :app:testDebugUnitTest NO-SOURCE
+2025-10-30T20:46:45.6912121Z > Task :app:bundleReleaseClassesToRuntimeJar
+2025-10-30T20:46:45.6913242Z > Task :app:bundleReleaseClassesToCompileJar
+2025-10-30T20:46:45.6914016Z > Task :app:kspReleaseUnitTestKotlin NO-SOURCE
+2025-10-30T20:46:45.6914677Z > Task :app:compileReleaseUnitTestKotlin NO-SOURCE
+2025-10-30T20:46:45.6915353Z > Task :app:compileReleaseUnitTestJavaWithJavac NO-SOURCE
+2025-10-30T20:46:45.6916018Z > Task :app:processReleaseUnitTestJavaRes NO-SOURCE
+2025-10-30T20:46:45.6916594Z > Task :app:testReleaseUnitTest NO-SOURCE
+2025-10-30T20:46:45.6917099Z > Task :app:test UP-TO-DATE
+2025-10-30T20:46:56.8885433Z > Task :app:lintVitalAnalyzeRelease
+2025-10-30T20:46:56.8891817Z > Task :app:lintVitalReportRelease SKIPPED
+2025-10-30T20:46:56.8894015Z > Task :app:lintVitalRelease SKIPPED
+2025-10-30T20:47:00.3892496Z > Task :app:lintAnalyzeDebug
+2025-10-30T20:47:00.4881647Z > Task :app:minifyReleaseWithR8
+2025-10-30T20:47:03.2882848Z 
+2025-10-30T20:47:03.2888021Z > Task :app:lintReportDebug
+2025-10-30T20:47:03.2889460Z Wrote HTML report to file:///home/runner/work/Ko/Ko/app/build/reports/lint-results-debug.html
+2025-10-30T20:47:03.2890303Z 
+2025-10-30T20:47:03.2890947Z > Task :app:lintDebug
+2025-10-30T20:47:03.2891535Z > Task :app:lint
+2025-10-30T20:47:43.6881441Z > Task :app:compileReleaseArtProfile
+2025-10-30T20:47:45.1885537Z > Task :app:shrinkReleaseRes
+2025-10-30T20:47:45.2882575Z > Task :app:convertShrunkResourcesToBinaryRelease
+2025-10-30T20:47:45.4882868Z > Task :app:optimizeReleaseResources
+2025-10-30T20:47:45.6883963Z > Task :app:packageRelease
+2025-10-30T20:47:45.6886926Z > Task :app:createReleaseApkListingFileRedirect
+2025-10-30T20:47:45.6888468Z > Task :app:assembleRelease
+2025-10-30T20:47:45.6889094Z > Task :app:assemble
+2025-10-30T20:47:45.6890077Z gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run-1761857137951.json
+2025-10-30T20:47:45.7909932Z 
+2025-10-30T20:47:45.7910457Z FAILURE: Build failed with an exception.
+2025-10-30T20:47:45.7916372Z 
+2025-10-30T20:47:45.7916562Z * What went wrong:
+2025-10-30T20:47:45.7917007Z Execution failed for task ':app:detekt'.
+2025-10-30T20:47:45.7917544Z > Analysis failed with 15 weighted issues.
+2025-10-30T20:47:45.7917900Z 
+2025-10-30T20:47:45.7918048Z * Try:
+2025-10-30T20:47:45.7918516Z > Run with --stacktrace option to get the stack trace.
+2025-10-30T20:47:45.7919176Z > Run with --info or --debug option to get more log output.
+2025-10-30T20:47:45.7919771Z > Run with --scan to get full insights.
+2025-10-30T20:47:45.7920313Z > Get more help at https://help.gradle.org.
+2025-10-30T20:47:45.7920860Z 
+2025-10-30T20:47:45.7921021Z BUILD FAILED in 2m 11s
+2025-10-30T20:47:45.7921453Z 109 actionable tasks: 109 executed
+2025-10-30T20:47:46.1963750Z ##[error]Process completed with exit code 1.

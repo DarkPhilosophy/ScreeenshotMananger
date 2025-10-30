@@ -13,6 +13,14 @@ import java.util.concurrent.TimeUnit
 
 private const val FIVE_MINUTES = 5L
 private const val FIFTEEN_MINUTES = 15L
+private const val THIRTY_MINUTES = 30L
+private const val ONE_HOUR = 1L
+private const val TWO_HOURS = 2L
+private const val SIX_HOURS = 6L
+private const val TWELVE_HOURS = 12L
+private const val ONE_DAY = 1L
+private const val THREE_DAYS = 3L
+private const val SEVEN_DAYS = 7L
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -100,14 +108,14 @@ class SettingsActivity : AppCompatActivity() {
         val values = longArrayOf(
             TimeUnit.MINUTES.toMillis(FIVE_MINUTES),
             TimeUnit.MINUTES.toMillis(FIFTEEN_MINUTES),
-            TimeUnit.MINUTES.toMillis(30),
-            TimeUnit.HOURS.toMillis(1),
-            TimeUnit.HOURS.toMillis(2),
-            TimeUnit.HOURS.toMillis(6),
-            TimeUnit.HOURS.toMillis(12),
-            TimeUnit.DAYS.toMillis(1),
-            TimeUnit.DAYS.toMillis(3),
-            TimeUnit.DAYS.toMillis(7)
+            TimeUnit.MINUTES.toMillis(THIRTY_MINUTES),
+            TimeUnit.HOURS.toMillis(ONE_HOUR),
+            TimeUnit.HOURS.toMillis(TWO_HOURS),
+            TimeUnit.HOURS.toMillis(SIX_HOURS),
+            TimeUnit.HOURS.toMillis(TWELVE_HOURS),
+            TimeUnit.DAYS.toMillis(ONE_DAY),
+            TimeUnit.DAYS.toMillis(THREE_DAYS),
+            TimeUnit.DAYS.toMillis(SEVEN_DAYS)
         )
 
         AlertDialog.Builder(this)
