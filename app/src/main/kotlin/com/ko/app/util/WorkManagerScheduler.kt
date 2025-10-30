@@ -10,10 +10,11 @@ import java.util.concurrent.TimeUnit
 object WorkManagerScheduler {
 
     private const val DELETION_WORK_NAME = "screenshot_deletion_work"
+    private const val DELETION_INTERVAL_MINUTES = 15L
 
     fun scheduleDeletionWork(context: Context) {
         val deletionWorkRequest = PeriodicWorkRequestBuilder<ScreenshotDeletionWorker>(
-            15,
+            DELETION_INTERVAL_MINUTES,
             TimeUnit.MINUTES
         ).build()
 

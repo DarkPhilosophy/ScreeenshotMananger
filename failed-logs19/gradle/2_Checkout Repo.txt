@@ -1,0 +1,69 @@
+﻿2025-10-30T21:03:32.1286931Z ##[group]Run actions/checkout@v4
+2025-10-30T21:03:32.1287644Z with:
+2025-10-30T21:03:32.1287974Z   repository: DarkPhilosophy/Ko
+2025-10-30T21:03:32.1288536Z   token: ***
+2025-10-30T21:03:32.1288824Z   ssh-strict: true
+2025-10-30T21:03:32.1289106Z   ssh-user: git
+2025-10-30T21:03:32.1289404Z   persist-credentials: true
+2025-10-30T21:03:32.1289731Z   clean: true
+2025-10-30T21:03:32.1290033Z   sparse-checkout-cone-mode: true
+2025-10-30T21:03:32.1290406Z   fetch-depth: 1
+2025-10-30T21:03:32.1290711Z   fetch-tags: false
+2025-10-30T21:03:32.1291014Z   show-progress: true
+2025-10-30T21:03:32.1291314Z   lfs: false
+2025-10-30T21:03:32.1291590Z   submodules: false
+2025-10-30T21:03:32.1291896Z   set-safe-directory: true
+2025-10-30T21:03:32.1292721Z ##[endgroup]
+2025-10-30T21:03:32.2359458Z Syncing repository: DarkPhilosophy/Ko
+2025-10-30T21:03:32.2360980Z ##[group]Getting Git version info
+2025-10-30T21:03:32.2361466Z Working directory is '/home/runner/work/Ko/Ko'
+2025-10-30T21:03:32.2362314Z [command]/usr/bin/git version
+2025-10-30T21:03:32.2417532Z git version 2.51.0
+2025-10-30T21:03:32.2443656Z ##[endgroup]
+2025-10-30T21:03:32.2457391Z Temporarily overriding HOME='/home/runner/work/_temp/2e734f27-96dc-4b61-b53e-82c0b84427b8' before making global git config changes
+2025-10-30T21:03:32.2458439Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-30T21:03:32.2470274Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Ko/Ko
+2025-10-30T21:03:32.2504513Z Deleting the contents of '/home/runner/work/Ko/Ko'
+2025-10-30T21:03:32.2508024Z ##[group]Initializing the repository
+2025-10-30T21:03:32.2511924Z [command]/usr/bin/git init /home/runner/work/Ko/Ko
+2025-10-30T21:03:32.2632985Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-30T21:03:32.2634534Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-30T21:03:32.2635797Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-30T21:03:32.2636790Z hint:
+2025-10-30T21:03:32.2637460Z hint: 	git config --global init.defaultBranch <name>
+2025-10-30T21:03:32.2638405Z hint:
+2025-10-30T21:03:32.2639366Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-30T21:03:32.2640886Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-30T21:03:32.2642407Z hint:
+2025-10-30T21:03:32.2643177Z hint: 	git branch -m <name>
+2025-10-30T21:03:32.2643903Z hint:
+2025-10-30T21:03:32.2644926Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-30T21:03:32.2646359Z Initialized empty Git repository in /home/runner/work/Ko/Ko/.git/
+2025-10-30T21:03:32.2651349Z [command]/usr/bin/git remote add origin https://github.com/DarkPhilosophy/Ko
+2025-10-30T21:03:32.2686543Z ##[endgroup]
+2025-10-30T21:03:32.2687465Z ##[group]Disabling automatic garbage collection
+2025-10-30T21:03:32.2691547Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-30T21:03:32.2720358Z ##[endgroup]
+2025-10-30T21:03:32.2721314Z ##[group]Setting up auth
+2025-10-30T21:03:32.2727900Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-30T21:03:32.2758012Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-30T21:03:32.3062568Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-30T21:03:32.3092450Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-30T21:03:32.3313313Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-30T21:03:32.3356551Z ##[endgroup]
+2025-10-30T21:03:32.3357550Z ##[group]Fetching the repository
+2025-10-30T21:03:32.3366135Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9b75fa5a4aa37055c05028289d7461f09c2aeb03:refs/remotes/origin/main
+2025-10-30T21:03:32.6411915Z From https://github.com/DarkPhilosophy/Ko
+2025-10-30T21:03:32.6413520Z  * [new ref]         9b75fa5a4aa37055c05028289d7461f09c2aeb03 -> origin/main
+2025-10-30T21:03:32.6444965Z ##[endgroup]
+2025-10-30T21:03:32.6445683Z ##[group]Determining the checkout info
+2025-10-30T21:03:32.6447432Z ##[endgroup]
+2025-10-30T21:03:32.6453227Z [command]/usr/bin/git sparse-checkout disable
+2025-10-30T21:03:32.6496099Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-30T21:03:32.6525114Z ##[group]Checking out the ref
+2025-10-30T21:03:32.6529364Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-10-30T21:03:32.6622427Z Switched to a new branch 'main'
+2025-10-30T21:03:32.6626395Z branch 'main' set up to track 'origin/main'.
+2025-10-30T21:03:32.6631017Z ##[endgroup]
+2025-10-30T21:03:32.6668951Z [command]/usr/bin/git log -1 --format=%H
+2025-10-30T21:03:32.6691782Z 9b75fa5a4aa37055c05028289d7461f09c2aeb03
