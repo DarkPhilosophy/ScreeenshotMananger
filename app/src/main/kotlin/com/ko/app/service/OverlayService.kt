@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit
 private const val FIFTEEN_MINUTES = 15L
 private const val THREE_DAYS = 3L
 private const val ONE_WEEK = 7L
+private const val ANIMATION_TRANSLATION_Y = 100f
+private const val ANIMATION_DURATION_MS = 300L
 
 class OverlayService : Service() {
 
@@ -139,10 +141,10 @@ class OverlayService : Service() {
     private fun animateOverlayIn() {
         overlayView?.let { view ->
             view.alpha = 0f
-            view.translationY = 100f
+            view.translationY = ANIMATION_TRANSLATION_Y
 
             ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
-                duration = 300
+                duration = ANIMATION_DURATION_MS
                 start()
             }
 
