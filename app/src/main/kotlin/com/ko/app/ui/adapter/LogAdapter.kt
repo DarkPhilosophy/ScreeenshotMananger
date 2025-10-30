@@ -11,6 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ko.app.R
 import com.ko.app.util.DebugLogger
 
+private const val COLOR_DEBUG = "#AAAAAA"
+private const val COLOR_INFO = "#00FF00"
+private const val COLOR_WARNING = "#FFA500"
+private const val COLOR_ERROR = "#FF0000"
+
 class LogAdapter : ListAdapter<DebugLogger.LogEntry, LogAdapter.LogViewHolder>(LogDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogViewHolder {
@@ -31,10 +36,10 @@ class LogAdapter : ListAdapter<DebugLogger.LogEntry, LogAdapter.LogViewHolder>(L
 
             // Color code by log level
             val color = when (entry.level) {
-                DebugLogger.LogLevel.DEBUG -> Color.parseColor("#AAAAAA")
-                DebugLogger.LogLevel.INFO -> Color.parseColor("#00FF00")
-                DebugLogger.LogLevel.WARNING -> Color.parseColor("#FFA500")
-                DebugLogger.LogLevel.ERROR -> Color.parseColor("#FF0000")
+                DebugLogger.LogLevel.DEBUG -> Color.parseColor(COLOR_DEBUG)
+                DebugLogger.LogLevel.INFO -> Color.parseColor(COLOR_INFO)
+                DebugLogger.LogLevel.WARNING -> Color.parseColor(COLOR_WARNING)
+                DebugLogger.LogLevel.ERROR -> Color.parseColor(COLOR_ERROR)
             }
             logText.setTextColor(color)
         }

@@ -22,29 +22,16 @@ object DebugLogger {
         val message: String,
         val throwable: Throwable? = null
     ) {
-        fun getFormattedMessage(): String {
-            val time = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.getDefault())
-                .format(java.util.Date(timestamp))
-            val levelStr = level.name.padEnd(7)
-            val tagStr = tag.padEnd(30)
-            val baseMessage = "[$time] [$levelStr] [$tagStr] $message"
-
-            return if (throwable != null) {
-                val stackTrace = throwable.stackTraceToString()
-                "$baseMessage\n$stackTrace"
-            } else {
-                baseMessage
-            }
-        }
-    } {
-        fun getFormattedTimestamp(): String {
+        private fun getFormattedTimestamp(): String {
             val sdf = SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
             return sdf.format(Date(timestamp))
         }
 
         fun getFormattedMessage(): String {
+            val levelStr = level.name.padEnd(7)
+            val tagStr = tag.padEnd(30)
             val throwableStr = throwable?.let { "\n${Log.getStackTraceString(it)}" } ?: ""
-            return "[${getFormattedTimestamp()}] [${level.name}] [$tag] $message$throwableStr"
+            return "[${getFormattedTimestamp()}] [$levelStr] [$tagStr] $message$throwableStr"
         }
     }
 
