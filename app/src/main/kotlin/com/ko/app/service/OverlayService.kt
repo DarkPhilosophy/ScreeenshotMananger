@@ -148,8 +148,8 @@ class OverlayService : Service() {
                 start()
             }
 
-            ObjectAnimator.ofFloat(view, "translationY", 100f, 0f).apply {
-                duration = 300
+            ObjectAnimator.ofFloat(view, "translationY", ANIMATION_TRANSLATION_Y, 0f).apply {
+                duration = ANIMATION_DURATION_MS
                 interpolator = DecelerateInterpolator()
                 start()
             }
