@@ -133,7 +133,7 @@ class DebugConsoleActivity : AppCompatActivity() {
                         shareLogs(logsContent)
                     }
                     .show()
-            } catch (e: Exception) {
+            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 AlertDialog.Builder(this@DebugConsoleActivity)
                     .setTitle("Export Failed")
                     .setMessage("Failed to export logs: ${e.message}")

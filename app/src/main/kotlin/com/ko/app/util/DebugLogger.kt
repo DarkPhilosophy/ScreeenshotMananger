@@ -10,6 +10,8 @@ object DebugLogger {
 
     private const val MAX_LOG_ENTRIES = 500
     private const val TAG = "KoScreenshot"
+    private const val LEVEL_PADDING = 7
+    private const val TAG_PADDING = 30
 
     enum class LogLevel {
         DEBUG, INFO, WARNING, ERROR
@@ -28,8 +30,8 @@ object DebugLogger {
         }
 
         fun getFormattedMessage(): String {
-            val levelStr = level.name.padEnd(7)
-            val tagStr = tag.padEnd(30)
+            val levelStr = level.name.padEnd(LEVEL_PADDING)
+            val tagStr = tag.padEnd(TAG_PADDING)
             val throwableStr = throwable?.let { "\n${Log.getStackTraceString(it)}" } ?: ""
             return "[${getFormattedTimestamp()}] [$levelStr] [$tagStr] $message$throwableStr"
         }
