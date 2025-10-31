@@ -58,6 +58,7 @@ class SettingsActivity : AppCompatActivity() {
         setupToolbar()
         loadSettings()
         setupListeners()
+        setupAboutSection()
     }
 
     private fun setupToolbar() {
@@ -65,6 +66,18 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             finish()
+        }
+    }
+
+    private fun setupAboutSection() {
+        binding.versionText.text = "Version: ${BuildConfig.VERSION_NAME}"
+        
+        binding.emailText.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:ualexen92@gmail.com")
+                putExtra(Intent.EXTRA_SUBJECT, "Ko App Feedback")
+            }
+            startActivity(Intent.createChooser(intent, "Send Email"))
         }
     }
 
