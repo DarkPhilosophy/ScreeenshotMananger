@@ -46,16 +46,9 @@ class ScreenshotMonitorService : Service() {
         startForeground(NOTIFICATION_ID, createForegroundNotification())
         setupContentObserver()
 
-        // Only scan existing screenshots on first launch
         serviceScope.launch {
-            val isFirstLaunch = app.preferences.isFirstLaunch.first()
-            if (isFirstLaunch) {
-                DebugLogger.info("ScreenshotMonitorService", "First launch detected, scanning existing screenshots")
-                scanExistingScreenshots()
-                app.preferences.setFirstLaunch(false)
-            } else {
-                DebugLogger.info("ScreenshotMonitorService", "Not first launch, skipping scan")
-            }
+            DebugLogger.info("ScreenshotMonitorService", "Scanning existing screenshots")
+            scanExistingScreenshots()
         }
     }
 
