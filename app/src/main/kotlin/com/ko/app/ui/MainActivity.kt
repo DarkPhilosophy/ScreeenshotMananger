@@ -95,19 +95,20 @@ class MainActivity : AppCompatActivity() {
         observeServiceStatus()
 
         lifecycleScope.launch {
-            if (app.preferences.isFirstLaunch.first()) {
+            val isFirstLaunch = app.preferences.isFirstLaunch.first()
+            val isServiceEnabled = app.preferences.serviceEnabled.first()
+
+            if (isFirstLaunch) {
                 showWelcomeDialog()
                 app.preferences.setFirstLaunch(false)
+            }
 
-                if (app.preferences.serviceEnabled.first()) {
-                    val serviceIntent = Intent(this@MainActivity, ScreenshotMonitorService::class.java).apply {
-                        putExtra("scan_existing", true)
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startForegroundService(serviceIntent)
-                    } else {
-                        startService(serviceIntent)
-                    }
+            if (isServiceEnabled) {
+                val serviceIntent = Intent(this@MainActivity, ScreenshotMonitorService::class.java)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(serviceIntent)
+                } else {
+                    startService(serviceIntent)
                 }
             }
         }
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         if (isPermissionDialogOpen) {
             updatePermissionSwitches?.invoke()
         }
+        refreshCurrentTab()
     }
 
     private fun setupToolbar() {
