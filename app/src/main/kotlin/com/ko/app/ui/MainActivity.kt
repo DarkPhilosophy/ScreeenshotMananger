@@ -392,7 +392,16 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_permissions -> {
-                requestPermissions()
+                val missingPerms = getMissingPermissions()
+                if (missingPerms.isEmpty()) {
+                    AlertDialog.Builder(this)
+                        .setTitle("Permissions Status")
+                        .setMessage("✓ All permissions are granted!\n\nThe app has all required permissions to function properly.")
+                        .setPositiveButton("OK", null)
+                        .show()
+                } else {
+                    showMissingPermissionsDialog(missingPerms)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
