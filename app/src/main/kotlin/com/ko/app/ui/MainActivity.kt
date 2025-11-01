@@ -170,8 +170,8 @@ class MainActivity : AppCompatActivity() {
                     if (missingPerms.isEmpty()) {
                         startMonitoringService()
                     } else {
-                        binding.serviceSwitch.isChecked = false
-                        showMissingPermissionsDialog(missingPerms)
+                    binding.serviceSwitch.isChecked = false
+                    showDetailedPermissionsStatus()
                     }
                 } else {
                     stopMonitoringService()
@@ -324,6 +324,13 @@ class MainActivity : AppCompatActivity() {
                 setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start1, length, 0)
             } else {
                 setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start1, length, 0)
+                setSpan(object : android.text.style.ClickableSpan() {
+                    override fun onClick(widget: android.view.View) {
+                        startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", packageName, null)
+                        })
+                    }
+                }, 0, length, 0)
             }
             append("\n")
 
@@ -334,6 +341,11 @@ class MainActivity : AppCompatActivity() {
                 setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start2, length, 0)
             } else {
                 setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start2, length, 0)
+                setSpan(object : android.text.style.ClickableSpan() {
+                    override fun onClick(widget: android.view.View) {
+                        startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+                    }
+                }, 0, length, 0)
             }
             append("\n")
 
@@ -344,6 +356,13 @@ class MainActivity : AppCompatActivity() {
                 setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start3, length, 0)
             } else {
                 setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start3, length, 0)
+                setSpan(object : android.text.style.ClickableSpan() {
+                    override fun onClick(widget: android.view.View) {
+                        startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
+                            data = Uri.parse("package:$packageName")
+                        })
+                    }
+                }, 0, length, 0)
             }
             append("\n\n")
 
@@ -359,20 +378,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        AlertDialog.Builder(this)
-            .setTitle("Permission Status")
-            .setMessage(message)
-            .setPositiveButton(if (allGranted) "OK" else "Go to Settings") { _, _ ->
-                if (!allGranted) {
-                    startActivity(
-                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", packageName, null)
-                        }
-                    )
-                }
-            }
-            .setNegativeButton(if (allGranted) null else "Cancel", null)
-            .show()
+        val dialog = AlertDialog.Builder(this)
+        .setTitle("Permission Status")
+        .setMessage(message)
+        .setPositiveButton(if (allGranted) "OK" else "Go to Settings") { _, _ ->
+        if (!allGranted) {
+        startActivity(
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", packageName, null)
+        }
+        )
+        }
+        }
+        .setNegativeButton(if (allGranted) null else "Cancel", null)
+        .create()
+
+        dialog.show()
+        (dialog.findViewById(android.R.id.message) as? android.widget.TextView)?.movementMethod = android.text.method.LinkMovementMethod.getInstance()
     }
 
     private fun showMissingPermissionsDialog(missingPerms: List<String>) {
