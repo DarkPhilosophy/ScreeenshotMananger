@@ -282,11 +282,16 @@ class MainActivity : AppCompatActivity() {
                         hasMore = false
                     }
                     allScreenshots.addAll(newItems)
+                    val listToSubmit = allScreenshots.toList()
                     DebugLogger.info("MainActivity", "Total screenshots: ${allScreenshots.size}, submitting to adapter")
-                    adapter.submitList(allScreenshots.toList())
+                    DebugLogger.info("MainActivity", "RecyclerView visibility: ${binding.screenshotsRecyclerView.visibility}, height: ${binding.screenshotsRecyclerView.height}")
+                    DebugLogger.info("MainActivity", "Adapter itemCount before submit: ${adapter.itemCount}")
+                    adapter.submitList(listToSubmit)
+                    DebugLogger.info("MainActivity", "Adapter itemCount after submit: ${adapter.itemCount}")
                     currentOffset += newItems.size
                     binding.loadingProgress.visibility = View.GONE
                     binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
+                    DebugLogger.info("MainActivity", "EmptyState visibility: ${binding.emptyStateText.visibility}")
                 }
             } catch (@Suppress("SwallowedException") e: Exception) {
                 DebugLogger.error("MainActivity", "Error loading screenshots", e)

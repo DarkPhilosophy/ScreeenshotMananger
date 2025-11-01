@@ -254,6 +254,9 @@ class ScreenshotMonitorService : Service() {
 
             notificationHelper.showScreenshotNotification(id, fileName, deletionTimestamp)
             DebugLogger.info("ScreenshotMonitorService", "Notification shown for screenshot ID: $id")
+            
+            val broadcastIntent = Intent("com.ko.app.SCREENSHOTS_SCANNED")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
         }
     }
 
