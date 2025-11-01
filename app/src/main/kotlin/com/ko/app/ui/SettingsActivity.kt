@@ -278,7 +278,25 @@ class SettingsActivity : AppCompatActivity() {
 
             // Save folder URI to preferences
             lifecycleScope.launch {
-                app.preferences.setScreenshotFolder(uri.toString())
+            app.preferences.setScreenshotFolder(uri.toString())
+
+                // Restart service if running to re-scan with new folder
+                val isServiceEnabled = app.preferences.serviceEnabled.first()
+                if (isServiceEnabled) {
+                    // Stop current service
+                    val stopIntent = Intent(this@SettingsActivity, com.ko.app.service.ScreenshotMonitorService::class.java)
+                    stopService(stopIntent)
+
+                    // Start with new folder
+                    val startIntent = Intent(this@SettingsActivity, com.ko.app.service.ScreenshotMonitorService::class.java).apply {
+                        putExtra("scan_existing", true)
+                    }
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        startForegroundService(startIntent)
+                    } else {
+                        startService(startIntent)
+                    }
+                }
             }
 
             // Show success message

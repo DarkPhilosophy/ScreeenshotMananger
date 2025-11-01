@@ -253,7 +253,7 @@ class ScreenshotMonitorService : Service() {
                 DebugLogger.info("ScreenshotMonitorService", "Starting scan of existing screenshots")
 
                 val configuredFolder = app.preferences.screenshotFolder.first()
-                val screenshotFolder = if (configuredFolder.isNotEmpty()) {
+                val screenshotFolder = if (configuredFolder.isNotEmpty() && configuredFolder != "Pictures/Screenshots") {
                     // Decode URI to path
                     java.net.URLDecoder.decode(configuredFolder, "UTF-8").let { decoded ->
                         when {

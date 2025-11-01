@@ -87,6 +87,8 @@ class MainActivity : AppCompatActivity() {
             scanExistingScreenshots()
         }
 
+        // Also scan in service if running, but since service scans on start, ok
+
         lifecycleScope.launch {
             if (app.preferences.isFirstLaunch.first()) {
                 showWelcomeDialog()
@@ -239,7 +241,7 @@ class MainActivity : AppCompatActivity() {
                 DebugLogger.info("MainActivity", "Scanning existing screenshots on app start")
 
                 val configuredFolder = app.preferences.screenshotFolder.first()
-                val screenshotFolder = if (configuredFolder.isNotEmpty()) {
+                val screenshotFolder = if (configuredFolder.isNotEmpty() && configuredFolder != "Pictures/Screenshots") {
                     // Decode URI to path
                     java.net.URLDecoder.decode(configuredFolder, "UTF-8").let { decoded ->
                         when {
