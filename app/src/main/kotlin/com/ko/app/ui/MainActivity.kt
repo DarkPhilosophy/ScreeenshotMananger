@@ -180,24 +180,21 @@ class MainActivity : AppCompatActivity() {
         setHasFixedSize(true)
         }
 
-        binding.screenshotsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy <= 0) return
-                
+        binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY) {
                 val currentTime = System.currentTimeMillis()
-                if (currentTime - lastPaginationTime < PAGINATION_DEBOUNCE_MS) return
+                if (currentTime - lastPaginationTime < PAGINATION_DEBOUNCE_MS) return@setOnScrollChangeListener
                 
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                if (!isLoading && hasMore && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 5) {
+                val view = binding.nestedScrollView.getChildAt(binding.nestedScrollView.childCount - 1)
+                val diff = view.bottom - (binding.nestedScrollView.height + scrollY)
+                
+                if (diff < 100 && !isLoading && hasMore) {
+                    DebugLogger.info("MainActivity", "Scroll threshold reached, loading more")
                     lastPaginationTime = currentTime
                     loadPagedScreenshots()
                 }
             }
-        })
+        }
     }
 
     private fun setupTabs() {
@@ -290,8 +287,15 @@ class MainActivity : AppCompatActivity() {
                     DebugLogger.info("MainActivity", "Adapter itemCount after submit: ${adapter.itemCount}")
                     currentOffset += newItems.size
                     binding.loadingProgress.visibility = View.GONE
-                    binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
-                    DebugLogger.info("MainActivity", "EmptyState visibility: ${binding.emptyStateText.visibility}")
+                    
+                    if (allScreenshots.isEmpty()) {
+                        binding.emptyStateText.visibility = View.VISIBLE
+                        binding.screenshotsRecyclerView.visibility = View.GONE
+                    } else {
+                        binding.emptyStateText.visibility = View.GONE
+                        binding.screenshotsRecyclerView.visibility = View.VISIBLE
+                    }
+                    DebugLogger.info("MainActivity", "EmptyState visibility: ${binding.emptyStateText.visibility}, RecyclerView visibility: ${binding.screenshotsRecyclerView.visibility}")
                 }
             } catch (@Suppress("SwallowedException") e: Exception) {
                 DebugLogger.error("MainActivity", "Error loading screenshots", e)
