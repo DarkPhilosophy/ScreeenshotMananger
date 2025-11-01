@@ -79,7 +79,18 @@ class OverlayService : Service() {
     private fun showOverlay() {
         try {
             DebugLogger.info("OverlayService", "Attempting to show overlay")
-            windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+            
+            if (overlayView != null) {
+                DebugLogger.warning("OverlayService", "Overlay already shown, skipping")
+                return
+            }
+            
+            windowManager = getSystemService(WINDOW_SERVICE) as? WindowManager
+            if (windowManager == null) {
+                DebugLogger.error("OverlayService", "WindowManager is null")
+                stopSelf()
+                return
+            }
 
             val layoutType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -100,21 +111,25 @@ class OverlayService : Service() {
             }
 
             overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null)
-
             setupButtons()
-
             windowManager?.addView(overlayView, params)
-            DebugLogger.info("OverlayService", "Overlay view added to window manager")
-
+            DebugLogger.info("OverlayService", "Overlay view added successfully")
             animateOverlayIn()
         } catch (e: WindowManager.BadTokenException) {
-            DebugLogger.error("OverlayService", "BadTokenException - overlay permission issue", e)
+            DebugLogger.error("OverlayService", "BadTokenException - window token invalid", e)
+            overlayView = null
             stopSelf()
         } catch (e: SecurityException) {
-            DebugLogger.error("OverlayService", "SecurityException - overlay permission denied", e)
+            DebugLogger.error("OverlayService", "SecurityException - permission denied", e)
+            overlayView = null
+            stopSelf()
+        } catch (e: IllegalStateException) {
+            DebugLogger.error("OverlayService", "IllegalStateException - invalid state", e)
+            overlayView = null
             stopSelf()
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
-            DebugLogger.error("OverlayService", "Unexpected error showing overlay", e)
+            DebugLogger.error("OverlayService", "Crash prevented: ${e.javaClass.simpleName} - ${e.message}", e)
+            overlayView = null
             stopSelf()
         }
     }

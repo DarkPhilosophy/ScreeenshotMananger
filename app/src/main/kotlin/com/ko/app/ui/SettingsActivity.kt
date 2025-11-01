@@ -92,20 +92,20 @@ class SettingsActivity : AppCompatActivity() {
             val notificationsEnabled = app.preferences.notificationsEnabled.first()
             binding.notificationsSwitch.isChecked = notificationsEnabled
 
-            val folder = app.preferences.screenshotFolder.first()
-            binding.folderPathText.text = if (folder.isEmpty()) {
-                "Default (Pictures/Screenshots)"
+            val currentFolder = app.preferences.screenshotFolder.first()
+            if (currentFolder.isEmpty()) {
+                binding.folderPathText.text = "Default (Pictures/Screenshots)"
             } else {
-                folder
-                    .replace("content://com.android.externalstorage.documents/tree/", "")
-                    .replace(Regex("%[0-9A-F]{2}")) { 
-                        when (it.value) {
-                            "%3A" -> ":"
-                            "%2F" -> "/"
-                            else -> it.value
-                        }
+                val decoded = java.net.URLDecoder.decode(currentFolder, "UTF-8")
+                val path = when {
+                    decoded.contains("primary:") -> decoded.substringAfter("primary:").replace("/", " > ")
+                    decoded.contains("tree/") -> {
+                        val parts = decoded.substringAfter("tree/").split(":")
+                        if (parts.size >= 2) "${parts[0]}:${parts[1].replace("/", " > ")}" else decoded
                     }
-                    .substringBefore("/document/")
+                    else -> decoded
+                }
+                binding.folderPathText.text = path
             }
         }
     }
