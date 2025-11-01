@@ -25,6 +25,12 @@ class ScreenshotAdapter(
     private val onImageClick: (Screenshot) -> Unit
 ) : ListAdapter<Screenshot, ScreenshotAdapter.ScreenshotViewHolder>(ScreenshotDiffCallback()) {
 
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long = getItem(position).id
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScreenshotViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_screenshot, parent, false)
@@ -59,7 +65,9 @@ class ScreenshotAdapter(
 
             Glide.with(itemView.context)
                 .load(file)
+                .override(200, 200)
                 .centerCrop()
+                .dontAnimate()
                 .placeholder(android.R.drawable.ic_menu_gallery)
                 .into(thumbnail)
 

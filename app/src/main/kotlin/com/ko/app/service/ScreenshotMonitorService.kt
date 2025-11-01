@@ -53,7 +53,7 @@ class ScreenshotMonitorService : Service() {
             // Clean up expired screenshots with deleted files
             val currentTime = System.currentTimeMillis()
             val expired = app.repository.getExpiredScreenshots(currentTime)
-                .filter { !java.io.File(it.filePath).exists() }
+                .filter { !File(it.filePath).exists() }
             expired.forEach { screenshot ->
                 app.repository.delete(screenshot)
                 DebugLogger.info("ScreenshotMonitorService", "Cleaned up expired screenshot: ${screenshot.fileName}")
@@ -290,11 +290,9 @@ class ScreenshotMonitorService : Service() {
                 val count = imageFiles?.size ?: 0
                 DebugLogger.info("ScreenshotMonitorService", "Found $count existing screenshot files")
 
-                var imported = 0
-                imageFiles?.forEach { file ->
-                    val existing = app.repository.getByFilePath(file.absolutePath)
-                    if (existing == null && file.exists() && file.length() > 0) {
-                        val screenshot = Screenshot(
+                val screenshotsToImport = imageFiles?.mapNotNull { file ->
+                    if (file.exists() && file.length() > 0) {
+                        Screenshot(
                             filePath = file.absolutePath,
                             fileName = file.name,
                             fileSize = file.length(),
@@ -303,10 +301,15 @@ class ScreenshotMonitorService : Service() {
                             isMarkedForDeletion = false,
                             isKept = false
                         )
-                        app.repository.insert(screenshot)
-                        imported++
+                    } else null
+                } ?: emptyList()
+
+                val imported = if (screenshotsToImport.isNotEmpty()) {
+                    screenshotsToImport.chunked(500).sumOf { chunk ->
+                        app.repository.insertAll(chunk).count { it > 0 }
                     }
-                }
+                } else 0
+
                 DebugLogger.info("ScreenshotMonitorService", "Imported $imported new screenshots from existing files")
             } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 DebugLogger.error("ScreenshotMonitorService", "Error scanning existing screenshots", e)

@@ -17,6 +17,9 @@ interface ScreenshotDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(screenshot: Screenshot): Long
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(screenshots: List<Screenshot>): List<Long>
+
     @Update
     suspend fun update(screenshot: Screenshot)
 

@@ -5,7 +5,7 @@ import com.ko.app.data.dao.ScreenshotDao
 import com.ko.app.data.entity.Screenshot
 import kotlinx.coroutines.flow.Flow
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "unused")
 class ScreenshotRepository(private val screenshotDao: ScreenshotDao) {
 
     fun getAllScreenshots(): Flow<List<Screenshot>> {
@@ -38,6 +38,10 @@ class ScreenshotRepository(private val screenshotDao: ScreenshotDao) {
 
     suspend fun insert(screenshot: Screenshot): Long {
         return screenshotDao.insert(screenshot)
+    }
+
+    suspend fun insertAll(screenshots: List<Screenshot>): List<Long> {
+        return screenshotDao.insertAll(screenshots)
     }
 
     suspend fun update(screenshot: Screenshot) {

@@ -4,11 +4,9 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
@@ -28,7 +26,6 @@ import com.ko.app.ScreenshotApp
 import com.ko.app.databinding.ActivityMainBinding
 import com.ko.app.service.ScreenshotMonitorService
 import com.ko.app.ui.adapter.ScreenshotAdapter
-import com.ko.app.util.DebugLogger
 import com.ko.app.util.NotificationHelper
 import com.ko.app.util.PermissionUtils
 import com.ko.app.util.WorkManagerScheduler
@@ -42,6 +39,10 @@ import java.io.File
 @Suppress("TooManyFunctions")
 class MainActivity : AppCompatActivity() {
 
+    private companion object {
+        private const val PAGINATION_DEBOUNCE_MS = 300L
+    }
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var app: ScreenshotApp
     private lateinit var adapter: ScreenshotAdapter
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     private var isPermissionDialogOpen = false
     private var updatePermissionSwitches: (() -> Unit)? = null
     private var loadJob: Job? = null
+    private var lastPaginationTime = 0L
 
     private val storagePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -91,13 +93,6 @@ class MainActivity : AppCompatActivity() {
 
         loadPagedScreenshots()
         observeServiceStatus()
-
-        // Scan existing screenshots on app start if permissions granted
-        if (PermissionUtils.hasStoragePermission(this)) {
-            scanExistingScreenshots()
-        }
-
-        // Also scan in service if running, but since service scans on start, ok
 
         lifecycleScope.launch {
             if (app.preferences.isFirstLaunch.first()) {
@@ -157,16 +152,23 @@ class MainActivity : AppCompatActivity() {
         binding.screenshotsRecyclerView.apply {
         layoutManager = LinearLayoutManager(this@MainActivity)
         adapter = this@MainActivity.adapter
+        setHasFixedSize(true)
         }
 
         binding.screenshotsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                if (dy <= 0) return
+                
+                val currentTime = System.currentTimeMillis()
+                if (currentTime - lastPaginationTime < PAGINATION_DEBOUNCE_MS) return
+                
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val visibleItemCount = layoutManager.childCount
                 val totalItemCount = layoutManager.itemCount
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (!isLoading && hasMore && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 5) {
+                    lastPaginationTime = currentTime
                     loadPagedScreenshots()
                 }
             }
@@ -278,72 +280,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun scanExistingScreenshots() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                DebugLogger.info("MainActivity", "Scanning existing screenshots on app start")
 
-                val configuredFolder = app.preferences.screenshotFolder.first()
-                val screenshotFolder = if (configuredFolder.isNotEmpty() && configuredFolder != "Pictures/Screenshots") {
-                    // Decode URI to path
-                    java.net.URLDecoder.decode(configuredFolder, "UTF-8").let { decoded ->
-                        when {
-                            decoded.contains("primary:") -> Environment.getExternalStorageDirectory().absolutePath + "/" + decoded.substringAfter("primary:")
-                            decoded.contains("tree/") -> {
-                                val parts = decoded.substringAfter("tree/").split(":")
-                                if (parts.size >= 2) {
-                                    val path = parts[1]
-                                    Environment.getExternalStorageDirectory().absolutePath + "/" + path
-                                } else decoded
-                            }
-                            else -> decoded
-                        }
-                    }
-                } else {
-                    // Default
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath + "/Screenshots"
-                }
-
-                DebugLogger.info("MainActivity", "Scanning folder: $screenshotFolder")
-                val folder = File(screenshotFolder)
-                if (!folder.exists() || !folder.isDirectory) {
-                    DebugLogger.warning(
-                        "MainActivity",
-                        "Screenshot folder doesn't exist: $screenshotFolder, exists=${folder.exists()}, isDir=${folder.isDirectory}"
-                    )
-                    return@launch
-                }
-
-                val imageFiles = folder.listFiles { file ->
-                    file.isFile && (file.extension.lowercase() in listOf("png", "jpg", "jpeg"))
-                }
-
-                val count = imageFiles?.size ?: 0
-                DebugLogger.info("MainActivity", "Found $count existing screenshot files")
-
-                var imported = 0
-                imageFiles?.forEach { file ->
-                    val existing = app.repository.getByFilePath(file.absolutePath)
-                    if (existing == null && file.exists() && file.length() > 0) {
-                        val screenshot = com.ko.app.data.entity.Screenshot(
-                            filePath = file.absolutePath,
-                            fileName = file.name,
-                            fileSize = file.length(),
-                            createdAt = file.lastModified(),
-                            deletionTimestamp = null,
-                            isMarkedForDeletion = false,
-                            isKept = false
-                        )
-                        app.repository.insert(screenshot)
-                        imported++
-                    }
-                }
-                DebugLogger.info("MainActivity", "Imported $imported new screenshots from existing files")
-            } catch (e: Exception) {
-                DebugLogger.error("MainActivity", "Error scanning existing screenshots", e)
-            }
-        }
-    }
 
     private fun getMissingPermissions(): List<String> {
         return PermissionUtils.getMissingPermissions(this)
