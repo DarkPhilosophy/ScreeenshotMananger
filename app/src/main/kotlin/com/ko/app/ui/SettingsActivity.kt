@@ -93,7 +93,20 @@ class SettingsActivity : AppCompatActivity() {
             binding.notificationsSwitch.isChecked = notificationsEnabled
 
             val folder = app.preferences.screenshotFolder.first()
-            binding.folderPathText.text = folder
+            binding.folderPathText.text = if (folder.isEmpty()) {
+                "Default (Pictures/Screenshots)"
+            } else {
+                folder
+                    .replace("content://com.android.externalstorage.documents/tree/", "")
+                    .replace(Regex("%[0-9A-F]{2}")) { 
+                        when (it.value) {
+                            "%3A" -> ":"
+                            "%2F" -> "/"
+                            else -> it.value
+                        }
+                    }
+                    .substringBefore("/document/")
+            }
         }
     }
 

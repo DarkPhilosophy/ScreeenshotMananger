@@ -47,17 +47,24 @@ class OverlayService : Service() {
         DebugLogger.info("OverlayService", "onStartCommand called with screenshot ID: $screenshotId, path: $filePath")
 
         if (screenshotId != -1L) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val canDraw = android.provider.Settings.canDrawOverlays(this)
-                DebugLogger.info("OverlayService", "Overlay permission check: $canDraw")
-                if (canDraw) {
-                    showOverlay()
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val canDraw = android.provider.Settings.canDrawOverlays(this)
+                    DebugLogger.info("OverlayService", "Overlay permission check: $canDraw")
+                    if (canDraw) {
+                        showOverlay()
+                    } else {
+                        DebugLogger.error("OverlayService", "Overlay permission not granted - manual mode requires overlay permission")
+                        notificationHelper.showErrorNotification("Manual Mode Error", "Overlay permission required. Grant in app settings.")
+                        stopSelf()
+                    }
                 } else {
-                    DebugLogger.error("OverlayService", "Overlay permission not granted")
-                    stopSelf()
+                    showOverlay()
                 }
-            } else {
-                showOverlay()
+            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+                DebugLogger.error("OverlayService", "CRASH in manual mode: ${e.javaClass.simpleName} - ${e.message}", e)
+                notificationHelper.showErrorNotification("Manual Mode Crashed", "Error: ${e.javaClass.simpleName} - ${e.message}")
+                stopSelf()
             }
         } else {
             DebugLogger.error("OverlayService", "Invalid screenshot ID")
