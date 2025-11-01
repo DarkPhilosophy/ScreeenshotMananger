@@ -81,8 +81,10 @@ class MainActivity : AppCompatActivity() {
         observeScreenshots()
         observeServiceStatus()
 
-        // Scan existing screenshots on app start
-        scanExistingScreenshots()
+        // Scan existing screenshots on app start if permissions granted
+        if (PermissionUtils.hasStoragePermission(this)) {
+            scanExistingScreenshots()
+        }
 
         lifecycleScope.launch {
             if (app.preferences.isFirstLaunch.first()) {
@@ -240,10 +242,10 @@ class MainActivity : AppCompatActivity() {
                     // Decode URI to path
                     java.net.URLDecoder.decode(configuredFolder, "UTF-8").let { decoded ->
                         when {
-                            decoded.contains("primary:") -> decoded.substringAfter("primary:")
+                            decoded.contains("primary:") -> Environment.getExternalStorageDirectory().absolutePath + "/" + decoded.substringAfter("primary:")
                             decoded.contains("tree/") -> {
                                 val parts = decoded.substringAfter("tree/").split(":")
-                                if (parts.size >= 2) parts[1] else decoded
+                                if (parts.size >= 2) Environment.getExternalStorageDirectory().absolutePath + "/" + parts[1] else decoded
                             }
                             else -> decoded
                         }
