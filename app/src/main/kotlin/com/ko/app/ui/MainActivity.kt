@@ -183,9 +183,16 @@ class MainActivity : AppCompatActivity() {
                 1 -> app.repository.getKeptScreenshots()
                 else -> app.repository.getAllScreenshots()
             }.collect { screenshots ->
-                adapter.submitList(screenshots)
-                binding.emptyStateText.visibility =
-                    if (screenshots.isEmpty()) View.VISIBLE else View.GONE
+                if (screenshotsJob?.isActive == false) {
+                    DebugLogger.info("MainActivity", "Screenshot collection cancelled - user switched tabs")
+                    return@collect
+                }
+                
+                withContext(Dispatchers.Main) {
+                    adapter.submitList(screenshots)
+                    binding.emptyStateText.visibility =
+                        if (screenshots.isEmpty()) View.VISIBLE else View.GONE
+                }
             }
         }
     }
