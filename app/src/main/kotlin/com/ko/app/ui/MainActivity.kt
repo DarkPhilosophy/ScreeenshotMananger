@@ -251,14 +251,49 @@ class MainActivity : AppCompatActivity() {
 
         val allGranted = storageGranted && notificationGranted && overlayGranted
         
-        val message = buildString {
-            append("Read Screenshot     ${if (storageGranted) "[✓]" else "[✗]"}\n")
-            append("Notification Access ${if (notificationGranted) "[✓]" else "[✗]"}\n")
-            append("Overlay Permission  ${if (overlayGranted) "[✓]" else "[✗]"}\n\n")
-            if (allGranted) {
-                append("😁 Ready - All permissions granted!")
+        val greenCheck = "✓"
+        val redX = "✗"
+        
+        val message = android.text.SpannableStringBuilder().apply {
+            append("Read Screenshot     ")
+            val start1 = length
+            append(if (storageGranted) greenCheck else redX)
+            if (storageGranted) {
+                setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start1, length, 0)
             } else {
-                append("⚠️ Missing permissions detected")
+                setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start1, length, 0)
+            }
+            append("\n")
+            
+            append("Notification Access ")
+            val start2 = length
+            append(if (notificationGranted) greenCheck else redX)
+            if (notificationGranted) {
+                setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start2, length, 0)
+            } else {
+                setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start2, length, 0)
+            }
+            append("\n")
+            
+            append("Overlay Permission  ")
+            val start3 = length
+            append(if (overlayGranted) greenCheck else redX)
+            if (overlayGranted) {
+                setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), start3, length, 0)
+            } else {
+                setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), start3, length, 0)
+            }
+            append("\n\n")
+            
+            if (allGranted) {
+                val statusStart = length
+                append("😁 Ready")
+                setSpan(android.text.style.ForegroundColorSpan(0xFF4CAF50.toInt()), statusStart, length, 0)
+                setSpan(android.text.style.StyleSpan(android.graphics.Typeface.BOLD), statusStart, length, 0)
+            } else {
+                val statusStart = length
+                append("⚠️ Missing permissions")
+                setSpan(android.text.style.ForegroundColorSpan(0xFFF44336.toInt()), statusStart, length, 0)
             }
         }
 
