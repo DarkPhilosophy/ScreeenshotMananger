@@ -117,6 +117,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isPermissionDialogOpen) {
+            updatePermissionSwitches?.invoke()
+        }
+    }
+
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
     }
@@ -329,7 +336,6 @@ class MainActivity : AppCompatActivity() {
     val overlaySwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.overlaySwitch)
     val batterySwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.batterySwitch)
     val statusText = dialogView.findViewById<android.widget.TextView>(R.id.statusText)
-    val btnRefresh = dialogView.findViewById<android.widget.Button>(R.id.btnRefresh)
     val btnGoToSettings = dialogView.findViewById<android.widget.Button>(R.id.btnGoToSettings)
     val btnOK = dialogView.findViewById<android.widget.Button>(R.id.btnOK)
 
@@ -378,9 +384,6 @@ class MainActivity : AppCompatActivity() {
     isPermissionDialogOpen = true
     updatePermissionSwitches = { updateSwitches() }
 
-    btnRefresh.setOnClickListener {
-        updateSwitches()
-    }
     btnGoToSettings.setOnClickListener {
     startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
     data = Uri.fromParts("package", packageName, null)
