@@ -8,11 +8,7 @@ import androidx.core.app.NotificationCompat
 import com.ko.app.ScreenshotApp
 import com.ko.app.receiver.NotificationActionReceiver
 import com.ko.app.ui.MainActivity
-import java.util.concurrent.TimeUnit
-
-private const val HOURS_IN_DAY = 24L
-private const val MINUTES_IN_HOUR = 60L
-private const val SECONDS_IN_MINUTE = 60L
+import com.ko.app.util.TimeUtils
 
 class NotificationHelper(private val context: Context) {
 
@@ -21,7 +17,7 @@ class NotificationHelper(private val context: Context) {
 
     fun showScreenshotNotification(screenshotId: Long, fileName: String, deletionTimestamp: Long) {
         val timeRemaining = deletionTimestamp - System.currentTimeMillis()
-        val timeText = formatTimeRemaining(timeRemaining)
+        val timeText = TimeUtils.formatTimeRemaining(timeRemaining)
 
         val mainIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -62,9 +58,7 @@ class NotificationHelper(private val context: Context) {
         notificationManager.notify(screenshotId.toInt(), notification)
     }
 
-    fun updateScreenshotNotification(screenshotId: Long, fileName: String, deletionTimestamp: Long) {
-        showScreenshotNotification(screenshotId, fileName, deletionTimestamp)
-    }
+
 
     fun showErrorNotification(title: String, message: String) {
         val notification = NotificationCompat.Builder(context, ScreenshotApp.CHANNEL_ID_SCREENSHOT)
@@ -81,25 +75,5 @@ class NotificationHelper(private val context: Context) {
 
     fun cancelNotification(notificationId: Int) {
         notificationManager.cancel(notificationId)
-    }
-
-    private fun formatTimeRemaining(millis: Long): String {
-        if (millis <= 0) return "Expired"
-
-        val days = TimeUnit.MILLISECONDS.toDays(millis)
-        val hours = TimeUnit.MILLISECONDS.toHours(millis) % HOURS_IN_DAY
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % MINUTES_IN_HOUR
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % SECONDS_IN_MINUTE
-
-        return when {
-            days > 0 -> "${days}d ${hours}h"
-            hours > 0 -> "${hours}h ${minutes}m"
-            minutes > 0 -> "${minutes}m ${seconds}s"
-            else -> "${seconds}s"
-        }
-    }
-
-    companion object {
-        const val NOTIFICATION_ID_BASE = 2000
     }
 }

@@ -16,6 +16,7 @@ import com.ko.app.R
 import com.ko.app.ScreenshotApp
 import com.ko.app.util.DebugLogger
 import com.ko.app.util.NotificationHelper
+import com.ko.app.util.PermissionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,7 +33,7 @@ private const val DISMISS_TRANSLATION_Y = -100f
 
 class OverlayService : Service() {
 
-    private var windowManager: WindowManager? = null
+    private lateinit var windowManager: WindowManager
     private var overlayView: View? = null
     private val serviceScope = CoroutineScope(Dispatchers.Main + Job())
     private lateinit var notificationHelper: NotificationHelper
@@ -50,18 +51,12 @@ class OverlayService : Service() {
 
         if (screenshotId != -1L) {
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val canDraw = android.provider.Settings.canDrawOverlays(this)
-                    DebugLogger.info("OverlayService", "Overlay permission check: $canDraw")
-                    if (canDraw) {
-                        showOverlay()
-                    } else {
-                        DebugLogger.error("OverlayService", "Overlay permission not granted - manual mode requires overlay permission")
-                        notificationHelper.showErrorNotification("Manual Mode Error", "Overlay permission required. Grant in app settings.")
-                        stopSelf()
-                    }
-                } else {
+                if (PermissionUtils.hasOverlayPermission(this)) {
                     showOverlay()
+                } else {
+                    DebugLogger.error("OverlayService", "Overlay permission not granted - manual mode requires overlay permission")
+                    notificationHelper.showErrorNotification("Manual Mode Error", "Overlay permission required. Grant in app settings.")
+                    stopSelf()
                 }
             } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 DebugLogger.error("OverlayService", "CRASH in manual mode: ${e.javaClass.simpleName} - ${e.message}", e)
@@ -79,18 +74,13 @@ class OverlayService : Service() {
     private fun showOverlay() {
         try {
             DebugLogger.info("OverlayService", "Attempting to show overlay")
-            
+
             if (overlayView != null) {
                 DebugLogger.warning("OverlayService", "Overlay already shown, skipping")
                 return
             }
-            
-            windowManager = getSystemService(WINDOW_SERVICE) as? WindowManager
-            if (windowManager == null) {
-                DebugLogger.error("OverlayService", "WindowManager is null")
-                stopSelf()
-                return
-            }
+
+            windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
             val layoutType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -110,9 +100,10 @@ class OverlayService : Service() {
                 gravity = Gravity.CENTER
             }
 
-            overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null)
+            overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null, false)
             setupButtons()
-            windowManager?.addView(overlayView, params)
+            val wm = windowManager
+            wm.addView(overlayView, params)
             DebugLogger.info("OverlayService", "Overlay view added successfully")
             animateOverlayIn()
         } catch (e: WindowManager.BadTokenException) {
@@ -125,6 +116,10 @@ class OverlayService : Service() {
             stopSelf()
         } catch (e: IllegalStateException) {
             DebugLogger.error("OverlayService", "IllegalStateException - invalid state", e)
+            overlayView = null
+            stopSelf()
+        } catch (e: IllegalArgumentException) {
+            DebugLogger.error("OverlayService", "IllegalArgumentException - invalid layout params", e)
             overlayView = null
             stopSelf()
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
@@ -225,7 +220,9 @@ class OverlayService : Service() {
 
             view.postDelayed({
                 try {
-                    windowManager?.removeView(view)
+                    if (::windowManager.isInitialized) {
+                        windowManager.removeView(view)
+                    }
                 } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
                     e.printStackTrace()
                 }
@@ -238,7 +235,9 @@ class OverlayService : Service() {
         super.onDestroy()
         overlayView?.let {
             try {
-                windowManager?.removeView(it)
+                if (::windowManager.isInitialized) {
+                    windowManager.removeView(it)
+                }
             } catch (@Suppress("TooGenericExceptionCaught", "PrintStackTrace") e: Exception) {
                 e.printStackTrace()
             }

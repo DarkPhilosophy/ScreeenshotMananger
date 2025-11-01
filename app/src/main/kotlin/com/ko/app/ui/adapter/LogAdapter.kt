@@ -1,6 +1,5 @@
 package com.ko.app.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ko.app.R
 import com.ko.app.util.DebugLogger
 
-private const val COLOR_DEBUG = "#AAAAAA"
-private const val COLOR_INFO = "#00FF00"
-private const val COLOR_WARNING = "#FFA500"
-private const val COLOR_ERROR = "#FF0000"
+
 
 class LogAdapter : ListAdapter<DebugLogger.LogEntry, LogAdapter.LogViewHolder>(LogDiffCallback()) {
 
@@ -35,13 +31,13 @@ class LogAdapter : ListAdapter<DebugLogger.LogEntry, LogAdapter.LogViewHolder>(L
             logText.text = entry.getFormattedMessage()
 
             // Color code by log level
-            val color = when (entry.level) {
-                DebugLogger.LogLevel.DEBUG -> Color.parseColor(COLOR_DEBUG)
-                DebugLogger.LogLevel.INFO -> Color.parseColor(COLOR_INFO)
-                DebugLogger.LogLevel.WARNING -> Color.parseColor(COLOR_WARNING)
-                DebugLogger.LogLevel.ERROR -> Color.parseColor(COLOR_ERROR)
+            val colorRes = when (entry.level) {
+                DebugLogger.LogLevel.DEBUG -> R.color.log_debug
+                DebugLogger.LogLevel.INFO -> R.color.log_info
+                DebugLogger.LogLevel.WARNING -> R.color.log_warning
+                DebugLogger.LogLevel.ERROR -> R.color.log_error
             }
-            logText.setTextColor(color)
+            logText.setTextColor(itemView.context.getColor(colorRes))
         }
     }
 

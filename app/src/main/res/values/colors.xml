@@ -19,5 +19,11 @@
     
     <!-- Status bar -->
     <color name="status_bar">#6200EE</color>
+
+    <!-- Log colors -->
+    <color name="log_debug">#AAAAAA</color>
+    <color name="log_info">#00FF00</color>
+    <color name="log_warning">#FFA500</color>
+    <color name="log_error">#FF0000</color>
 </resources>
 

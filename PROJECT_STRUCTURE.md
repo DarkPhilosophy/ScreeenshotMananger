@@ -1,21 +1,25 @@
-# Ko - Project Structure Documentation
+# Ko - Screenshot Manager Project Structure
 
-This document explains the organization and purpose of each file and folder in the Ko Android project.
+This document explains the organization and purpose of each file and folder in the Ko Screenshot Manager Android project.
 
 ## 📁 Root Directory Structure
 
 ```
 Ko/
-├── app/                        # Main application module
-├── gradle/                     # Gradle wrapper files
-├── build.gradle.kts           # Root build configuration
-├── settings.gradle.kts        # Project settings
-├── gradle.properties          # Gradle properties
-├── local.properties.example   # Example SDK configuration
-├── .gitignore                 # Git ignore rules
-├── README.md                  # Main documentation
-├── QUICK_START.md            # Quick start guide
-└── PROJECT_STRUCTURE.md      # This file
+├── app/                          # Main application module
+├── buildSrc/                     # Build configuration source
+├── gradle/                       # Gradle wrapper files
+├── .github/                      # GitHub configuration (workflows, templates)
+├── build.gradle.kts             # Root build configuration
+├── settings.gradle.kts          # Project settings
+├── gradle.properties            # Gradle properties
+├── local.properties.example     # Example SDK configuration
+├── .gitignore                   # Git ignore rules
+├── README.md                    # Main documentation
+├── QUICK_START.md               # Quick start guide
+├── CONTRIBUTING.md              # Contribution guidelines
+├── LICENSE                      # MIT License
+└── PROJECT_STRUCTURE.md        # This file
 ```
 
 ---
@@ -25,12 +29,21 @@ Ko/
 ```
 app/
 ├── src/
-│   └── main/
-│       ├── kotlin/com/ko/app/     # Kotlin source code
-│       ├── res/                   # Android resources
-│       └── AndroidManifest.xml    # App manifest
-├── build.gradle.kts              # App build configuration
-└── proguard-rules.pro            # Code obfuscation rules
+│   ├── main/
+│   │   ├── kotlin/com/ko/app/    # Kotlin source code
+│   │   │   ├── data/             # Data layer (Room, Preferences)
+│   │   │   ├── receiver/         # Broadcast receivers
+│   │   │   ├── service/          # Background services
+│   │   │   ├── ui/               # UI layer (Activities, Adapters)
+│   │   │   ├── util/             # Utilities (Notification, Time, etc.)
+│   │   │   ├── worker/           # WorkManager workers
+│   │   │   ├── ScreenshotApp.kt  # Application class
+│   │   │   └── MainActivity.kt   # Main activity stub
+│   │   ├── res/                  # Android resources
+│   │   └── AndroidManifest.xml   # App manifest
+│   └── androidTest/              # Instrumented tests
+├── build.gradle.kts             # App build configuration
+└── proguard-rules.pro           # Code obfuscation rules
 ```
 
 ---
@@ -169,36 +182,91 @@ sdk.dir=C\:\\Users\\YourName\\AppData\\Local\\Android\\Sdk
 
 ## 📄 Source Code Files
 
-### `app/src/main/kotlin/com/ko/app/MainActivity.kt`
+### Core Classes
 
-**Purpose**: Main and only activity of the application.
+#### `ScreenshotApp.kt`
+**Purpose**: Application class managing global state and initialization.
 
-**Structure**:
-```kotlin
-package com.ko.app
+**Key Responsibilities**:
+- Initialize Room database and repository
+- Setup DataStore preferences
+- Create notification channels
+- Provide singleton access to dependencies
 
-import statements...
+#### `MainActivity.kt`
+**Purpose**: Main activity with tabbed screenshot browser.
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // Initialization
-        // View binding setup
-        // Button listener setup
-    }
-}
-```
+**Key Features**:
+- Tab layout for Marked/Kept/All screenshots
+- Service enable/disable toggle
+- RecyclerView with screenshot list
+- Settings FAB navigation
+- Permission handling and requests
 
-**Key Components**:
-- **View Binding**: Type-safe view access
-- **Button Listener**: Handles button clicks
-- **Haptic Feedback**: Provides tactile response
+#### `SettingsActivity.kt`
+**Purpose**: Configuration screen for app settings.
 
-**When to Edit**:
-- Adding button functionality
-- Implementing new features
-- Changing app behavior
+**Features**:
+- Manual vs Automatic mode toggle
+- Deletion time selection
+- Custom folder configuration
+- Notification preferences
+- Debug console access
+
+#### `DebugConsoleActivity.kt`
+**Purpose**: Developer tools for logging and troubleshooting.
+
+**Features**:
+- Real-time log display with filtering
+- Log export functionality
+- Log clearing capabilities
+
+### Services
+
+#### `ScreenshotMonitorService.kt`
+**Purpose**: Background service monitoring for new screenshots.
+
+**Key Functions**:
+- ContentObserver for MediaStore changes
+- Screenshot detection and processing
+- Mode-based handling (Manual/Automatic)
+- Existing screenshot scanning on startup
+
+#### `OverlayService.kt`
+**Purpose**: System overlay for manual mode screenshot decisions.
+
+**Features**:
+- Full-screen overlay with action buttons
+- Animated show/hide transitions
+- Keep or set deletion timer options
+- Permission-aware operation
+
+### Data Layer
+
+#### Database Classes
+- `ScreenshotDatabase.kt`: Room database setup
+- `ScreenshotDao.kt`: Data access operations
+- `ScreenshotRepository.kt`: Repository pattern implementation
+- `Screenshot.kt`: Entity model
+- `AppPreferences.kt`: DataStore preferences wrapper
+
+#### Workers
+- `ScreenshotDeletionWorker.kt`: Scheduled screenshot deletion
+
+### Utilities
+- `NotificationHelper.kt`: Notification creation and management
+- `DebugLogger.kt`: Custom logging system
+- `WorkManagerScheduler.kt`: Background task scheduling
+- `TimeUtils.kt`: Time formatting utilities
+- `PermissionUtils.kt`: Permission checking helpers
+
+### UI Components
+- `ScreenshotAdapter.kt`: RecyclerView adapter for screenshots
+- `LogAdapter.kt`: RecyclerView adapter for debug logs
+
+### Receivers
+- `BootReceiver.kt`: Restarts service after device boot
+- `NotificationActionReceiver.kt`: Handles notification button actions
 
 ---
 

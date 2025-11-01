@@ -22,8 +22,10 @@ import com.ko.app.ScreenshotApp
 import com.ko.app.databinding.ActivityMainBinding
 import com.ko.app.service.ScreenshotMonitorService
 import com.ko.app.ui.adapter.ScreenshotAdapter
+import androidx.core.net.toUri
 import com.ko.app.util.NotificationHelper
 import com.ko.app.util.DebugLogger
+import com.ko.app.util.PermissionUtils
 import com.ko.app.util.WorkManagerScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -178,20 +180,31 @@ class MainActivity : AppCompatActivity() {
     private fun observeScreenshots() {
         screenshotsJob?.cancel()
         screenshotsJob = lifecycleScope.launch {
-            when (currentTab) {
-                0 -> app.repository.getMarkedScreenshots()
-                1 -> app.repository.getKeptScreenshots()
-                else -> app.repository.getAllScreenshots()
-            }.collect { screenshots ->
-                if (screenshotsJob?.isActive == false) {
-                    DebugLogger.info("MainActivity", "Screenshot collection cancelled - user switched tabs")
-                    return@collect
+            binding.loadingProgress.visibility = View.VISIBLE
+            binding.screenshotsRecyclerView.visibility = View.GONE
+            try {
+                when (currentTab) {
+                    0 -> app.repository.getMarkedScreenshots()
+                    1 -> app.repository.getKeptScreenshots()
+                    else -> app.repository.getAllScreenshots()
+                }.collect { screenshots ->
+                    if (screenshotsJob?.isActive == false) {
+                        DebugLogger.info("MainActivity", "Screenshot collection cancelled - user switched tabs")
+                        return@collect
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        adapter.submitList(screenshots)
+                        binding.emptyStateText.visibility =
+                            if (screenshots.isEmpty()) View.VISIBLE else View.GONE
+                        binding.loadingProgress.visibility = View.GONE
+                        binding.screenshotsRecyclerView.visibility = View.VISIBLE
+                    }
                 }
-                
+            } finally {
                 withContext(Dispatchers.Main) {
-                    adapter.submitList(screenshots)
-                    binding.emptyStateText.visibility =
-                        if (screenshots.isEmpty()) View.VISIBLE else View.GONE
+                    binding.loadingProgress.visibility = View.GONE
+                    binding.screenshotsRecyclerView.visibility = View.VISIBLE
                 }
             }
         }
@@ -213,51 +226,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPermissions(): Boolean {
-        return getMissingPermissions().isEmpty()
-    }
+
 
     private fun getMissingPermissions(): List<String> {
-        val missing = mutableListOf<String>()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                missing.add("Media Access")
-            }
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                missing.add("Notifications")
-            }
-        } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                missing.add("Storage Access")
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            missing.add("Display Over Other Apps")
-        }
-
-        return missing
+        return PermissionUtils.getMissingPermissions(this)
     }
 
     private fun showDetailedPermissionsStatus() {
-        val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
-        } else {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        }
-        
-        val notificationGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
-        
-        val overlayGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(this)
-        } else {
-            true
-        }
+        val storageGranted = PermissionUtils.hasStoragePermission(this)
+        val notificationGranted = PermissionUtils.hasNotificationPermission(this)
+        val overlayGranted = PermissionUtils.hasOverlayPermission(this)
 
         val allGranted = storageGranted && notificationGranted && overlayGranted
         
@@ -365,12 +343,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkAndRequestOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                showOverlayPermissionDialog()
-            } else {
-                checkAndRequestBatteryOptimization()
-            }
+        if (!Settings.canDrawOverlays(this)) {
+            showOverlayPermissionDialog()
         } else {
             checkAndRequestBatteryOptimization()
         }
@@ -462,8 +436,8 @@ class MainActivity : AppCompatActivity() {
             .setMessage("This app needs overlay permission to show quick action popups for screenshots.")
             .setPositiveButton("Grant Permission") { _, _ ->
                 val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                "package:$packageName".toUri()
                 )
                 startActivity(intent)
             }

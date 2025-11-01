@@ -3,12 +3,14 @@ package com.ko.app.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.net.toUri
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ko.app.BuildConfig
+import com.ko.app.R
 import com.ko.app.ScreenshotApp
 import com.ko.app.databinding.ActivitySettingsBinding
 import kotlinx.coroutines.flow.first
@@ -70,12 +72,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupAboutSection() {
-        binding.versionText.text = "Version: ${BuildConfig.VERSION_NAME}"
+        binding.versionText.text = getString(R.string.version_label, BuildConfig.VERSION_NAME)
         
         binding.emailText.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:ualexen92@gmail.com")
-                putExtra(Intent.EXTRA_SUBJECT, "Ko App Feedback")
+                data = "mailto:ualexen92@gmail.com".toUri()
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
             }
             startActivity(Intent.createChooser(intent, "Send Email"))
         }
@@ -94,14 +96,14 @@ class SettingsActivity : AppCompatActivity() {
 
             val currentFolder = app.preferences.screenshotFolder.first()
             if (currentFolder.isEmpty()) {
-                binding.folderPathText.text = "Default (Pictures/Screenshots)"
+                binding.folderPathText.text = getString(R.string.default_folder)
             } else {
                 val decoded = java.net.URLDecoder.decode(currentFolder, "UTF-8")
                 val path = when {
-                    decoded.contains("primary:") -> decoded.substringAfter("primary:").replace("/", " > ")
+                    decoded.contains("primary:") -> decoded.substringAfter("primary:")
                     decoded.contains("tree/") -> {
                         val parts = decoded.substringAfter("tree/").split(":")
-                        if (parts.size >= 2) "${parts[0]}:${parts[1].replace("/", " > ")}" else decoded
+                        if (parts.size >= 2) "${parts[0]}:${parts[1]}" else decoded
                     }
                     else -> decoded
                 }
@@ -141,15 +143,13 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateModeUI(isManualMode: Boolean) {
         if (isManualMode) {
-            binding.btnToggleMode.text = "Manual"
-            binding.deletionTimeContainer.visibility = View.GONE
-            binding.modeDescription.text =
-                "You'll choose deletion time for each screenshot when it's captured"
+        binding.btnToggleMode.text = getString(R.string.manual_mode)
+        binding.deletionTimeContainer.visibility = View.GONE
+        binding.modeDescription.text = getString(R.string.manual_description)
         } else {
-            binding.btnToggleMode.text = "Automatic"
-            binding.deletionTimeContainer.visibility = View.VISIBLE
-            binding.modeDescription.text =
-                "Screenshots will be automatically deleted after the specified time"
+            binding.btnToggleMode.text = getString(R.string.automatic_mode)
+        binding.deletionTimeContainer.visibility = View.VISIBLE
+        binding.modeDescription.text = getString(R.string.automatic_description)
         }
     }
 
@@ -182,7 +182,7 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         AlertDialog.Builder(this)
-            .setTitle("Select Deletion Time")
+            .setTitle(getString(R.string.select_deletion_time))
             .setItems(options) { _, which ->
                 if (which == options.size - 1) {
                     showCustomTimeDialog()
@@ -205,7 +205,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val valueInput = android.widget.EditText(this).apply {
-            hint = "Enter time value"
+            hint = getString(R.string.enter_time_value)
             inputType = android.text.InputType.TYPE_CLASS_NUMBER
             setText(DEFAULT_TIME_VALUE.toString())
         }
@@ -224,13 +224,13 @@ class SettingsActivity : AppCompatActivity() {
         })
         inputLayout.addView(valueInput)
         inputLayout.addView(android.widget.TextView(this).apply {
-            text = "Time unit:"
+            text = getString(R.string.time_unit)
             setPadding(0, PADDING_MEDIUM, 0, PADDING_SMALL)
         })
         inputLayout.addView(unitSpinner)
 
         AlertDialog.Builder(this)
-            .setTitle("Custom Deletion Time")
+            .setTitle(getString(R.string.custom_deletion_time_title))
             .setView(inputLayout)
             .setPositiveButton("Set") { _, _ ->
                 val value = valueInput.text.toString().toIntOrNull() ?: DEFAULT_TIME_VALUE
@@ -269,16 +269,18 @@ class SettingsActivity : AppCompatActivity() {
                 if (it.startsWith("/")) it.substring(1) else it
             } ?: uri.toString()
 
+            // Update UI immediately
+            binding.folderPathText.text = folderPath
+
             // Save folder URI to preferences
             lifecycleScope.launch {
                 app.preferences.setScreenshotFolder(uri.toString())
-                binding.folderPathText.text = folderPath
             }
 
             // Show success message
             AlertDialog.Builder(this)
-                .setTitle("Folder Selected")
-                .setMessage("Screenshot folder has been updated to:\n$folderPath")
+                .setTitle(getString(R.string.folder_selected))
+                .setMessage(getString(R.string.folder_updated_message, folderPath))
                 .setPositiveButton("OK", null)
                 .show()
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {

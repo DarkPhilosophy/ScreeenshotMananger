@@ -12,7 +12,6 @@ class ScreenshotDeletionWorker(
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
-    @Suppress("TooGenericExceptionCaught", "PrintStackTrace")
     override suspend fun doWork(): Result {
         return try {
             val app = applicationContext as ScreenshotApp
@@ -24,8 +23,9 @@ class ScreenshotDeletionWorker(
             }
 
             Result.success()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (e: SecurityException) {
+            Result.failure()
+        } catch (_: Exception) {
             Result.retry()
         }
     }

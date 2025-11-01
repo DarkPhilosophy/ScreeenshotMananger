@@ -49,7 +49,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Service Status"
+                        android:text="@string/service_status"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp" />
@@ -58,14 +58,14 @@
                         android:id="@+id/serviceSwitch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Screenshot Monitoring"
+                        android:text="@string/screenshot_monitoring"
                         android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/serviceStatusText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Service is stopped"
+                        android:text="@string/service_stopped"
                         android:textSize="14sp"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:layout_marginTop="8dp" />
@@ -75,12 +75,19 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:tabMode="fixed"
-                app:tabGravity="fill" />
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill" />
+
+            <ProgressBar
+            android:id="@+id/loadingProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/screenshotsRecyclerView"
@@ -93,7 +100,7 @@
                 android:id="@+id/emptyStateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="No screenshots found"
+                android:text="@string/no_screenshots_found"
                 android:textSize="16sp"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:gravity="center"
@@ -110,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Settings"
+        android:text="@string/settings"
         app:icon="@android:drawable/ic_menu_preferences" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

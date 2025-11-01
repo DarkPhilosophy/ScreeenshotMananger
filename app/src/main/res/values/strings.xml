@@ -3,5 +3,29 @@
     <string name="app_name">Screenshot Manager</string>
     <string name="button_press">PRESS</string>
     <string name="attribution">by Adalbert Alexandru</string>
+    <string name="version_label">Version: %s</string>
+    <string name="email_subject">Ko App Feedback</string>
+    <string name="default_folder">Default (Pictures/Screenshots)</string>
+    <string name="manual_mode">Manual</string>
+    <string name="automatic_mode">Automatic</string>
+    <string name="manual_description">You will choose deletion time for each screenshot when it is captured</string>
+    <string name="automatic_description">Screenshots will be automatically deleted after the specified time</string>
+    <string name="select_deletion_time">Select Deletion Time</string>
+    <string name="custom_deletion_time">Custom Deletion Time</string>
+    <string name="enter_time_value">Enter time value</string>
+    <string name="time_unit">Time unit:</string>
+    <string name="custom_deletion_time_title">Custom Deletion Time</string>
+    <string name="folder_selected">Folder Selected</string>
+    <string name="folder_updated_message">Screenshot folder has been updated to:
+%s</string>
+    <string name="service_status">Service Status</string>
+    <string name="screenshot_monitoring">Screenshot Monitoring</string>
+    <string name="service_stopped">Service is stopped</string>
+    <string name="no_screenshots_found">No screenshots found</string>
+    <string name="settings">Settings</string>
+    <string name="deletes_in">Deletes in %s</string>
+    <string name="kept">Kept</string>
+    <string name="unmarked">Unmarked</string>
+    <string name="expired">Expired</string>
 </resources>
 

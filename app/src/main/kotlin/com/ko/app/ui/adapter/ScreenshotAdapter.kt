@@ -12,15 +12,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.ko.app.R
 import com.ko.app.data.entity.Screenshot
+import com.ko.app.util.TimeUtils
 import java.io.File
 import java.text.DecimalFormat
-import java.util.concurrent.TimeUnit
 
 private const val BYTES_IN_KB = 1024
 private const val BYTES_IN_MB = 1024 * 1024
-private const val HOURS_IN_DAY = 24L
-private const val MINUTES_IN_HOUR = 60L
-private const val SECONDS_IN_MINUTE = 60L
 
 class ScreenshotAdapter(
     private val onKeepClick: (Screenshot) -> Unit,
@@ -74,7 +71,7 @@ class ScreenshotAdapter(
                 screenshot.isKept -> {
                     timeRemaining.visibility = View.GONE
                     statusText.visibility = View.VISIBLE
-                    statusText.text = "Kept"
+                    statusText.text = itemView.context.getString(R.string.kept)
                     btnKeep.visibility = View.GONE
                     btnDelete.visibility = View.VISIBLE
                 }
@@ -82,13 +79,13 @@ class ScreenshotAdapter(
                     val remaining = screenshot.deletionTimestamp - System.currentTimeMillis()
                     if (remaining > 0) {
                         timeRemaining.visibility = View.VISIBLE
-                        timeRemaining.text = "Deletes in ${formatTimeRemaining(remaining)}"
+                        timeRemaining.text = itemView.context.getString(R.string.deletes_in, TimeUtils.formatTimeRemaining(remaining))
                         statusText.visibility = View.GONE
                         btnKeep.visibility = View.VISIBLE
                         btnDelete.visibility = View.VISIBLE
                     } else {
                         timeRemaining.visibility = View.VISIBLE
-                        timeRemaining.text = "Expired"
+                        timeRemaining.text = itemView.context.getString(R.string.expired)
                         statusText.visibility = View.GONE
                         btnKeep.visibility = View.GONE
                         btnDelete.visibility = View.VISIBLE
@@ -97,7 +94,7 @@ class ScreenshotAdapter(
                 else -> {
                     timeRemaining.visibility = View.GONE
                     statusText.visibility = View.VISIBLE
-                    statusText.text = "Unmarked"
+                    statusText.text = itemView.context.getString(R.string.unmarked)
                     btnKeep.visibility = View.VISIBLE
                     btnDelete.visibility = View.VISIBLE
                 }
@@ -116,19 +113,7 @@ class ScreenshotAdapter(
             }
         }
 
-        private fun formatTimeRemaining(millis: Long): String {
-            val days = TimeUnit.MILLISECONDS.toDays(millis)
-            val hours = TimeUnit.MILLISECONDS.toHours(millis) % HOURS_IN_DAY
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) % MINUTES_IN_HOUR
-            val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % SECONDS_IN_MINUTE
 
-            return when {
-                days > 0 -> "${days}d ${hours}h"
-                hours > 0 -> "${hours}h ${minutes}m"
-                minutes > 0 -> "${minutes}m ${seconds}s"
-                else -> "${seconds}s"
-            }
-        }
     }
 
     class ScreenshotDiffCallback : DiffUtil.ItemCallback<Screenshot>() {

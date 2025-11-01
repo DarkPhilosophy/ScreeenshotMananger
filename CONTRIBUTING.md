@@ -6,29 +6,31 @@ Thank you for your interest in contributing to Ko! This document provides guidel
 
 ### Reporting Bugs
 
-1. Check if the bug has already been reported in [Issues](https://github.com/YOUR_USERNAME/Ko/issues)
+1. Check if the bug has already been reported in [Issues](https://github.com/DarkPhilosophy/Ko/issues)
 2. If not, create a new issue using the **Bug Report** template
 3. Provide as much detail as possible:
-   - Steps to reproduce
-   - Expected behavior
-   - Actual behavior
-   - Device information
-   - Screenshots if applicable
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Device information (Android version, device model)
+- Screenshots if applicable
+    - Debug logs from the app's Debug Console
 
 ### Suggesting Features
 
-1. Check if the feature has already been suggested in [Issues](https://github.com/YOUR_USERNAME/Ko/issues)
+1. Check if the feature has already been suggested in [Issues](https://github.com/DarkPhilosophy/Ko/issues)
 2. If not, create a new issue using the **Feature Request** template
 3. Clearly describe:
-   - The problem you're trying to solve
-   - Your proposed solution
-   - Any alternatives you've considered
+- The problem you're trying to solve
+- Your proposed solution
+    - Any alternatives you've considered
+    - How it fits with the app's screenshot management goals
 
 ### Submitting Pull Requests
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Ko.git
+   git clone https://github.com/DarkPhilosophy/Ko.git
    cd Ko
    ```
 
@@ -202,13 +204,16 @@ When adding new features:
 
 Before submitting your PR, ensure:
 
-- [ ] Code follows the style guidelines
+- [ ] Code follows the style guidelines (Kotlin conventions, 120 char limit)
 - [ ] All tests pass (`./gradlew test`)
 - [ ] Static analysis passes (`./gradlew detekt`)
-- [ ] Documentation is updated
+- [ ] Build succeeds (`./gradlew build`)
+- [ ] Documentation is updated (README, code comments)
 - [ ] Commit messages follow Conventional Commits
 - [ ] PR description is clear and complete
 - [ ] Screenshots added for UI changes
+- [ ] Manual testing on device/emulator
+- [ ] No new Detekt warnings introduced
 
 ## 🎯 Good First Issues
 
@@ -216,9 +221,10 @@ Look for issues labeled `good first issue` to get started!
 
 ## 📞 Getting Help
 
-- Open a [Discussion](https://github.com/YOUR_USERNAME/Ko/discussions) for questions
-- Join our community chat (if available)
-- Check existing issues and PRs
+- Open a [Discussion](https://github.com/DarkPhilosophy/Ko/discussions) for questions
+- Check the [Debug Console](README.md#configuration) in the app for troubleshooting
+- Review existing issues and PRs
+- Check the [Wiki](https://github.com/DarkPhilosophy/Ko/wiki) (coming soon)
 
 ## 📜 License
 
