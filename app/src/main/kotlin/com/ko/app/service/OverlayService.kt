@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -109,7 +110,8 @@ class OverlayService : Service() {
                 gravity = Gravity.CENTER
             }
 
-            overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_screenshot_options, null, false)
+            val themedContext = ContextThemeWrapper(this, R.style.Theme_Ko)
+            overlayView = LayoutInflater.from(themedContext).inflate(R.layout.overlay_screenshot_options, null, false)
             setupButtons()
             val wm = windowManager
             wm.addView(overlayView, params)

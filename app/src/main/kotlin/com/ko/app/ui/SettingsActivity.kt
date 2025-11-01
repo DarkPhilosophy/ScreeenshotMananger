@@ -96,7 +96,8 @@ class SettingsActivity : AppCompatActivity() {
 
             val currentFolder = app.preferences.screenshotFolder.first()
             if (currentFolder.isEmpty()) {
-                binding.folderPathText.text = getString(R.string.default_folder)
+                val defaultPath = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_PICTURES).absolutePath + "/Screenshots"
+                binding.folderPathText.text = defaultPath
             } else {
             val decoded = java.net.URLDecoder.decode(currentFolder, "UTF-8")
             val displayPath = when {
