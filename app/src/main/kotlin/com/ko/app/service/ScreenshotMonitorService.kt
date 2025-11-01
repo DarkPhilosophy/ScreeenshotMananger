@@ -13,6 +13,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.provider.MediaStore
 import androidx.core.app.NotificationCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ko.app.ScreenshotApp
 import com.ko.app.data.entity.Screenshot
 import com.ko.app.ui.MainActivity
@@ -320,6 +321,10 @@ class ScreenshotMonitorService : Service() {
                 } else 0
 
                 DebugLogger.info("ScreenshotMonitorService", "Imported $imported new screenshots from existing files")
+                
+                val broadcastIntent = Intent("com.ko.app.SCREENSHOTS_SCANNED")
+                LocalBroadcastManager.getInstance(this@ScreenshotMonitorService).sendBroadcast(broadcastIntent)
+                DebugLogger.info("ScreenshotMonitorService", "Broadcast sent: SCREENSHOTS_SCANNED")
             } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 DebugLogger.error("ScreenshotMonitorService", "Error scanning existing screenshots", e)
             }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.ko.app.R
 import com.ko.app.data.entity.Screenshot
+import com.ko.app.util.DebugLogger
 import com.ko.app.util.TimeUtils
 import java.io.File
 import java.text.DecimalFormat
@@ -38,7 +39,9 @@ class ScreenshotAdapter(
     }
 
     override fun onBindViewHolder(holder: ScreenshotViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        DebugLogger.info("ScreenshotAdapter", "Binding item at position $position: ${item.fileName}")
+        holder.bind(item)
     }
 
     class ScreenshotViewHolder(

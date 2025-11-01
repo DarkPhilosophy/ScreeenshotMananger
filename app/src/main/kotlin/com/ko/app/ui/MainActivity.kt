@@ -1,7 +1,10 @@
 package com.ko.app.ui
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -18,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
@@ -57,6 +61,13 @@ class MainActivity : AppCompatActivity() {
     private var updatePermissionSwitches: (() -> Unit)? = null
     private var loadJob: Job? = null
     private var lastPaginationTime = 0L
+    
+    private val screenshotsScannedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            DebugLogger.info("MainActivity", "Received SCREENSHOTS_SCANNED broadcast")
+            refreshCurrentTab()
+        }
+    }
 
     private val storagePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -94,6 +105,11 @@ class MainActivity : AppCompatActivity() {
 
         loadPagedScreenshots()
         observeServiceStatus()
+        
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            screenshotsScannedReceiver,
+            IntentFilter("com.ko.app.SCREENSHOTS_SCANNED")
+        )
 
         lifecycleScope.launch {
             val isFirstLaunch = app.preferences.isFirstLaunch.first()
@@ -129,6 +145,11 @@ class MainActivity : AppCompatActivity() {
         if (isPermissionDialogOpen) {
             updatePermissionSwitches?.invoke()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(screenshotsScannedReceiver)
     }
 
     private fun setupToolbar() {
