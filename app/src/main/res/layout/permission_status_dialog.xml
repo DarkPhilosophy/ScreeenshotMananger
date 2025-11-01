@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Permission Status"
+        android:text="@string/permission_status"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"
@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Read Screenshots"
+            android:text="@string/read_screenshots"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -76,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Overlay Permission"
+            android:text="@string/overlay_permission"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -100,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Battery Optimization"
+            android:text="@string/battery_optimization"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -129,7 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Settings"
+            android:text="@string/settings"
             android:layout_marginEnd="4dp" />
 
         <Button
@@ -137,7 +137,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="OK"
+            android:text="@string/ok"
             android:layout_marginStart="4dp" />
 
     </LinearLayout>

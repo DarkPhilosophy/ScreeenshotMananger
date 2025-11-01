@@ -152,9 +152,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupTabs() {
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Marked"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Kept"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("All"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.tab_marked)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.tab_kept)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.tab_all)))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -245,9 +245,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateServiceStatus(isEnabled: Boolean) {
         binding.serviceStatusText.text = if (isEnabled) {
-            "Service is running"
+            getString(R.string.service_running)
         } else {
-            "Service is stopped"
+            getString(R.string.service_stopped)
         }
     }
 
@@ -352,7 +352,7 @@ class MainActivity : AppCompatActivity() {
         batterySwitch.isEnabled = !batterySwitch.isChecked
 
         val allGranted = storageSwitch.isChecked && notificationSwitch.isChecked && overlaySwitch.isChecked && batterySwitch.isChecked
-        statusText.text = if (allGranted) "😁 Ready" else "⚠️ Missing permissions"
+        statusText.text = if (allGranted) getString(R.string.status_ready) else getString(R.string.status_missing)
         statusText.setTextColor(if (allGranted) 0xFF4CAF50.toInt() else 0xFFF44336.toInt())
     }
 
@@ -422,15 +422,15 @@ class MainActivity : AppCompatActivity() {
             missingPerms.joinToString("\n") { "• $it" }
 
         AlertDialog.Builder(this)
-            .setTitle("Permissions Required")
+            .setTitle(getString(R.string.permissions_required))
             .setMessage(message)
-            .setPositiveButton("Go to Settings") { _, _ ->
+            .setPositiveButton(getString(R.string.settings)) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = Uri.fromParts("package", packageName, null)
                 }
                 startActivity(intent)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -504,9 +504,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showDeleteConfirmationDialog(screenshotId: Long, filePath: String) {
         AlertDialog.Builder(this)
-            .setTitle("Delete Screenshot")
-            .setMessage("Are you sure you want to delete this screenshot?")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle(getString(R.string.delete_screenshot))
+            .setMessage(getString(R.string.delete_confirmation))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 lifecycleScope.launch {
                     val file = File(filePath)
                     if (file.exists()) {
@@ -518,48 +518,41 @@ class MainActivity : AppCompatActivity() {
                     notificationHelper.cancelNotification(screenshotId.toInt())
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
     private fun showWelcomeDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Welcome to Screenshot Manager")
-            .setMessage(
-                "This app helps you automatically manage screenshots.\n\n" +
-                    "Features:\n" +
-                    "• Auto-delete screenshots after a set time\n" +
-                    "• Manual mark mode for custom deletion times\n" +
-                    "• Keep important screenshots forever\n\n" +
-                    "To get started, enable the monitoring service and grant the required permissions."
-            )
-            .setPositiveButton("Get Started", null)
+            .setTitle(getString(R.string.welcome_title))
+            .setMessage(getString(R.string.welcome_message))
+            .setPositiveButton(getString(R.string.get_started), null)
             .show()
     }
 
     private fun showPermissionDeniedDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Permissions Required")
-            .setMessage("This app requires storage and notification permissions to function properly.")
-            .setPositiveButton("Grant Permissions") { _, _ ->
+            .setTitle(getString(R.string.permissions_required))
+            .setMessage(getString(R.string.permissions_message))
+            .setPositiveButton(getString(R.string.grant_permissions)) { _, _ ->
                 requestPermissions()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
     private fun showOverlayPermissionDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Overlay Permission Required")
-            .setMessage("This app needs overlay permission to show quick action popups for screenshots.")
-            .setPositiveButton("Grant Permission") { _, _ ->
+            .setTitle(getString(R.string.overlay_required))
+            .setMessage(getString(R.string.overlay_message))
+            .setPositiveButton(getString(R.string.grant_permission)) { _, _ ->
                 val intent = Intent(
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     "package:$packageName".toUri()
                 )
                 startActivity(intent)
             }
-            .setNegativeButton("Skip", null)
+            .setNegativeButton(getString(R.string.skip), null)
             .show()
     }
 
@@ -587,9 +580,9 @@ class MainActivity : AppCompatActivity() {
             val file = File(screenshot.filePath)
             if (!file.exists()) {
                 AlertDialog.Builder(this)
-                    .setTitle("File Not Found")
-                    .setMessage("The screenshot file no longer exists.")
-                    .setPositiveButton("OK", null)
+                    .setTitle(getString(R.string.file_not_found))
+                    .setMessage(getString(R.string.file_not_exists))
+                    .setPositiveButton(getString(R.string.ok), null)
                     .show()
                 return
             }
@@ -606,12 +599,12 @@ class MainActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
 
-            startActivity(Intent.createChooser(intent, "Open with"))
+            startActivity(Intent.createChooser(intent, getString(R.string.open_with)))
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             AlertDialog.Builder(this)
-                .setTitle("Error")
-                .setMessage("Failed to open screenshot: ${e.message}")
-                .setPositiveButton("OK", null)
+                .setTitle(getString(R.string.error))
+                .setMessage(getString(R.string.open_failed, e.message))
+                .setPositiveButton(getString(R.string.ok), null)
                 .show()
         }
     }

@@ -79,7 +79,7 @@ class SettingsActivity : AppCompatActivity() {
                 data = "mailto:ualexen92@gmail.com".toUri()
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
             }
-            startActivity(Intent.createChooser(intent, "Send Email"))
+            startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
         }
     }
 
