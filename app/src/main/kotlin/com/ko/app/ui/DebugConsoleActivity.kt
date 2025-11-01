@@ -93,7 +93,7 @@ class DebugConsoleActivity : AppCompatActivity() {
     }
 
     private fun updateLogs() {
-        val allLogs = DebugLogger.getAllLogs()
+        val allLogs = DebugLogger.getAllLogs().ifEmpty { DebugLogger.getRecentLogs() }
         val filteredLogs = allLogs.filter { entry ->
             when (entry.level) {
                 DebugLogger.LogLevel.DEBUG -> binding.chipDebug.isChecked
@@ -104,7 +104,8 @@ class DebugConsoleActivity : AppCompatActivity() {
         }
 
         adapter.submitList(filteredLogs)
-        binding.logCountText.text = "${filteredLogs.size} log entries (${allLogs.size} total)"
+        val totalText = if (DebugLogger.getAllLogs().isEmpty()) "recent" else "total"
+        binding.logCountText.text = "${filteredLogs.size} log entries (${allLogs.size} $totalText)"
 
         // Auto-scroll to bottom
         if (filteredLogs.isNotEmpty()) {

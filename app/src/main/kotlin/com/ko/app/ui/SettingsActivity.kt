@@ -98,16 +98,9 @@ class SettingsActivity : AppCompatActivity() {
             if (currentFolder.isEmpty()) {
                 binding.folderPathText.text = getString(R.string.default_folder)
             } else {
-                val decoded = java.net.URLDecoder.decode(currentFolder, "UTF-8")
-                val path = when {
-                    decoded.contains("primary:") -> decoded.substringAfter("primary:")
-                    decoded.contains("tree/") -> {
-                        val parts = decoded.substringAfter("tree/").split(":")
-                        if (parts.size >= 2) "${parts[0]}:${parts[1]}" else decoded
-                    }
-                    else -> decoded
-                }
-                binding.folderPathText.text = path
+            val uri = android.net.Uri.parse(currentFolder)
+            val folderPath = uri.path?.substringAfter(":")?.let { if (it.startsWith("/")) it.substring(1) else it } ?: currentFolder
+            binding.folderPathText.text = folderPath
             }
         }
     }

@@ -23,6 +23,8 @@ class ScreenshotApp : Application() {
         super.onCreate()
         instance = this
 
+        DebugLogger.init(this)
+
         database = ScreenshotDatabase.getDatabase(this)
         repository = ScreenshotRepository(database.screenshotDao())
         preferences = AppPreferences(this)
