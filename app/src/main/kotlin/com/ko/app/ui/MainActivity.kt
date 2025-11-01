@@ -407,6 +407,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     dialog.show()
+    dialog.window?.setDimAmount(0.8f)
     }
 
     private fun showMissingPermissionsDialog(missingPerms: List<String>) {
