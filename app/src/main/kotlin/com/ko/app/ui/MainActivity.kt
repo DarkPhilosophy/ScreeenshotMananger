@@ -26,6 +26,7 @@ import com.ko.app.ScreenshotApp
 import com.ko.app.databinding.ActivityMainBinding
 import com.ko.app.service.ScreenshotMonitorService
 import com.ko.app.ui.adapter.ScreenshotAdapter
+import com.ko.app.util.DebugLogger
 import com.ko.app.util.NotificationHelper
 import com.ko.app.util.PermissionUtils
 import com.ko.app.util.WorkManagerScheduler
@@ -235,10 +236,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadPagedScreenshots() {
-        if (isLoading || !hasMore) return
+        if (isLoading || !hasMore) {
+            DebugLogger.info("MainActivity", "loadPagedScreenshots skipped: isLoading=$isLoading, hasMore=$hasMore")
+            return
+        }
         isLoading = true
         binding.loadingProgress.visibility = View.VISIBLE
         val targetTab = currentTab
+        DebugLogger.info("MainActivity", "Loading screenshots for tab $targetTab, offset=$currentOffset")
         loadJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val newItems = when (targetTab) {
@@ -246,18 +251,24 @@ class MainActivity : AppCompatActivity() {
                     1 -> app.repository.getPagedKeptScreenshots(currentOffset, pageSize)
                     else -> app.repository.getPagedScreenshots(currentOffset, pageSize)
                 }
+                DebugLogger.info("MainActivity", "Loaded ${newItems.size} items for tab $targetTab")
                 withContext(Dispatchers.Main) {
-                    if (targetTab != currentTab) return@withContext
+                    if (targetTab != currentTab) {
+                        DebugLogger.warning("MainActivity", "Tab changed during load, discarding results")
+                        return@withContext
+                    }
                     if (newItems.size < pageSize) {
                         hasMore = false
                     }
                     allScreenshots.addAll(newItems)
+                    DebugLogger.info("MainActivity", "Total screenshots: ${allScreenshots.size}, submitting to adapter")
                     adapter.submitList(allScreenshots.toList())
                     currentOffset += newItems.size
                     binding.loadingProgress.visibility = View.GONE
                     binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
                 }
-            } catch (@Suppress("SwallowedException") _: Exception) {
+            } catch (@Suppress("SwallowedException") e: Exception) {
+                DebugLogger.error("MainActivity", "Error loading screenshots", e)
                 withContext(Dispatchers.Main) {
                     binding.loadingProgress.visibility = View.GONE
                 }
