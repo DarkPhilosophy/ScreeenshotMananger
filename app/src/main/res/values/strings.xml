@@ -66,5 +66,8 @@ To get started, enable the monitoring service and grant the required permissions
     <string name="delete">Delete</string>
     <string name="get_started">Get Started</string>
     <string name="send_email">Send Email</string>
+    <string name="language">Language</string>
+    <string name="language_changed">Language Changed</string>
+    <string name="restart_message">Please restart the app for the changes to take effect.</string>
 </resources>
 

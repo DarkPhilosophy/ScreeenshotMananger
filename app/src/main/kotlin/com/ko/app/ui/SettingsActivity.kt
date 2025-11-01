@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +62,7 @@ class SettingsActivity : AppCompatActivity() {
         setupToolbar()
         loadSettings()
         setupListeners()
+        setupLanguageSpinner()
         setupAboutSection()
     }
 
@@ -68,6 +71,42 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener {
             finish()
+        }
+        }
+
+        private fun setupLanguageSpinner() {
+        val languages = arrayOf("English", "Română")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.languageSpinner.adapter = adapter
+
+        lifecycleScope.launch {
+            val currentLang = app.preferences.language.first()
+            val position = if (currentLang == "ro") 1 else 0
+            binding.languageSpinner.setSelection(position)
+        }
+
+        binding.languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedLang = if (position == 1) "ro" else "en"
+                lifecycleScope.launch {
+                    val current = app.preferences.language.first()
+                    if (current != selectedLang) {
+                        app.preferences.setLanguage(selectedLang)
+                        AlertDialog.Builder(this@SettingsActivity)
+                        .setTitle(getString(R.string.language_changed))
+                        .setMessage(getString(R.string.restart_message))
+                        .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                finishAffinity()
+                                System.exit(0)
+                            }
+                            .setCancelable(false)
+                            .show()
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 

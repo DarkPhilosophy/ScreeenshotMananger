@@ -22,6 +22,7 @@ class AppPreferences(private val context: Context) {
         private val KEY_NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         private val KEY_SERVICE_ENABLED = booleanPreferencesKey("service_enabled")
         private val KEY_FIRST_LAUNCH = booleanPreferencesKey("first_launch")
+        private val KEY_LANGUAGE = stringPreferencesKey("language")
 
         const val DEFAULT_DELETION_TIME_MILLIS = 15 * 60 * 1000L
         const val DEFAULT_SCREENSHOT_FOLDER = "Pictures/Screenshots"
@@ -48,7 +49,11 @@ class AppPreferences(private val context: Context) {
     }
 
     val isFirstLaunch: Flow<Boolean> = context.dataStore.data.map { preferences ->
-        preferences[KEY_FIRST_LAUNCH] ?: true
+    preferences[KEY_FIRST_LAUNCH] ?: true
+    }
+
+    val language: Flow<String> = context.dataStore.data.map { preferences ->
+        preferences[KEY_LANGUAGE] ?: "en"
     }
 
     suspend fun setDeletionTimeMillis(timeMillis: Long) {
@@ -82,8 +87,14 @@ class AppPreferences(private val context: Context) {
     }
 
     suspend fun setFirstLaunch(isFirst: Boolean) {
+    context.dataStore.edit { preferences ->
+    preferences[KEY_FIRST_LAUNCH] = isFirst
+    }
+    }
+
+    suspend fun setLanguage(lang: String) {
         context.dataStore.edit { preferences ->
-            preferences[KEY_FIRST_LAUNCH] = isFirst
+            preferences[KEY_LANGUAGE] = lang
         }
     }
 
@@ -96,9 +107,17 @@ class AppPreferences(private val context: Context) {
     }
 
     suspend fun isManualMarkModeSync(): Boolean {
-        var result = false
+    var result = false
+    context.dataStore.edit { preferences ->
+    result = preferences[KEY_MANUAL_MARK_MODE] ?: false
+    }
+    return result
+    }
+
+    suspend fun getLanguageSync(): String {
+        var result = "en"
         context.dataStore.edit { preferences ->
-            result = preferences[KEY_MANUAL_MARK_MODE] ?: false
+            result = preferences[KEY_LANGUAGE] ?: "en"
         }
         return result
     }

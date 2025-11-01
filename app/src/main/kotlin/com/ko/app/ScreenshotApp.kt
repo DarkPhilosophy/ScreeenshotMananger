@@ -3,11 +3,14 @@ package com.ko.app
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.res.Configuration
 import android.os.Build
 import com.ko.app.data.database.ScreenshotDatabase
 import com.ko.app.data.preferences.AppPreferences
 import com.ko.app.data.repository.ScreenshotRepository
 import com.ko.app.util.DebugLogger
+import kotlinx.coroutines.runBlocking
+import java.util.Locale
 
 class ScreenshotApp : Application() {
 
@@ -21,16 +24,30 @@ class ScreenshotApp : Application() {
         private set
 
     override fun onCreate() {
-        super.onCreate()
-        instance = this
+    super.onCreate()
+    instance = this
+
+    database = ScreenshotDatabase.getDatabase(this)
+        repository = ScreenshotRepository(database.screenshotDao())
+    preferences = AppPreferences(this)
+
+    val lang = runBlocking { preferences.getLanguageSync() }
+        setLocale(lang)
 
         DebugLogger.init(this)
 
-        database = ScreenshotDatabase.getDatabase(this)
-        repository = ScreenshotRepository(database.screenshotDao())
-        preferences = AppPreferences(this)
-
         createNotificationChannels()
+        }
+
+    private fun setLocale(language: String) {
+        val locale = when (language) {
+            "ro" -> Locale("ro", "RO")
+            else -> Locale("en", "US")
+        }
+        Locale.setDefault(locale)
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun createNotificationChannels() {

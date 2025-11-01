@@ -3,6 +3,8 @@ package com.ko.app.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -350,6 +352,18 @@ class MainActivity : AppCompatActivity() {
         notificationSwitch.isEnabled = !notificationSwitch.isChecked
         overlaySwitch.isEnabled = !overlaySwitch.isChecked
         batterySwitch.isEnabled = !batterySwitch.isChecked
+
+        // Set green color for granted permissions
+        val green = Color.parseColor("#4CAF50")
+        val gray = Color.parseColor("#BDBDBD")
+        storageSwitch.thumbTintList = ColorStateList.valueOf(if (storageSwitch.isChecked) green else gray)
+        storageSwitch.trackTintList = ColorStateList.valueOf(if (storageSwitch.isChecked) green else gray)
+        notificationSwitch.thumbTintList = ColorStateList.valueOf(if (notificationSwitch.isChecked) green else gray)
+        notificationSwitch.trackTintList = ColorStateList.valueOf(if (notificationSwitch.isChecked) green else gray)
+        overlaySwitch.thumbTintList = ColorStateList.valueOf(if (overlaySwitch.isChecked) green else gray)
+        overlaySwitch.trackTintList = ColorStateList.valueOf(if (overlaySwitch.isChecked) green else gray)
+        batterySwitch.thumbTintList = ColorStateList.valueOf(if (batterySwitch.isChecked) green else gray)
+        batterySwitch.trackTintList = ColorStateList.valueOf(if (batterySwitch.isChecked) green else gray)
 
         val allGranted = storageSwitch.isChecked && notificationSwitch.isChecked && overlaySwitch.isChecked && batterySwitch.isChecked
         statusText.text = if (allGranted) getString(R.string.status_ready) else getString(R.string.status_missing)

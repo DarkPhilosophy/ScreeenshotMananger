@@ -58,4 +58,7 @@
     <string name="delete">Șterge</string>
     <string name="get_started">Începe</string>
     <string name="send_email">Trimite Email</string>
+    <string name="language">Limba</string>
+    <string name="language_changed">Limba Schimbată</string>
+    <string name="restart_message">Vă rugăm să reporniți aplicația pentru ca modificările să aibă efect.</string>
 </resources>
