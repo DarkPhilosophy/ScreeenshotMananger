@@ -66,6 +66,19 @@ class NotificationHelper(private val context: Context) {
         showScreenshotNotification(screenshotId, fileName, deletionTimestamp)
     }
 
+    fun showErrorNotification(title: String, message: String) {
+        val notification = NotificationCompat.Builder(context, ScreenshotApp.CHANNEL_ID_SCREENSHOT)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .build()
+
+        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+    }
+
     fun cancelNotification(notificationId: Int) {
         notificationManager.cancel(notificationId)
     }

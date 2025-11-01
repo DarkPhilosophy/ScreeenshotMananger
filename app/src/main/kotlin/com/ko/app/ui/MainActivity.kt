@@ -230,6 +230,52 @@ class MainActivity : AppCompatActivity() {
         return missing
     }
 
+    private fun showDetailedPermissionsStatus() {
+        val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        }
+        
+        val notificationGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+        
+        val overlayGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(this)
+        } else {
+            true
+        }
+
+        val allGranted = storageGranted && notificationGranted && overlayGranted
+        
+        val message = buildString {
+            append("Read Screenshot     ${if (storageGranted) "[✓]" else "[✗]"}\n")
+            append("Notification Access ${if (notificationGranted) "[✓]" else "[✗]"}\n")
+            append("Overlay Permission  ${if (overlayGranted) "[✓]" else "[✗]"}\n\n")
+            if (allGranted) {
+                append("😁 Ready - All permissions granted!")
+            } else {
+                append("⚠️ Missing permissions detected")
+            }
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Permission Status")
+            .setMessage(message)
+            .setPositiveButton(if (allGranted) "OK" else "Go to Settings") { _, _ ->
+                if (!allGranted) {
+                    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    })
+                }
+            }
+            .setNegativeButton(if (allGranted) null else "Cancel", null)
+            .show()
+    }
+
     private fun showMissingPermissionsDialog(missingPerms: List<String>) {
         val message = "The following permissions are required:\n\n" +
                 missingPerms.joinToString("\n") { "• $it" }
