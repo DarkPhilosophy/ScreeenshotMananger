@@ -95,8 +95,8 @@ class SettingsActivity : AppCompatActivity() {
             binding.notificationsSwitch.isChecked = notificationsEnabled
 
             val currentFolder = app.preferences.screenshotFolder.first()
-            if (currentFolder.isEmpty()) {
-            binding.folderPathText.text = "primary:Pictures/Screenshots"
+            if (currentFolder.isEmpty() || currentFolder == "Pictures/Screenshots") {
+                binding.folderPathText.text = "primary:Pictures/Screenshots"
             } else {
             val decoded = java.net.URLDecoder.decode(currentFolder, "UTF-8")
             val displayPath = when {
@@ -299,12 +299,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            // Show success message
-            AlertDialog.Builder(this)
-            .setTitle(getString(R.string.folder_selected))
-            .setMessage(getString(R.string.folder_updated_message, displayPath))
-            .setPositiveButton("OK", null)
-            .show()
+            // No success message needed, user can see the path in settings
         } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             android.util.Log.e("SettingsActivity", "Failed to handle folder selection", e)
             AlertDialog.Builder(this)
