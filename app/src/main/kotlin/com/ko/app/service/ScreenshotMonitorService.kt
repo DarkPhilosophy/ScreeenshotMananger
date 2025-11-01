@@ -52,7 +52,8 @@ class ScreenshotMonitorService : Service() {
 
             // Clean up expired screenshots with deleted files
             val currentTime = System.currentTimeMillis()
-            val expired = app.repository.getExpiredScreenshots(currentTime).filter { !java.io.File(it.filePath).exists() }
+            val expired = app.repository.getExpiredScreenshots(currentTime)
+                .filter { !java.io.File(it.filePath).exists() }
             expired.forEach { screenshot ->
                 app.repository.delete(screenshot)
                 DebugLogger.info("ScreenshotMonitorService", "Cleaned up expired screenshot: ${screenshot.fileName}")

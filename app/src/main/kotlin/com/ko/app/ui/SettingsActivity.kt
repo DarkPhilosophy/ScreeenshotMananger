@@ -99,7 +99,9 @@ class SettingsActivity : AppCompatActivity() {
                 binding.folderPathText.text = getString(R.string.default_folder)
             } else {
             val uri = android.net.Uri.parse(currentFolder)
-            val folderPath = uri.path?.substringAfter(":")?.let { if (it.startsWith("/")) it.substring(1) else it } ?: currentFolder
+            val folderPath = uri.path?.substringAfter(":")?.let {
+                if (it.startsWith("/")) it.substring(1) else it
+            } ?: currentFolder
             binding.folderPathText.text = folderPath
             }
         }

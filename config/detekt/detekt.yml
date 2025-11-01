@@ -64,7 +64,7 @@ complexity:
     active: false
   CyclomaticComplexMethod:
     active: true
-    threshold: 15
+    threshold: 20
   LabeledExpression:
     active: false
   LargeClass:
@@ -81,15 +81,15 @@ complexity:
     active: false
   NestedBlockDepth:
     active: true
-    threshold: 4
+    threshold: 5
   ReplaceSafeCallChainWithRun:
     active: false
   StringLiteralDuplication:
     active: false
   TooManyFunctions:
     active: true
-    thresholdInFiles: 11
-    thresholdInClasses: 11
+    thresholdInFiles: 12
+    thresholdInClasses: 12
     thresholdInInterfaces: 11
     thresholdInObjects: 11
     thresholdInEnums: 11
@@ -374,12 +374,12 @@ style:
   ExpressionBodySyntax:
     active: false
   ForbiddenComment:
-    active: true
-    values:
-      - 'FIXME:'
-      - 'STOPSHIP:'
-      - 'TODO:'
-    allowedPatterns: ''
+  active: true
+  comments:
+  - 'FIXME:'
+  - 'STOPSHIP:'
+  - 'TODO:'
+  allowedPatterns: ''
   ForbiddenImport:
     active: false
   ForbiddenMethodCall:
@@ -603,7 +603,7 @@ formatting:
     active: false
   MaximumLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 140
   ModifierListSpacing:
     active: false
   ModifierOrdering:

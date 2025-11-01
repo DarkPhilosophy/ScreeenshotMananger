@@ -25,7 +25,9 @@ class ScreenshotDeletionWorker(
             Result.success()
         } catch (e: SecurityException) {
             Result.failure()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            // Log the exception
+            android.util.Log.e("ScreenshotDeletionWorker", "Work failed", e)
             Result.retry()
         }
     }

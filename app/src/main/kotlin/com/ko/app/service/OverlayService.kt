@@ -54,7 +54,10 @@ class OverlayService : Service() {
                 if (PermissionUtils.hasOverlayPermission(this)) {
                     showOverlay()
                 } else {
-                    DebugLogger.error("OverlayService", "Overlay permission not granted - manual mode requires overlay permission")
+                    DebugLogger.error(
+                        "OverlayService",
+                        "Overlay permission not granted - manual mode requires overlay permission"
+                    )
                     notificationHelper.showErrorNotification("Manual Mode Error", "Overlay permission required. Grant in app settings.")
                     stopSelf()
                 }

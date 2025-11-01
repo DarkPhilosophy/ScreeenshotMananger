@@ -79,7 +79,10 @@ class ScreenshotAdapter(
                     val remaining = screenshot.deletionTimestamp - System.currentTimeMillis()
                     if (remaining > 0) {
                         timeRemaining.visibility = View.VISIBLE
-                        timeRemaining.text = itemView.context.getString(R.string.deletes_in, TimeUtils.formatTimeRemaining(remaining))
+                        timeRemaining.text = itemView.context.getString(
+                            R.string.deletes_in,
+                            TimeUtils.formatTimeRemaining(remaining)
+                        )
                         statusText.visibility = View.GONE
                         btnKeep.visibility = View.VISIBLE
                         btnDelete.visibility = View.VISIBLE
