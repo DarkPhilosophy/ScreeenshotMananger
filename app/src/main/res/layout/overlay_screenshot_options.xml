@@ -40,8 +40,6 @@
             android:layout_height="56dp"
             android:text="Delete in 15 minutes"
             android:textSize="16sp"
-            app:icon="@android:drawable/ic_menu_delete"
-            app:iconGravity="start"
             android:layout_marginBottom="12dp"
             style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -51,8 +49,6 @@
             android:layout_height="56dp"
             android:text="Delete in 2 hours"
             android:textSize="16sp"
-            app:icon="@android:drawable/ic_menu_delete"
-            app:iconGravity="start"
             android:layout_marginBottom="12dp"
             style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -62,8 +58,6 @@
             android:layout_height="56dp"
             android:text="Delete in 3 days"
             android:textSize="16sp"
-            app:icon="@android:drawable/ic_menu_delete"
-            app:iconGravity="start"
             android:layout_marginBottom="12dp"
             style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -73,8 +67,6 @@
             android:layout_height="56dp"
             android:text="Delete in 1 week"
             android:textSize="16sp"
-            app:icon="@android:drawable/ic_menu_delete"
-            app:iconGravity="start"
             android:layout_marginBottom="12dp"
             style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -84,8 +76,6 @@
             android:layout_height="56dp"
             android:text="Keep Forever"
             android:textSize="16sp"
-            app:icon="@android:drawable/ic_menu_save"
-            app:iconGravity="start"
             style="@style/Widget.Material3.Button" />
 
     </LinearLayout>
