@@ -26,12 +26,6 @@ class ScreenshotAdapter(
     private val onImageClick: (Screenshot) -> Unit
 ) : ListAdapter<Screenshot, ScreenshotAdapter.ScreenshotViewHolder>(ScreenshotDiffCallback()) {
 
-    init {
-        setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int): Long = getItem(position).id
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScreenshotViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_screenshot, parent, false)

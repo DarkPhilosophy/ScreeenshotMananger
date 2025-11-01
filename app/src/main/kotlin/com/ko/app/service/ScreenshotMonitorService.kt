@@ -137,6 +137,11 @@ class ScreenshotMonitorService : Service() {
 
                         DebugLogger.debug("ScreenshotMonitorService", "File detected: $fileName at $filePath")
 
+                        if (filePath.contains(".pending")) {
+                            DebugLogger.debug("ScreenshotMonitorService", "Ignoring pending file: $fileName")
+                            return@use
+                        }
+
                         if (isScreenshotFile(filePath)) {
                             DebugLogger.info("ScreenshotMonitorService", "Screenshot file detected: $fileName")
                             delay(PROCESSING_DELAY_MS)

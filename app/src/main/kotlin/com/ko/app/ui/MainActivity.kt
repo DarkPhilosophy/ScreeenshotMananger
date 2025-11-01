@@ -23,7 +23,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.ko.app.R
 import com.ko.app.ScreenshotApp
@@ -177,7 +176,6 @@ class MainActivity : AppCompatActivity() {
         binding.screenshotsRecyclerView.apply {
         layoutManager = LinearLayoutManager(this@MainActivity)
         adapter = this@MainActivity.adapter
-        setHasFixedSize(true)
         }
 
         binding.nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
