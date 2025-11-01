@@ -12,7 +12,8 @@
         android:text="Permission Status"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:id="@+id/storagePermission"
@@ -21,21 +22,19 @@
         android:orientation="horizontal"
         android:layout_marginBottom="12dp"
         android:padding="8dp"
-        android:background="@android:color/black">
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Read Screenshots"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/storageSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -46,21 +45,19 @@
         android:orientation="horizontal"
         android:layout_marginBottom="12dp"
         android:padding="8dp"
-        android:background="@android:color/black">
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Notification Access"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/notificationSwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -71,21 +68,19 @@
         android:orientation="horizontal"
         android:layout_marginBottom="12dp"
         android:padding="8dp"
-        android:background="@android:color/black">
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Overlay Permission"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/overlaySwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -96,21 +91,19 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp"
         android:padding="8dp"
-        android:background="@android:color/black">
+        android:background="?android:attr/selectableItemBackground">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Battery Optimization"
-            android:textSize="16sp"
-            android:textColor="@android:color/white" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/batterySwitch"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -119,7 +112,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
