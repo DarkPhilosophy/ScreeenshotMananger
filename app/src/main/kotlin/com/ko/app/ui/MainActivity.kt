@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.ko.app.R
 import com.ko.app.ScreenshotApp
@@ -32,7 +33,6 @@ import com.ko.app.util.NotificationHelper
 import com.ko.app.util.PermissionUtils
 import com.ko.app.util.WorkManagerScheduler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,7 +45,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var app: ScreenshotApp
     private lateinit var adapter: ScreenshotAdapter
     private var currentTab = 0
-    private var screenshotsJob: Job? = null
+    private var currentOffset = 0
+    private val pageSize = 20
+    private var isLoading = false
+    private var hasMore = true
+    private val allScreenshots = mutableListOf<com.ko.app.data.entity.Screenshot>()
     private var isPermissionDialogOpen = false
     private var updatePermissionSwitches: (() -> Unit)? = null
 
@@ -83,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         setupServiceSwitch()
         setupFab()
 
-        observeScreenshots()
+        loadPagedScreenshots()
         observeServiceStatus()
 
         // Scan existing screenshots on app start if permissions granted
@@ -148,9 +152,22 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.screenshotsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = this@MainActivity.adapter
+        layoutManager = LinearLayoutManager(this@MainActivity)
+        adapter = this@MainActivity.adapter
         }
+
+        binding.screenshotsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (!isLoading && hasMore && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount - 5) {
+                    loadPagedScreenshots()
+                }
+            }
+        })
     }
 
     private fun setupTabs() {
@@ -159,14 +176,17 @@ class MainActivity : AppCompatActivity() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.tab_all)))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                currentTab = tab?.position ?: 0
-                observeScreenshots()
-            }
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+        currentTab = tab?.position ?: 0
+        currentOffset = 0
+            hasMore = true
+                allScreenshots.clear()
+            loadPagedScreenshots()
+        }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // No action needed
-            }
+            // No action needed
+        }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // No action needed
@@ -204,37 +224,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeScreenshots() {
-        screenshotsJob?.cancel()
-        screenshotsJob = lifecycleScope.launch {
-            binding.loadingProgress.visibility = View.VISIBLE
-            binding.screenshotsRecyclerView.visibility = View.GONE
-            try {
-                when (currentTab) {
-                    0 -> app.repository.getMarkedScreenshots()
-                    1 -> app.repository.getKeptScreenshots()
-                    else -> app.repository.getAllScreenshots()
-                }.collect { screenshots ->
-                    if (screenshotsJob?.isActive == false) {
-                        DebugLogger.info("MainActivity", "Screenshot collection cancelled - user switched tabs")
-                        return@collect
-                    }
-
-                    withContext(Dispatchers.Main) {
-                        adapter.submitList(screenshots)
-                        binding.emptyStateText.visibility =
-                            if (screenshots.isEmpty()) View.VISIBLE else View.GONE
-                        binding.loadingProgress.visibility = View.GONE
-                        binding.screenshotsRecyclerView.visibility = View.VISIBLE
-                    }
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    binding.loadingProgress.visibility = View.GONE
-                    binding.screenshotsRecyclerView.visibility = View.VISIBLE
-                }
-            }
+    private fun loadPagedScreenshots() {
+    if (isLoading || !hasMore) return
+    isLoading = true
+    binding.loadingProgress.visibility = View.VISIBLE
+    lifecycleScope.launch(Dispatchers.IO) {
+    try {
+    val newItems = when (currentTab) {
+    0 -> app.repository.getPagedMarkedScreenshots(currentOffset, pageSize)
+    1 -> app.repository.getPagedKeptScreenshots(currentOffset, pageSize)
+    else -> app.repository.getPagedScreenshots(currentOffset, pageSize)
+    }
+    withContext(Dispatchers.Main) {
+    if (newItems.size < pageSize) {
+    hasMore = false
+    }
+                    allScreenshots.addAll(newItems)
+    adapter.submitList(allScreenshots.toList())
+    currentOffset += newItems.size
+    binding.loadingProgress.visibility = View.GONE
+    binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
+    }
+    } catch (e: Exception) {
+    withContext(Dispatchers.Main) {
+        binding.loadingProgress.visibility = View.GONE
         }
+    } finally {
+    isLoading = false
+    }
+    }
     }
 
     private fun observeServiceStatus() {

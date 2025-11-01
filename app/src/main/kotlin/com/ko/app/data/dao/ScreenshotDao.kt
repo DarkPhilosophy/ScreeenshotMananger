@@ -67,4 +67,13 @@ interface ScreenshotDao {
 
     @Query("UPDATE screenshots SET isMarkedForDeletion = 1, deletionTimestamp = :deletionTime WHERE id = :id")
     suspend fun markForDeletion(id: Long, deletionTime: Long)
+
+    @Query("SELECT * FROM screenshots ORDER BY createdAt DESC LIMIT :limit OFFSET :offset")
+    suspend fun getAllScreenshotsPaged(limit: Int, offset: Int): List<Screenshot>
+
+    @Query("SELECT * FROM screenshots WHERE isMarkedForDeletion = 1 ORDER BY deletionTimestamp ASC LIMIT :limit OFFSET :offset")
+    suspend fun getMarkedScreenshotsPaged(limit: Int, offset: Int): List<Screenshot>
+
+    @Query("SELECT * FROM screenshots WHERE isKept = 1 ORDER BY createdAt DESC LIMIT :limit OFFSET :offset")
+    suspend fun getKeptScreenshotsPaged(limit: Int, offset: Int): List<Screenshot>
 }

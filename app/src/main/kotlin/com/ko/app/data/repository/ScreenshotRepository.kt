@@ -77,6 +77,18 @@ class ScreenshotRepository(private val screenshotDao: ScreenshotDao) {
     }
 
     suspend fun deleteAll() {
-        screenshotDao.deleteAll()
+    screenshotDao.deleteAll()
+    }
+
+    suspend fun getPagedScreenshots(offset: Int, limit: Int): List<Screenshot> {
+        return screenshotDao.getAllScreenshotsPaged(limit, offset)
+    }
+
+    suspend fun getPagedMarkedScreenshots(offset: Int, limit: Int): List<Screenshot> {
+        return screenshotDao.getMarkedScreenshotsPaged(limit, offset)
+    }
+
+    suspend fun getPagedKeptScreenshots(offset: Int, limit: Int): List<Screenshot> {
+        return screenshotDao.getKeptScreenshotsPaged(limit, offset)
     }
 }
