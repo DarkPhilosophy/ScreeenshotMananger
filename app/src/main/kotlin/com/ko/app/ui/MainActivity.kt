@@ -314,16 +314,16 @@ class MainActivity : AppCompatActivity() {
     val allGranted = storageGranted && notificationGranted && overlayGranted
 
     val dialogView = layoutInflater.inflate(R.layout.permission_status_dialog, null)
-    val storageCheck = dialogView.findViewById<android.widget.CheckBox>(R.id.storageCheck)
-        val notificationCheck = dialogView.findViewById<android.widget.CheckBox>(R.id.notificationCheck)
-    val overlayCheck = dialogView.findViewById<android.widget.CheckBox>(R.id.overlayCheck)
+    val storageSwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.storageSwitch)
+    val notificationSwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.notificationSwitch)
+    val overlaySwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.overlaySwitch)
     val statusText = dialogView.findViewById<android.widget.TextView>(R.id.statusText)
     val btnGoToSettings = dialogView.findViewById<android.widget.Button>(R.id.btnGoToSettings)
     val btnOK = dialogView.findViewById<android.widget.Button>(R.id.btnOK)
 
-    storageCheck.isChecked = storageGranted
-    notificationCheck.isChecked = notificationGranted
-    overlayCheck.isChecked = overlayGranted
+    storageSwitch.isChecked = storageGranted
+    notificationSwitch.isChecked = notificationGranted
+    overlaySwitch.isChecked = overlayGranted
 
     statusText.text = if (allGranted) "😁 Ready" else "⚠️ Missing permissions"
     statusText.setTextColor(if (allGranted) 0xFF4CAF50.toInt() else 0xFFF44336.toInt())
