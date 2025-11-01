@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import androidx.annotation.Keep
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
@@ -18,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +33,7 @@ import com.ko.app.util.NotificationHelper
 import com.ko.app.util.PermissionUtils
 import com.ko.app.util.WorkManagerScheduler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private val allScreenshots = mutableListOf<com.ko.app.data.entity.Screenshot>()
     private var isPermissionDialogOpen = false
     private var updatePermissionSwitches: (() -> Unit)? = null
+    private var loadJob: Job? = null
 
     private val storagePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -141,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                     app.repository.markAsKept(screenshot.id)
                     val notificationHelper = NotificationHelper(this@MainActivity)
                     notificationHelper.cancelNotification(screenshot.id.toInt())
+                    refreshCurrentTab()
                 }
             },
             onDeleteClick = { screenshot ->
@@ -176,17 +179,19 @@ class MainActivity : AppCompatActivity() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.tab_all)))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-        override fun onTabSelected(tab: TabLayout.Tab?) {
-        currentTab = tab?.position ?: 0
-        currentOffset = 0
-            hasMore = true
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                loadJob?.cancel()
+                currentTab = tab?.position ?: 0
+                currentOffset = 0
+                hasMore = true
                 allScreenshots.clear()
-            loadPagedScreenshots()
-        }
+                adapter.submitList(emptyList())
+                loadPagedScreenshots()
+            }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-            // No action needed
-        }
+                // No action needed
+            }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // No action needed
@@ -225,34 +230,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadPagedScreenshots() {
-    if (isLoading || !hasMore) return
-    isLoading = true
-    binding.loadingProgress.visibility = View.VISIBLE
-    lifecycleScope.launch(Dispatchers.IO) {
-    try {
-    val newItems = when (currentTab) {
-    0 -> app.repository.getPagedMarkedScreenshots(currentOffset, pageSize)
-    1 -> app.repository.getPagedKeptScreenshots(currentOffset, pageSize)
-    else -> app.repository.getPagedScreenshots(currentOffset, pageSize)
-    }
-    withContext(Dispatchers.Main) {
-    if (newItems.size < pageSize) {
-    hasMore = false
-    }
+        if (isLoading || !hasMore) return
+        isLoading = true
+        binding.loadingProgress.visibility = View.VISIBLE
+        val targetTab = currentTab
+        loadJob = lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val newItems = when (targetTab) {
+                    0 -> app.repository.getPagedMarkedScreenshots(currentOffset, pageSize)
+                    1 -> app.repository.getPagedKeptScreenshots(currentOffset, pageSize)
+                    else -> app.repository.getPagedScreenshots(currentOffset, pageSize)
+                }
+                withContext(Dispatchers.Main) {
+                    if (targetTab != currentTab) return@withContext
+                    if (newItems.size < pageSize) {
+                        hasMore = false
+                    }
                     allScreenshots.addAll(newItems)
-    adapter.submitList(allScreenshots.toList())
-    currentOffset += newItems.size
-    binding.loadingProgress.visibility = View.GONE
-    binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
-    }
-    } catch (e: Exception) {
-    withContext(Dispatchers.Main) {
-        binding.loadingProgress.visibility = View.GONE
+                    adapter.submitList(allScreenshots.toList())
+                    currentOffset += newItems.size
+                    binding.loadingProgress.visibility = View.GONE
+                    binding.emptyStateText.visibility = if (allScreenshots.isEmpty()) View.VISIBLE else View.GONE
+                }
+            } catch (@Suppress("SwallowedException") _: Exception) {
+                withContext(Dispatchers.Main) {
+                    binding.loadingProgress.visibility = View.GONE
+                }
+            } finally {
+                isLoading = false
+            }
         }
-    } finally {
-    isLoading = false
-    }
-    }
     }
 
     private fun observeServiceStatus() {
@@ -348,8 +355,6 @@ class MainActivity : AppCompatActivity() {
         val overlayGranted = PermissionUtils.hasOverlayPermission(this)
         val batteryAllowed = (getSystemService(POWER_SERVICE) as android.os.PowerManager).isIgnoringBatteryOptimizations(packageName)
 
-        val allGranted = storageGranted && notificationGranted && overlayGranted && batteryAllowed
-
     val dialogView = layoutInflater.inflate(R.layout.permission_status_dialog, null)
     val storageSwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.storageSwitch)
     val notificationSwitch = dialogView.findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.notificationSwitch)
@@ -372,8 +377,8 @@ class MainActivity : AppCompatActivity() {
         batterySwitch.isEnabled = !batterySwitch.isChecked
 
         // Set green color for granted permissions
-        val green = Color.parseColor("#4CAF50")
-        val gray = Color.parseColor("#BDBDBD")
+        val green = "#4CAF50".toColorInt()
+        val gray = "#BDBDBD".toColorInt()
         storageSwitch.thumbTintList = ColorStateList.valueOf(if (storageSwitch.isChecked) green else gray)
         storageSwitch.trackTintList = ColorStateList.valueOf(if (storageSwitch.isChecked) green else gray)
         notificationSwitch.thumbTintList = ColorStateList.valueOf(if (notificationSwitch.isChecked) green else gray)
@@ -393,7 +398,13 @@ class MainActivity : AppCompatActivity() {
     // Add checked change listeners for switches
     storageSwitch.setOnCheckedChangeListener { _, isChecked ->
         if (isChecked && !storageGranted) {
-            requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_MEDIA_IMAGES), 1001)
+            @Suppress("DEPRECATION")
+            val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+            } else {
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+            requestPermissions(permissions, 1001)
         }
     }
     notificationSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -406,14 +417,15 @@ class MainActivity : AppCompatActivity() {
     overlaySwitch.setOnCheckedChangeListener { _, isChecked ->
         if (isChecked && !overlayGranted) {
             startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
-                data = Uri.parse("package:$packageName")
+                data = "package:$packageName".toUri()
             })
         }
     }
     batterySwitch.setOnCheckedChangeListener { _, isChecked ->
         if (isChecked && !batteryAllowed) {
+            @Suppress("BatteryLife")
             startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                data = Uri.parse("package:$packageName")
+                data = "package:$packageName".toUri()
             })
         }
     }
@@ -442,29 +454,14 @@ class MainActivity : AppCompatActivity() {
 
     val initialAllGranted = storageSwitch.isChecked && notificationSwitch.isChecked && overlaySwitch.isChecked && batterySwitch.isChecked
     if (initialAllGranted) {
-        btnGoToSettings.visibility = android.view.View.GONE
+        btnGoToSettings.visibility = View.GONE
     }
 
     dialog.show()
     dialog.window?.setDimAmount(0.8f)
     }
 
-    private fun showMissingPermissionsDialog(missingPerms: List<String>) {
-        val message = "The following permissions are required:\n\n" +
-            missingPerms.joinToString("\n") { "• $it" }
 
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.permissions_required))
-            .setMessage(message)
-            .setPositiveButton(getString(R.string.settings)) { _, _ ->
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                    data = Uri.fromParts("package", packageName, null)
-                }
-                startActivity(intent)
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
-    }
 
     private fun requestPermissions() {
         val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -548,10 +545,20 @@ class MainActivity : AppCompatActivity() {
 
                     val notificationHelper = NotificationHelper(this@MainActivity)
                     notificationHelper.cancelNotification(screenshotId.toInt())
+                    refreshCurrentTab()
                 }
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
+    }
+
+    private fun refreshCurrentTab() {
+        loadJob?.cancel()
+        currentOffset = 0
+        hasMore = true
+        allScreenshots.clear()
+        adapter.submitList(emptyList())
+        loadPagedScreenshots()
     }
 
     private fun showWelcomeDialog() {
