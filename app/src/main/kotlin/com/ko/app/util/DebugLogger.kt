@@ -3,6 +3,8 @@ package com.ko.app.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -18,6 +20,7 @@ object DebugLogger {
     private const val LOGS_KEY = "logs"
 
     private lateinit var prefs: SharedPreferences
+    private val gson = Gson()
 
     fun init(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -28,9 +31,12 @@ object DebugLogger {
         val logsJson = prefs.getString(LOGS_KEY, null)
         logsJson?.let {
             try {
-                // Simple JSON parsing for logs
-                // For now, just clear and start fresh if corrupted
-                // In full implementation, deserialize logs
+                val loadedLogs: List<LogEntry> = gson.fromJson(it, object : TypeToken<List<LogEntry>>() {}.type)
+                logEntries.addAll(loadedLogs)
+                // Trim to max size
+                while (logEntries.size > MAX_LOG_ENTRIES) {
+                    logEntries.poll()
+                }
             } catch (e: Exception) {
                 error("DebugLogger", "Failed to load persisted logs", e)
             }
@@ -39,10 +45,8 @@ object DebugLogger {
 
     private fun persistLogs() {
         try {
-            // Serialize logEntries to JSON and save
-            // For simplicity, save as string
-            val logsString = logEntries.joinToString("\n") { it.getFormattedMessage() }
-            prefs.edit().putString(LOGS_KEY, logsString).apply()
+            val logsJson = gson.toJson(logEntries.toList())
+            prefs.edit().putString(LOGS_KEY, logsJson).apply()
         } catch (e: Exception) {
             // Avoid infinite loop if logging fails
         }
@@ -113,6 +117,8 @@ object DebugLogger {
             logEntries.poll()
         }
 
+        persistLogs()
+
         // Notify listeners
         synchronized(listeners) {
             listeners.forEach { it(entry) }
@@ -129,6 +135,7 @@ object DebugLogger {
 
     fun clearLogs() {
         logEntries.clear()
+        persistLogs()
         info("DebugLogger", "Logs cleared")
     }
 
