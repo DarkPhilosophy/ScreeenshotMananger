@@ -60,16 +60,21 @@ jobs:
 
       - name: Create Release on Main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v1
-        with:
-          name: Release - Ko ${{ github.run_number }}
-          tag_name: build-${{ github.run_number }}
-          body: Automated release from main branch.
-          files: |
-            app/build/outputs/apk/debug/*.apk
+        run: |
+          version=$(grep 'versionName' app/build.gradle.kts | awk -F'"' '{print $2}')
+          commit_title=$(git log -1 --pretty=%s)
+          commit_body=$(git log -1 --pretty=%b | sed 's/^/- /')
+          body="Automated release from main branch.
+
+          Latest commit: $commit_title
+          $commit_body"
+          echo "$body" > release_notes.md
+          gh release create "v$version-main" \
+            --title "Release - Ko v$version (main)" \
+            --notes-file release_notes.md \
+            --draft \
+            --prerelease \
+            app/build/outputs/apk/debug/*.apk \
             app/build/outputs/apk/release/*.apk
-          draft: true
-          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
