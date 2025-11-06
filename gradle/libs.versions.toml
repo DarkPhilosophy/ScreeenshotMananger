@@ -1,0 +1,11 @@
+[versions]
+agp = "8.13.0"
+kotlin = "2.2.21"
+detekt = "1.23.8"
+spotless = "8.0.0"
+
+[plugins]
+android_application = { id = "com.android.application", version.ref = "agp" }
+kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
