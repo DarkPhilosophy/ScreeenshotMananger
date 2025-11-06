@@ -1,0 +1,25 @@
+build:
+  maxIssues: 100
+
+complexity:
+  CyclomaticComplexMethod:
+    threshold: 20
+  LongMethod:
+    threshold: 80
+  TooManyFunctions:
+    thresholdInClasses: 15
+    thresholdInObjects: 15
+  NestedBlockDepth:
+    threshold: 6
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+
+
+style:
+  MaxLineLength:
+    maxLineLength: 140

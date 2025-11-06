@@ -1,0 +1,64 @@
+name: Pre Merge Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, 'ci skip') }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > app/keystore.jks
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+
+      - name: Decode Google Services JSON
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 -d > app/google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_B64: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run Gradle Build
+        run: ./gradlew build --continue
+
+      - name: Check code formatting
+        run: ./gradlew spotlessCheck
+
+      - name: Run Detekt static analysis
+        run: ./gradlew detekt --continue
+
+      - name: Run Tests
+        run: ./gradlew test --continue
+
+      - name: Upload Build Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
+
