@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:scaleX="0.8"
+        android:scaleY="0.88"
+        android:translateX="11"
+        android:translateY="2">
+
+        <!-- Phone outer shape -->
+        <path
+            android:fillColor="#1A1A1A"
+            android:pathData="M34,10
+                c-5,0 -9,4 -9,9
+                v80
+                c0,5 4,9 9,9
+                h40
+                c5,0 9,-4 9,-9
+                v-80
+                c0,-5 -4,-9 -9,-9
+                z"
+            android:strokeWidth="3"
+            android:strokeColor="#4A90E2"
+            android:strokeLineJoin="round" />
+
+        <!-- Screen area -->
+        <path
+            android:fillColor="#F9F9F9"
+            android:pathData="M38,20
+                h32
+                c3,0 5,2 5,5
+                v68
+                c0,3 -2,5 -5,5
+                h-32
+                c-3,0 -5,-2 -5,-5
+                v-68
+                c0,-3 2,-5 5,-5
+                z" />
+
+        <!-- Simulated text lines -->
+        <path
+            android:fillColor="#D0E6FF"
+            android:pathData="M41,28 h26 v6 h-26 z" />
+        <path
+            android:fillColor="#EAEAEA"
+            android:pathData="M41,38 h24 v5 h-24 z" />
+        <path
+            android:fillColor="#EAEAEA"
+            android:pathData="M41,47 h24 v5 h-24 z" />
+        <path
+            android:fillColor="#EAEAEA"
+            android:pathData="M41,56 h24 v5 h-24 z" />
+        <path
+            android:fillColor="#EAEAEA"
+            android:pathData="M41,65 h24 v5 h-24 z" />
+        <path
+            android:fillColor="#EAEAEA"
+            android:pathData="M41,74 h24 v5 h-24 z" />
+
+        <!-- Colorful corner markers -->
+        <path
+            android:fillColor="#00E5FF"
+            android:pathData="M39,24 h3 v1 h-1 v1 h-2 z" />
+        <path
+            android:fillColor="#FF66FF"
+            android:pathData="M67,24 h2 v3 h-1 v-1 h-1 v-2 z" />
+        <path
+            android:fillColor="#FFC300"
+            android:pathData="M39,84 h2 v-1 h1 v-2 h-3 z" />
+        <path
+            android:fillColor="#00FF99"
+            android:pathData="M67,84 h3 v-3 h-1 v1 h-2 z" />
+
+        <!-- Capture dot -->
+        <path
+            android:fillColor="#FF4081"
+            android:pathData="M52.5,16 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0" />
+
+        <!-- Home button -->
+        <path
+            android:fillColor="#4A90E2"
+            android:pathData="M52,93 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0" />
+
+    </group>
+</vector>

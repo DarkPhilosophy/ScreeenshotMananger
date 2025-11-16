@@ -1,0 +1,34 @@
+=== Screenshot Manager Code Changes Log ===
+Generated: 2025-11-14
+
+Summary of fixes made to resolve live preview issues, log spam, and folder selection:
+
+1. **Reduced debounce delay in updateActivePlayers (ScreenshotComponents.kt)**:
+   - Changed from 150ms to 50ms to batch rapid position changes during scrolling, reducing log spam while maintaining responsiveness.
+
+2. **Made player state reactive (VisibilityAwareVideo in ScreenshotComponents.kt)**:
+   - Added MutableState<ExoPlayer?> for the player variable to trigger UI recomposes when players are created or updated.
+   - Updated player state on every onGloballyPositioned change to ensure immediate UI updates.
+
+3. **Limited player creation to top visible videos**:
+   - Players are now only created for videos in the top 20 visibility scores, optimizing performance.
+
+4. **Adjusted visibility threshold**:
+   - Set to >0% visibility to include all partially visible videos in scoring.
+
+5. **Enhanced video display**:
+   - Show AndroidView when player exists (not waiting for playback start), with buffering indicator enabled.
+   - Reduced ExoPlayer buffer sizes (min 0.5s, max 1s, target 256KB) for faster video starts.
+
+6. **Increased max simultaneous players**:
+   - Raised MAX_SLOTS from 10 to 20 in MultiVideoManager.
+
+7. **Fixed folder path parsing (MainScreen.kt and ScreenshotMonitorService.kt)**:
+   - Corrected URI decoding for media folder paths to properly handle subfolders (e.g., "Android:media" -> "Android/media").
+   - Ensures folder paths match actual file system paths for accurate scanning and filtering.
+
+8. **Folder selection logic**:
+   - Verified MainViewModel filters media items by selected folders using filePath.startsWith(selectedPath).
+   - Ensures only files from selected folder (e.g., /storage/emulated/0/A) are displayed when selected.
+
+These changes fix inconsistent live previews, scrolling lag, log spam, and ensure proper folder selection and filtering.

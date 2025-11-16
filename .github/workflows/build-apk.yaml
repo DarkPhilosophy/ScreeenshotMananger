@@ -1,0 +1,200 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > app/keystore.jks
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+
+      - name: Validate Keystore
+        run: |
+          md5=$(md5sum app/keystore.jks | awk '{print $1}')
+          echo "Keystore MD5: $md5"
+          if [ "$md5" != "9a8b86ee3370d37b2c8792ede9ff448a" ]; then
+            echo "Keystore MD5 mismatch!"
+            exit 1
+          fi
+
+      - name: Decode Google Services JSON
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_B64 }}" | base64 -d > app/google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_B64: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+
+      - name: Create version.properties
+        run: echo "version=1.0.0" > version.properties
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Extract App Name from local.properties
+        id: extract-app-name
+        run: |
+          if [ -f local.properties ]; then
+            app_name=$(grep '^app\.display\.name=' local.properties | cut -d'=' -f2)
+            if [ -z "$app_name" ]; then
+              app_name="Snapify"
+            fi
+          else
+            app_name="Snapify"
+          fi
+          echo "app_name=$app_name" >> $GITHUB_OUTPUT
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyPassword=${{ secrets.KEY_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }}
+
+      - name: Upload Debug APK
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-debug
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload Release APK
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-release
+          path: app/build/outputs/apk/release/*.apk
+
+      - name: Prepare Release Assets and Metadata
+        if: success()
+        id: release-prep
+        run: |
+          release_dir="$GITHUB_WORKSPACE/release_staging"
+          mkdir -p "$release_dir"
+
+          cp app/build/outputs/apk/debug/*.apk "$release_dir/App-debug.apk"
+          cp app/build/outputs/apk/release/*.apk "$release_dir/App-release.apk"
+
+          version=$(grep '^version=' version.properties | cut -d'=' -f2)
+          if [ -z "$version" ]; then
+            echo "Failed to get version from version.properties"
+            exit 1
+          fi
+          echo "Version: $version"
+
+          sha256_debug=$(sha256sum "$release_dir/App-debug.apk" | awk '{print $1}')
+          sha256_release=$(sha256sum "$release_dir/App-release.apk" | awk '{print $1}')
+          echo "SHA256 debug: $sha256_debug"
+          echo "SHA256 release: $sha256_release"
+
+          build_date=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          echo "Build Date: $build_date"
+
+          commit_hash_full=$(git rev-parse HEAD)
+          commit_hash_short=$(git rev-parse --short=7 HEAD)
+          commit_message=$(git log -1 --pretty=%B)
+          if [ -z "$commit_message" ]; then
+            commit_message="(No commit message provided)"
+          fi
+          echo "Commit message: '$commit_message'"
+
+          commit_title=$(echo "$commit_message" | head -n1)
+          commit_body=$(echo "$commit_message" | tail -n +2 | grep -v '^$')
+
+          metadata_path="$release_dir/App.metadata.txt"
+          {
+            echo "Build Timestamp: $build_date"
+            echo "Commit: $commit_hash_full"
+            echo "SHA256 debug: $sha256_debug"
+            echo "SHA256 release: $sha256_release"
+            echo "Version: $version"
+            echo "Commit Message:"
+            echo "$commit_message"
+          } > "$metadata_path"
+
+          release_notes_path="$release_dir/release_notes.md"
+          {
+          echo "${{ steps.extract-app-name.outputs.app_name }} v$version"
+          echo ""
+          echo "Build Date: $build_date"
+          echo "SHA256 debug: $sha256_debug (App-debug.apk)"
+          echo "SHA256 release: $sha256_release (App-release.apk)"
+            echo ""
+            echo "Changes"
+            echo ""
+            echo "Built from commit: [$commit_hash_short](https://github.com/DarkPhilosophy/ScreenshotManager/commit/$commit_hash_full)"
+            echo "Commit message:"
+            echo "## $commit_title"
+            if [ -n "$commit_body" ]; then
+              echo "$commit_body" | sed 's/^/- /'
+            fi
+            echo ""
+          } > "$release_notes_path"
+
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "assets_path=$release_dir" >> $GITHUB_OUTPUT
+          echo "release_notes_path=$release_notes_path" >> $GITHUB_OUTPUT
+
+      - name: Upload Build Artifact (for debugging/retention)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: App-Build-${{ steps.release-prep.outputs.version || github.run_number }}
+          path: ${{ steps.release-prep.outputs.assets_path }}/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Create Release on Tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release - ${{ steps.extract-app-name.outputs.app_name }} v${{ steps.release-prep.outputs.version }}
+          tag_name: ${{ github.ref_name }}
+          body_path: ${{ steps.release-prep.outputs.release_notes_path }}
+          files: |
+            ${{ steps.release-prep.outputs.assets_path }}/App-debug.apk
+            ${{ steps.release-prep.outputs.assets_path }}/App-release.apk
+            ${{ steps.release-prep.outputs.assets_path }}/App.metadata.txt
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release on 'main' branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release - ${{ steps.extract-app-name.outputs.app_name }} v${{ steps.release-prep.outputs.version }}
+          tag_name: v${{ steps.release-prep.outputs.version }}
+          body_path: ${{ steps.release-prep.outputs.release_notes_path }}
+          files: |
+            ${{ steps.release-prep.outputs.assets_path }}/App-debug.apk
+            ${{ steps.release-prep.outputs.assets_path }}/App-release.apk
+            ${{ steps.release-prep.outputs.assets_path }}/App.metadata.txt
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
